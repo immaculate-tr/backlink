@@ -20,8 +20,11 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Generate sources
+        run: node scripts/generate-sources.cjs
+
       - name: Run backlink verification
-        run: node scripts/verify-backlinks.js
+        run: node scripts/verify-backlinks.cjs
 
       - name: Commit results
         run: |
