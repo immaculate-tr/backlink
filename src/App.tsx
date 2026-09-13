@@ -3,9 +3,14 @@ import {
   SOURCES,
   TARGET_DOMAIN,
   type BacklinkSource,
+} from "@/lib/sources";
+import {
+  runVerification,
+  loadResults,
+  saveResults,
   type VerificationResult,
   type ResultsData,
-} from "@/lib/supabase";
+} from "@/lib/verify";
 import {
   Activity,
   AlertCircle,
@@ -22,16 +27,17 @@ import {
   Globe,
   HelpCircle,
   Image,
+  Info,
   Loader2,
   MessageCircle,
   Newspaper,
   Package,
   PenTool,
-  RefreshCw,
+  Play,
   Search,
+  Settings,
   TrendingUp,
   XCircle,
-  Zap,
 } from "lucide-react";
 
 type IconProps = { className?: string; style?: React.CSSProperties };
@@ -56,55 +62,55 @@ function getIcon(name: string) {
   return iconMap[name] || Globe;
 }
 
-type TabType = "overview" | "sources" | "results";
+type TabType = "overview" | "sources" | "results" | "setup";
 
 export default function App() {
   const [sources] = useState<BacklinkSource[]>(SOURCES);
   const [resultsData, setResultsData] = useState<ResultsData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isScanning, setIsScanning] = useState(false);
+  const [scanCompleted, setScanCompleted] = useState(0);
+  const [scanTotal, setScanTotal] = useState(0);
+  const [scanCurrent, setScanCurrent] = useState("");
   const [activeTab, setActiveTab] = useState<TabType>("overview");
   const [filterStatus, setFilterStatus] = useState<string>("all");
-  const [scanProgress, setScanProgress] = useState(0);
-  const [scanMessage, setScanMessage] = useState("");
 
   const loadData = useCallback(async () => {
-    try {
-      const response = await fetch("data/results.json", { cache: "no-store" });
-      if (response.ok) {
-        const data: ResultsData = await response.json();
-        setResultsData(data);
-      }
-    } catch {
-      // file may not exist yet on first load
-    } finally {
-      setIsLoading(false);
-    }
+    const data = await loadResults();
+    setResultsData(data);
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
     loadData();
   }, [loadData]);
 
-  const runRefresh = useCallback(async () => {
-    setIsRefreshing(true);
-    setScanProgress(30);
-    setScanMessage("Sonuçlar yenileniyor...");
+  const runScan = useCallback(async () => {
+    setIsScanning(true);
+    setScanCompleted(0);
+    setScanTotal(sources.filter((s) => s.is_active).length);
+    setScanCurrent("Tarama başlatılıyor...");
+
     try {
-      setScanProgress(60);
+      const results = await runVerification(TARGET_DOMAIN, sources, (completed, total, name) => {
+        setScanCompleted(completed);
+        setScanTotal(total);
+        setScanCurrent(name);
+      });
+
+      const now = new Date().toISOString();
+      saveResults(results, now);
       await loadData();
-      setScanProgress(100);
-      setScanMessage("Tamamlandı!");
-    } catch {
-      setScanMessage("Yenileme başarısız oldu");
+    } catch (err) {
+      setScanCurrent("Hata: " + (err instanceof Error ? err.message : "Bilinmeyen"));
     } finally {
-      setIsRefreshing(false);
+      setIsScanning(false);
       setTimeout(() => {
-        setScanProgress(0);
-        setScanMessage("");
-      }, 2000);
+        setScanCompleted(0);
+        setScanCurrent("");
+      }, 3000);
     }
-  }, [loadData]);
+  }, [sources, loadData]);
 
   const stats = useMemo(() => {
     if (!resultsData || resultsData.results.length === 0)
@@ -143,20 +149,14 @@ export default function App() {
 
   const verifiedPct = stats.total > 0 ? Math.round((stats.verified / stats.total) * 100) : 0;
   const lastChecked = resultsData?.checked_at || null;
+  const scanPct = scanTotal > 0 ? Math.round((scanCompleted / scanTotal) * 100) : 0;
 
   return (
-    <div
-      className="min-h-screen bg-[#070C1B] text-slate-200"
-      style={{
-        backgroundImage:
-          "radial-gradient(ellipse 70% 45% at 50% -10%, rgba(16,185,129,0.09), transparent 60%), radial-gradient(ellipse 45% 35% at 100% 100%, rgba(239,68,68,0.06), transparent 60%)",
-      }}
-    >
-      {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-white/5 bg-[#070C1B]/85 backdrop-blur-xl">
+    <div className="min-h-screen bg-[#0A0E14] text-slate-200">
+      <header className="sticky top-0 z-50 border-b border-white/5 bg-[#0A0E14]/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-700 shadow-lg shadow-emerald-500/20">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg shadow-blue-500/20">
               <TrendingUp className="h-5 w-5 text-white" />
             </div>
             <div>
@@ -169,7 +169,7 @@ export default function App() {
               <div className="hidden items-center gap-1.5 text-xs text-slate-400 sm:flex">
                 <Clock className="h-3.5 w-3.5" />
                 <span>
-                  Son kontrol:{" "}
+                  Son tarama:{" "}
                   {new Date(lastChecked).toLocaleString("tr-TR", {
                     day: "2-digit",
                     month: "short",
@@ -180,51 +180,48 @@ export default function App() {
               </div>
             )}
             <button
-              onClick={runRefresh}
-              disabled={isRefreshing}
-              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-emerald-500 to-emerald-700 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition-all hover:shadow-emerald-500/40 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070C1B]"
+              onClick={runScan}
+              disabled={isScanning}
+              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition-all hover:shadow-blue-500/40 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {isRefreshing ? (
-                <Loader2 className="h-4 w-4 animate-spin motion-reduce:animate-none" />
+              {isScanning ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                <RefreshCw className="h-4 w-4" />
+                <Play className="h-4 w-4" />
               )}
-              {isRefreshing ? "Yenileniyor..." : "Yenile"}
+              {isScanning ? "Taranıyor..." : "Tarama Başlat"}
             </button>
           </div>
         </div>
       </header>
 
       <main className="mx-auto max-w-7xl px-6 py-8">
-        {/* Weekly Info Banner */}
-        <div className="mb-6 flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] p-4">
-          <Clock className="h-5 w-5 shrink-0 text-emerald-400" />
-          <div className="flex-1">
-            <p className="text-sm text-slate-300">
-              Otomatik tarama her hafta pazartesi günü GitHub Actions tarafından çalıştırılır.
-            </p>
-            <p className="mt-0.5 text-xs text-slate-500">
-              {sources.length} platform taranır — sonuçlar otomatik olarak güncellenir ve kaydedilir.
-            </p>
-          </div>
-        </div>
-
-        {/* Scan Progress Bar */}
-        {isRefreshing && (
-          <div className="mb-6 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
+        {/* Live Scan Progress */}
+        {isScanning && (
+          <div className="mb-6 rounded-xl border border-blue-500/20 bg-blue-500/5 p-4">
             <div className="mb-2 flex items-center justify-between text-sm">
-              <span className="flex items-center gap-2 text-emerald-300">
-                <Activity className="h-4 w-4 animate-pulse motion-reduce:animate-none" />
-                {scanMessage}
+              <span className="flex items-center gap-2 text-blue-300">
+                <Activity className="h-4 w-4 animate-pulse" />
+                {scanCurrent} taranıyor...
               </span>
-              <span className="font-mono text-emerald-300">{scanProgress}%</span>
+              <span className="font-mono text-blue-300">
+                {scanCompleted}/{scanTotal} ({scanPct}%)
+              </span>
             </div>
-            <div className="h-1.5 overflow-hidden rounded-full bg-emerald-950/60">
+            <div className="h-2 overflow-hidden rounded-full bg-blue-950">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-300 transition-all duration-500"
-                style={{ width: `${scanProgress}%` }}
+                className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-500"
+                style={{ width: `${scanPct}%` }}
               />
             </div>
+          </div>
+        )}
+
+        {/* Scan complete flash */}
+        {!isScanning && scanCompleted > 0 && scanPct === 100 && (
+          <div className="mb-6 flex items-center gap-2 rounded-xl border border-green-500/20 bg-green-500/5 p-4 text-sm text-green-300">
+            <CheckCircle2 className="h-4 w-4" />
+            Tarama tamamlandı! {stats.verified} backlink doğrulandı.
           </div>
         )}
 
@@ -234,11 +231,12 @@ export default function App() {
             { id: "overview", label: "Genel Bakış", icon: TrendingUp },
             { id: "sources", label: "Platformlar", icon: Globe },
             { id: "results", label: "Sonuçlar", icon: Search },
+            { id: "setup", label: "Kurulum", icon: Settings },
           ] as { id: TabType; label: string; icon: React.ComponentType<IconProps> }[]).map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`inline-flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 ${
+              className={`inline-flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all ${
                 activeTab === tab.id
                   ? "bg-white/10 text-white shadow-sm"
                   : "text-slate-400 hover:text-slate-200"
@@ -272,6 +270,8 @@ export default function App() {
             lastChecked={lastChecked}
           />
         )}
+
+        {activeTab === "setup" && <SetupTab sourcesCount={sources.length} />}
       </main>
     </div>
   );
@@ -326,61 +326,24 @@ function OverviewTab({
 }) {
   return (
     <div className="space-y-6">
-      {/* Stats Grid */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard
-          label="Toplam Platform"
-          value={sourcesCount}
-          icon={Globe}
-          color="#CBD5E1"
-          sublabel="Aktif açık kaynak"
-        />
-        <StatCard
-          label="Doğrulanmış Backlink"
-          value={stats.verified}
-          icon={CheckCircle2}
-          color="#22C55E"
-          sublabel={`${verifiedPct}% başarı oranı`}
-        />
-        <StatCard
-          label="Bulunamadı"
-          value={stats.notFound}
-          icon={XCircle}
-          color="#EAB308"
-          sublabel="Backlink tespit edilmedi"
-        />
-        <StatCard
-          label="Hata"
-          value={stats.errors}
-          icon={AlertCircle}
-          color="#EF4444"
-          sublabel="Erişilemedi"
-        />
+        <StatCard label="Toplam Platform" value={sourcesCount} icon={Globe} color="#3B82F6" sublabel="Aktif açık kaynak" />
+        <StatCard label="Doğrulanmış Backlink" value={stats.verified} icon={CheckCircle2} color="#22C55E" sublabel={`${verifiedPct}% başarı oranı`} />
+        <StatCard label="Bulunamadı" value={stats.notFound} icon={XCircle} color="#F59E0B" sublabel="Backlink tespit edilmedi" />
+        <StatCard label="Hata" value={stats.errors} icon={AlertCircle} color="#EF4444" sublabel="Erişilemedi" />
       </div>
 
-      {/* Progress Ring + Latest Results */}
       <div className="grid gap-4 lg:grid-cols-3">
-        {/* Progress Ring */}
         <div className="flex flex-col items-center justify-center rounded-2xl border border-white/5 bg-white/[0.02] p-6">
           <h3 className="mb-4 text-sm font-medium text-slate-400">Doğrulama Oranı</h3>
           <div className="relative h-40 w-40">
             <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100">
               <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="8" />
-              <circle
-                cx="50"
-                cy="50"
-                r="42"
-                fill="none"
-                stroke="url(#gradVerify)"
-                strokeWidth="8"
-                strokeLinecap="round"
-                strokeDasharray={`${(verifiedPct / 100) * 264} 264`}
-                className="transition-all duration-1000"
-              />
+              <circle cx="50" cy="50" r="42" fill="none" stroke="url(#gradVerify)" strokeWidth="8" strokeLinecap="round" strokeDasharray={`${(verifiedPct / 100) * 264} 264`} className="transition-all duration-1000" />
               <defs>
                 <linearGradient id="gradVerify" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#6EE7B7" />
-                  <stop offset="100%" stopColor="#059669" />
+                  <stop offset="0%" stopColor="#22C55E" />
+                  <stop offset="100%" stopColor="#3B82F6" />
                 </linearGradient>
               </defs>
             </svg>
@@ -392,17 +355,11 @@ function OverviewTab({
           {lastChecked && (
             <p className="mt-4 text-center text-xs text-slate-500">
               Son tarama:{" "}
-              {new Date(lastChecked).toLocaleString("tr-TR", {
-                day: "2-digit",
-                month: "short",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
+              {new Date(lastChecked).toLocaleString("tr-TR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}
             </p>
           )}
         </div>
 
-        {/* Verified Backlinks List */}
         <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-6 lg:col-span-2">
           <h3 className="mb-4 flex items-center gap-2 text-sm font-medium text-slate-300">
             <CheckCircle2 className="h-4 w-4 text-green-400" />
@@ -410,78 +367,51 @@ function OverviewTab({
           </h3>
           {isLoading ? (
             <div className="flex items-center justify-center py-12">
-              <Loader2 className="h-8 w-8 animate-spin text-slate-600 motion-reduce:animate-none" />
+              <Loader2 className="h-8 w-8 animate-spin text-slate-600" />
             </div>
           ) : displayResults.filter((r) => r.status === "verified").length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <Search className="mb-3 h-10 w-10 text-slate-600" />
-              <p className="text-sm text-slate-500">
-                Henüz doğrulanmış backlink bulunmuyor.
-              </p>
-              <p className="mt-1 text-xs text-slate-600">
-                İlk otomatik tarama haftalık programda çalışacak.
-              </p>
+              <p className="text-sm text-slate-500">Henüz doğrulanmış backlink bulunmuyor.</p>
+              <p className="mt-1 text-xs text-slate-600">"Tarama Başlat" butonuna tıklayarak taramayı başlatın.</p>
             </div>
           ) : (
             <div className="space-y-2">
-              {displayResults
-                .filter((r) => r.status === "verified")
-                .map((r, i) => (
-                  <div
-                    key={i}
-                    className="group flex items-center gap-3 rounded-lg border border-green-500/10 bg-green-500/5 p-3 transition-all hover:border-green-500/20"
-                  >
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-green-400" />
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium text-white">
-                        {r.source_name}
-                      </p>
-                      <p className="truncate text-xs text-slate-400">
-                        {r.found_url || "URL bulunamadı"}
-                      </p>
-                    </div>
-                    {r.found_url && (
-                      <a
-                        href={r.found_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="shrink-0 text-slate-500 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 rounded"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                      </a>
-                    )}
+              {displayResults.filter((r) => r.status === "verified").map((r, i) => (
+                <div key={i} className="group flex items-center gap-3 rounded-lg border border-green-500/10 bg-green-500/5 p-3 transition-all hover:border-green-500/20">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-green-400" />
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium text-white">{r.source_name}</p>
+                    <p className="truncate text-xs text-slate-400">{r.found_url || "URL bulunamadı"}</p>
                   </div>
-                ))}
+                  {r.found_url && (
+                    <a href={r.found_url} target="_blank" rel="noopener noreferrer" className="shrink-0 text-slate-500 transition-colors hover:text-white">
+                      <ExternalLink className="h-4 w-4" />
+                    </a>
+                  )}
+                </div>
+              ))}
             </div>
           )}
         </div>
       </div>
 
-      {/* History */}
       {historyByDate.length > 0 && (
         <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
           <h3 className="mb-4 flex items-center gap-2 text-sm font-medium text-slate-300">
-            <Clock className="h-4 w-4 text-slate-400" />
+            <Clock className="h-4 w-4 text-blue-400" />
             Tarama Geçmişi
           </h3>
           <div className="space-y-3">
             {historyByDate.map(([date, dateStr]) => (
-              <div
-                key={dateStr}
-                className="flex items-center gap-4 rounded-lg border border-white/5 bg-white/[0.02] p-3"
-              >
+              <div key={dateStr} className="flex items-center gap-4 rounded-lg border border-white/5 bg-white/[0.02] p-3">
                 <div className="w-32 shrink-0 text-xs text-slate-400">{date}</div>
                 <div className="flex-1">
                   <div className="h-2 overflow-hidden rounded-full bg-white/5">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all"
-                      style={{ width: `${verifiedPct}%` }}
-                    />
+                    <div className="h-full rounded-full bg-gradient-to-r from-green-500 to-blue-500 transition-all" style={{ width: `${verifiedPct}%` }} />
                   </div>
                 </div>
-                <div className="w-24 shrink-0 text-right text-xs tabular-nums text-slate-300">
-                  {stats.verified}/{stats.total} doğrulandı
-                </div>
+                <div className="w-24 shrink-0 text-right text-xs tabular-nums text-slate-300">{stats.verified}/{stats.total} doğrulandı</div>
               </div>
             ))}
           </div>
@@ -497,41 +427,22 @@ function SourcesTab({ sources }: { sources: BacklinkSource[] }) {
       {sources.map((src) => {
         const Icon = getIcon(src.logo_icon);
         return (
-          <div
-            key={src.id}
-            className="group relative overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-5 transition-all hover:border-white/10 hover:bg-white/[0.04]"
-          >
+          <div key={src.id} className="group relative overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-5 transition-all hover:border-white/10 hover:bg-white/[0.04]">
             <div className="flex items-start gap-3">
-              <div
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
-                style={{ background: `${src.color}20` }}
-              >
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" style={{ background: `${src.color}20` }}>
                 <Icon className="h-5 w-5" style={{ color: src.color }} />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
-                  <h4 className="truncate text-sm font-semibold text-white">
-                    {src.name}
-                  </h4>
+                  <h4 className="truncate text-sm font-semibold text-white">{src.name}</h4>
                   {src.is_active ? (
-                    <span className="shrink-0 rounded-full bg-green-500/10 px-2 py-0.5 text-[10px] font-medium text-green-400">
-                      Aktif
-                    </span>
+                    <span className="shrink-0 rounded-full bg-green-500/10 px-2 py-0.5 text-[10px] font-medium text-green-400">Aktif</span>
                   ) : (
-                    <span className="shrink-0 rounded-full bg-slate-500/10 px-2 py-0.5 text-[10px] font-medium text-slate-400">
-                      Pasif
-                    </span>
+                    <span className="shrink-0 rounded-full bg-slate-500/10 px-2 py-0.5 text-[10px] font-medium text-slate-400">Pasif</span>
                   )}
                 </div>
-                <p className="mt-1 text-xs capitalize text-slate-400">
-                  {src.platform_type}
-                </p>
-                <a
-                  href={src.base_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 inline-flex items-center gap-1 text-xs text-slate-500 transition-colors hover:text-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 rounded"
-                >
+                <p className="mt-1 text-xs capitalize text-slate-400">{src.platform_type}</p>
+                <a href={src.base_url} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-1 text-xs text-slate-500 transition-colors hover:text-blue-400">
                   {src.base_url.replace("https://", "")}
                   <ArrowUpRight className="h-3 w-3" />
                 </a>
@@ -556,25 +467,22 @@ function ResultsTab({
   lastChecked: string | null;
 }) {
   const filters = [
-    { id: "all", label: "Tümü", color: "text-slate-300" },
-    { id: "verified", label: "Doğrulandı", color: "text-green-400" },
-    { id: "not_found", label: "Bulunamadı", color: "text-yellow-400" },
-    { id: "error", label: "Hata", color: "text-red-400" },
+    { id: "all", label: "Tümü" },
+    { id: "verified", label: "Doğrulandı" },
+    { id: "not_found", label: "Bulunamadı" },
+    { id: "error", label: "Hata" },
   ];
 
   return (
     <div className="space-y-4">
-      {/* Filter Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap gap-1.5">
           {filters.map((f) => (
             <button
               key={f.id}
               onClick={() => setFilterStatus(f.id)}
-              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 ${
-                filterStatus === f.id
-                  ? "bg-white/10 text-white"
-                  : "text-slate-400 hover:bg-white/5 hover:text-slate-200"
+              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
+                filterStatus === f.id ? "bg-white/10 text-white" : "text-slate-400 hover:bg-white/5 hover:text-slate-200"
               }`}
             >
               {f.label}
@@ -582,28 +490,21 @@ function ResultsTab({
           ))}
         </div>
         {lastChecked && (
-          <span className="text-xs text-slate-500">
-            {new Date(lastChecked).toLocaleString("tr-TR")}
-          </span>
+          <span className="text-xs text-slate-500">{new Date(lastChecked).toLocaleString("tr-TR")}</span>
         )}
       </div>
 
-      {/* Results Table */}
       {results.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-2xl border border-white/5 bg-white/[0.02] py-20 text-center">
-          <RefreshCw className="mb-3 h-10 w-10 text-slate-600" />
-          <p className="text-sm text-slate-500">
-            Henüz doğrulama sonucu yok.
-          </p>
-          <p className="mt-1 text-xs text-slate-600">
-            İlk otomatik tarama haftalık programda çalışacak.
-          </p>
+          <Search className="mb-3 h-10 w-10 text-slate-600" />
+          <p className="text-sm text-slate-500">Henüz doğrulama sonucu yok.</p>
+          <p className="mt-1 text-xs text-slate-600">"Tarama Başlat" butonuna tıklayarak ilk taramayı yapın.</p>
         </div>
       ) : (
         <div className="overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02]">
-          <div className="overflow-x-auto">
+          <div className="max-h-[600px] overflow-y-auto">
             <table className="w-full">
-              <thead>
+              <thead className="sticky top-0 bg-[#0A0E14]">
                 <tr className="border-b border-white/5 text-left text-xs text-slate-500">
                   <th className="px-4 py-3 font-medium">Platform</th>
                   <th className="px-4 py-3 font-medium">Durum</th>
@@ -615,41 +516,15 @@ function ResultsTab({
               </thead>
               <tbody>
                 {results.map((r, i) => (
-                  <tr
-                    key={i}
-                    className="border-b border-white/[0.03] transition-colors hover:bg-white/[0.02]"
-                  >
-                    <td className="px-4 py-3">
-                      <span className="text-sm font-medium text-white">
-                        {r.source_name}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <StatusBadge status={r.status} />
-                    </td>
-                    <td className="hidden px-4 py-3 md:table-cell">
-                      <span className="font-mono text-xs text-slate-400">
-                        {r.http_status || "—"}
-                      </span>
-                    </td>
-                    <td className="hidden px-4 py-3 lg:table-cell">
-                      <span className="font-mono text-xs text-slate-400">
-                        {r.response_time_ms ? `${r.response_time_ms}ms` : "—"}
-                      </span>
-                    </td>
-                    <td className="hidden max-w-xs px-4 py-3 xl:table-cell">
-                      <span className="block truncate text-xs text-slate-400">
-                        {r.found_url || r.error_message || "—"}
-                      </span>
-                    </td>
+                  <tr key={i} className="border-b border-white/[0.03] transition-colors hover:bg-white/[0.02]">
+                    <td className="px-4 py-3"><span className="text-sm font-medium text-white">{r.source_name}</span></td>
+                    <td className="px-4 py-3"><StatusBadge status={r.status} /></td>
+                    <td className="hidden px-4 py-3 md:table-cell"><span className="font-mono text-xs text-slate-400">{r.http_status || "—"}</span></td>
+                    <td className="hidden px-4 py-3 lg:table-cell"><span className="font-mono text-xs text-slate-400">{r.response_time_ms ? `${r.response_time_ms}ms` : "—"}</span></td>
+                    <td className="hidden max-w-xs px-4 py-3 xl:table-cell"><span className="block truncate text-xs text-slate-400">{r.found_url || r.error_message || "—"}</span></td>
                     <td className="px-4 py-3 text-right">
                       {r.found_url && (
-                        <a
-                          href={r.found_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex text-slate-500 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 rounded"
-                        >
+                        <a href={r.found_url} target="_blank" rel="noopener noreferrer" className="inline-flex text-slate-500 transition-colors hover:text-white">
                           <ExternalLink className="h-4 w-4" />
                         </a>
                       )}
@@ -665,35 +540,125 @@ function ResultsTab({
   );
 }
 
+function SetupTab({ sourcesCount }: { sourcesCount: number }) {
+  const steps = [
+    {
+      title: "Projeyi GitHub'a yükleyin",
+      desc: "Tüm dosyaları bir GitHub reposuna pushlayın. Repoyu public yapın ki GitHub Pages ücretsiz çalışsın.",
+    },
+    {
+      title: "GitHub Pages'i açın",
+      desc: "Repo ayarları > Pages > Source: GitHub Actions seçin. Deploy workflow otomatik siteyi yayımlar.",
+    },
+    {
+      title: "Otomatik taramayı çalıştırın",
+      desc: "Actions sekmesinden 'Weekly Backlink Verification' workflow'unu bulun ve 'Run workflow' ile manuel başlatın.",
+    },
+    {
+      title: "Sonuçları görüntüleyin",
+      desc: "Tarama bitince sonuçlar otomatik kaydedilir ve siteye yansır. Her hafta pazartesi otomatik tekrarlanır.",
+    },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
+        <h3 className="mb-2 flex items-center gap-2 text-lg font-semibold text-white">
+          <Info className="h-5 w-5 text-blue-400" />
+          Nasıl Çalışır?
+        </h3>
+        <p className="text-sm text-slate-400">
+          Bu sistem {sourcesCount} açık kaynak platformda immaculate.tr için gerçek backlink arar.
+          Tarama iki şekilde çalışır: tarayıcıdan "Tarama Başlat" ile anında, veya GitHub Actions ile her hafta otomatik.
+        </p>
+      </div>
+
+      <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
+        <h3 className="mb-4 flex items-center gap-2 text-base font-semibold text-white">
+          <Settings className="h-5 w-5 text-blue-400" />
+          Kurulum Adımları
+        </h3>
+        <div className="space-y-4">
+          {steps.map((step, i) => (
+            <div key={i} className="flex gap-4">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-sm font-bold text-blue-400">
+                {i + 1}
+              </div>
+              <div className="flex-1">
+                <h4 className="text-sm font-medium text-white">{step.title}</h4>
+                <p className="mt-1 text-sm text-slate-400">{step.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-blue-500/10 bg-blue-500/[0.03] p-6">
+        <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-white">
+          <Play className="h-4 w-4 text-green-400" />
+          Tarayıcıdan Tarama
+        </h3>
+        <p className="text-sm text-slate-400">
+          "Tarama Başlat" butonuna tıklayarak anında tarama yapabilirsiniz.
+          Tarama sonucu tarayıcıda kaydedilir ve sayfa yenilense bile kaybolmaz.
+          Bazı platformlar tarayıcı güvenlik kısıtlamaları (CORS) nedeniyle erişilemeyebilir —
+          bu platformlar GitHub Actions üzerinden otomatik taranır.
+        </p>
+      </div>
+
+      <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
+        <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-white">
+          <Clock className="h-4 w-4 text-blue-400" />
+          Otomatik Haftalık Tarama
+        </h3>
+        <p className="text-sm text-slate-400">
+          GitHub Actions her hafta pazartesi 03:00 UTC'de otomatik olarak tüm {sourcesCount} platformu tarar,
+          sonuçları <code className="rounded bg-white/5 px-1.5 py-0.5 text-xs text-slate-300">results.json</code> dosyasına kaydeder ve
+          siteyi günceller. Manuel tetiklemek için Actions sekmesinden "Weekly Backlink Verification" workflow'unu çalıştırın.
+        </p>
+      </div>
+
+      <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
+        <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-white">
+          <Database className="h-4 w-4 text-blue-400" />
+          Platform Dağılımı
+        </h3>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+          {[
+            { label: "Wiki", icon: BookOpen, color: "#000000" },
+            { label: "Soru-Cevap", icon: HelpCircle, color: "#F48024" },
+            { label: "Sosyal", icon: MessageCircle, color: "#FF4500" },
+            { label: "Dokümantasyon", icon: Code, color: "#0A0A0A" },
+            { label: "Dizin", icon: Package, color: "#CB3837" },
+            { label: "Arama", icon: Search, color: "#DE5833" },
+            { label: "Akademik", icon: BookOpen, color: "#B31B1B" },
+            { label: "Medya", icon: Image, color: "#0063DC" },
+          ].map((cat) => {
+            const Icon = cat.icon;
+            return (
+              <div key={cat.label} className="flex items-center gap-2 rounded-lg border border-white/5 bg-white/[0.02] p-3">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg" style={{ background: `${cat.color}20` }}>
+                  <Icon className="h-4 w-4" style={{ color: cat.color }} />
+                </div>
+                <span className="text-xs text-slate-400">{cat.label}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function StatusBadge({ status }: { status: VerificationResult["status"] }) {
   const config = {
-    verified: {
-      icon: CheckCircle2,
-      text: "Doğrulandı",
-      color: "text-green-400",
-      bg: "bg-green-500/10",
-      border: "border-green-500/20",
-    },
-    not_found: {
-      icon: XCircle,
-      text: "Bulunamadı",
-      color: "text-yellow-400",
-      bg: "bg-yellow-500/10",
-      border: "border-yellow-500/20",
-    },
-    error: {
-      icon: AlertCircle,
-      text: "Hata",
-      color: "text-red-400",
-      bg: "bg-red-500/10",
-      border: "border-red-500/20",
-    },
+    verified: { icon: CheckCircle2, text: "Doğrulandı", color: "text-green-400", bg: "bg-green-500/10", border: "border-green-500/20" },
+    not_found: { icon: XCircle, text: "Bulunamadı", color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
+    error: { icon: AlertCircle, text: "Hata", color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20" },
   };
   const c = config[status];
   return (
-    <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium ${c.bg} ${c.border} ${c.color}`}
-    >
+    <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium ${c.bg} ${c.border} ${c.color}`}>
       <c.icon className="h-3 w-3" />
       {c.text}
     </span>
