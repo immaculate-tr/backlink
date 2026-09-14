@@ -5035,9 +5035,21 @@
     "search_url_template": "https://hn.algolia.com/api/v1/search?query={query}",
     "verify_url_pattern": "immaculate\\.tr",
     "is_active": true,
-    "logo_icon": "Newspaper",
+    "logo_icon": "MessageCircle",
     "color": "#FF6600",
     "sort_order": 420
+  },
+  {
+    "id": "bluesky",
+    "name": "Bluesky",
+    "platform_type": "social",
+    "base_url": "https://bsky.app",
+    "search_url_template": "https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q={query}",
+    "verify_url_pattern": "immaculate\\.tr",
+    "is_active": true,
+    "logo_icon": "MessageCircle",
+    "color": "#0085FF",
+    "sort_order": 421
   },
   {
     "id": "lobsters",
@@ -5049,7 +5061,7 @@
     "is_active": true,
     "logo_icon": "Newspaper",
     "color": "#AC130D",
-    "sort_order": 421
+    "sort_order": 422
   },
   {
     "id": "slashdot",
@@ -5061,7 +5073,7 @@
     "is_active": true,
     "logo_icon": "Newspaper",
     "color": "#026664",
-    "sort_order": 422
+    "sort_order": 423
   },
   {
     "id": "quora",
@@ -5073,7 +5085,7 @@
     "is_active": true,
     "logo_icon": "HelpCircle",
     "color": "#B92B27",
-    "sort_order": 423
+    "sort_order": 424
   },
   {
     "id": "diaspora",
@@ -5085,7 +5097,7 @@
     "is_active": true,
     "logo_icon": "MessageCircle",
     "color": "#2D2D2D",
-    "sort_order": 424
+    "sort_order": 425
   },
   {
     "id": "mastodon",
@@ -5097,7 +5109,7 @@
     "is_active": true,
     "logo_icon": "MessageCircle",
     "color": "#6364FF",
-    "sort_order": 425
+    "sort_order": 426
   },
   {
     "id": "lemmy",
@@ -5109,7 +5121,7 @@
     "is_active": true,
     "logo_icon": "MessageCircle",
     "color": "#00BCD4",
-    "sort_order": 426
+    "sort_order": 427
   },
   {
     "id": "kbin",
@@ -5121,7 +5133,7 @@
     "is_active": true,
     "logo_icon": "MessageCircle",
     "color": "#E91E63",
-    "sort_order": 427
+    "sort_order": 428
   },
   {
     "id": "peertube",
@@ -5133,7 +5145,7 @@
     "is_active": true,
     "logo_icon": "Newspaper",
     "color": "#F1680D",
-    "sort_order": 428
+    "sort_order": 429
   },
   {
     "id": "nextcloud",
@@ -5145,7 +5157,7 @@
     "is_active": true,
     "logo_icon": "MessageCircle",
     "color": "#0082C9",
-    "sort_order": 429
+    "sort_order": 430
   },
   {
     "id": "discourse-meta",
@@ -5157,18 +5169,6 @@
     "is_active": true,
     "logo_icon": "MessageCircle",
     "color": "#000000",
-    "sort_order": 430
-  },
-  {
-    "id": "devto",
-    "name": "Dev.to",
-    "platform_type": "social",
-    "base_url": "https://dev.to",
-    "search_url_template": "https://dev.to/search/feed?q={query}&per_page=30",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Code",
-    "color": "#0A0A0A",
     "sort_order": 431
   },
   {
@@ -5388,18 +5388,6 @@
     "sort_order": 449
   },
   {
-    "id": "mojeek",
-    "name": "Mojeek",
-    "platform_type": "search",
-    "base_url": "https://www.mojeek.com",
-    "search_url_template": "https://www.mojeek.com/search?q={query}",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Search",
-    "color": "#4D8FAC",
-    "sort_order": 450
-  },
-  {
     "id": "searx",
     "name": "Searx",
     "platform_type": "search",
@@ -5409,7 +5397,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#3050C0",
-    "sort_order": 451
+    "sort_order": 450
   },
   {
     "id": "qwant",
@@ -5421,7 +5409,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#5C97FF",
-    "sort_order": 452
+    "sort_order": 451
   },
   {
     "id": "dogpile",
@@ -5433,7 +5421,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#D03C2A",
-    "sort_order": 453
+    "sort_order": 452
   },
   {
     "id": "lycos",
@@ -5445,7 +5433,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#1A1A1A",
-    "sort_order": 454
+    "sort_order": 453
   },
   {
     "id": "marginalia",
@@ -5457,7 +5445,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#4A7C59",
-    "sort_order": 455
+    "sort_order": 454
   },
   {
     "id": "stract",
@@ -5469,7 +5457,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#000000",
-    "sort_order": 456
+    "sort_order": 455
   },
   {
     "id": "curlie",
@@ -5481,7 +5469,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#1E88E5",
-    "sort_order": 457
+    "sort_order": 456
   },
   {
     "id": "npm",
@@ -5493,7 +5481,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#CB3837",
-    "sort_order": 458
+    "sort_order": 457
   },
   {
     "id": "pypi",
@@ -5505,7 +5493,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#3775A9",
-    "sort_order": 459
+    "sort_order": 458
   },
   {
     "id": "crates-io",
@@ -5517,7 +5505,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#8B5CF6",
-    "sort_order": 460
+    "sort_order": 459
   },
   {
     "id": "rubygems",
@@ -5529,7 +5517,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#E9573F",
-    "sort_order": 461
+    "sort_order": 460
   },
   {
     "id": "packagist",
@@ -5541,7 +5529,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#F28D0A",
-    "sort_order": 462
+    "sort_order": 461
   },
   {
     "id": "nuget",
@@ -5553,7 +5541,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#004880",
-    "sort_order": 463
+    "sort_order": 462
   },
   {
     "id": "maven",
@@ -5565,7 +5553,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#C71A23",
-    "sort_order": 464
+    "sort_order": 463
   },
   {
     "id": "go-pkg",
@@ -5577,7 +5565,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#00ADD8",
-    "sort_order": 465
+    "sort_order": 464
   },
   {
     "id": "conda",
@@ -5589,7 +5577,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#43B02A",
-    "sort_order": 466
+    "sort_order": 465
   },
   {
     "id": "chocolatey",
@@ -5601,7 +5589,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#7EB900",
-    "sort_order": 467
+    "sort_order": 466
   },
   {
     "id": "winget",
@@ -5613,7 +5601,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#005A9E",
-    "sort_order": 468
+    "sort_order": 467
   },
   {
     "id": "flatpak",
@@ -5625,7 +5613,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#4A86CF",
-    "sort_order": 469
+    "sort_order": 468
   },
   {
     "id": "snap",
@@ -5637,7 +5625,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#82BAA0",
-    "sort_order": 470
+    "sort_order": 469
   },
   {
     "id": "fdroid",
@@ -5649,7 +5637,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#1976D2",
-    "sort_order": 471
+    "sort_order": 470
   },
   {
     "id": "sourceforge",
@@ -5661,7 +5649,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#FF6600",
-    "sort_order": 472
+    "sort_order": 471
   },
   {
     "id": "docker-hub",
@@ -5673,6 +5661,18 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#2496ED",
+    "sort_order": 472
+  },
+  {
+    "id": "huggingface",
+    "name": "Hugging Face",
+    "platform_type": "directory",
+    "base_url": "https://huggingface.co",
+    "search_url_template": "https://huggingface.co/api/models?search={query}",
+    "verify_url_pattern": "immaculate\\.tr",
+    "is_active": true,
+    "logo_icon": "Package",
+    "color": "#FFD21E",
     "sort_order": 473
   },
   {
@@ -5784,30 +5784,6 @@
     "sort_order": 482
   },
   {
-    "id": "archive-today",
-    "name": "archive.today",
-    "platform_type": "archive",
-    "base_url": "https://archive.ph",
-    "search_url_template": "https://archive.ph/{query}",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Archive",
-    "color": "#0E0E0E",
-    "sort_order": 483
-  },
-  {
-    "id": "archive-is",
-    "name": "archive.is",
-    "platform_type": "archive",
-    "base_url": "https://archive.is",
-    "search_url_template": "https://archive.is/{query}",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Archive",
-    "color": "#0E0E0E",
-    "sort_order": 484
-  },
-  {
     "id": "wayback",
     "name": "Wayback Machine",
     "platform_type": "archive",
@@ -5817,7 +5793,7 @@
     "is_active": true,
     "logo_icon": "Archive",
     "color": "#000000",
-    "sort_order": 485
+    "sort_order": 483
   },
   {
     "id": "openlibrary",
@@ -5829,7 +5805,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#336699",
-    "sort_order": 486
+    "sort_order": 484
   },
   {
     "id": "project-gutenberg",
@@ -5841,7 +5817,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#5C6BC0",
-    "sort_order": 487
+    "sort_order": 485
   },
   {
     "id": "wikimedia-meta",
@@ -5853,7 +5829,7 @@
     "is_active": true,
     "logo_icon": "Database",
     "color": "#666666",
-    "sort_order": 488
+    "sort_order": 486
   },
   {
     "id": "worldcat",
@@ -5865,7 +5841,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#5C6BC0",
-    "sort_order": 489
+    "sort_order": 487
   },
   {
     "id": "dbpedia",
@@ -5877,7 +5853,7 @@
     "is_active": true,
     "logo_icon": "Database",
     "color": "#FF7A59",
-    "sort_order": 490
+    "sort_order": 488
   },
   {
     "id": "arxiv",
@@ -5889,7 +5865,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#B31B1B",
-    "sort_order": 491
+    "sort_order": 489
   },
   {
     "id": "doaj",
@@ -5901,7 +5877,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#00A651",
-    "sort_order": 492
+    "sort_order": 490
   },
   {
     "id": "plos",
@@ -5913,7 +5889,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#C10B0B",
-    "sort_order": 493
+    "sort_order": 491
   },
   {
     "id": "semantic-scholar",
@@ -5925,7 +5901,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#1857B6",
-    "sort_order": 494
+    "sort_order": 492
   },
   {
     "id": "core",
@@ -5937,7 +5913,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#004B87",
-    "sort_order": 495
+    "sort_order": 493
   },
   {
     "id": "zenodo",
@@ -5949,7 +5925,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#00B5A5",
-    "sort_order": 496
+    "sort_order": 494
   },
   {
     "id": "figshare",
@@ -5961,7 +5937,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#1A1A1A",
-    "sort_order": 497
+    "sort_order": 495
   },
   {
     "id": "osf",
@@ -5973,7 +5949,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#2D2D2D",
-    "sort_order": 498
+    "sort_order": 496
   },
   {
     "id": "dblp",
@@ -5985,7 +5961,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#1B5E20",
-    "sort_order": 499
+    "sort_order": 497
   },
   {
     "id": "crossref",
@@ -5997,7 +5973,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#3B82F6",
-    "sort_order": 500
+    "sort_order": 498
   },
   {
     "id": "openalex",
@@ -6009,7 +5985,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#6A5ACD",
-    "sort_order": 501
+    "sort_order": 499
   },
   {
     "id": "ia-scholar",
@@ -6021,7 +5997,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#000000",
-    "sort_order": 502
+    "sort_order": 500
   },
   {
     "id": "hathitrust",
@@ -6033,7 +6009,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#8B1A1A",
-    "sort_order": 503
+    "sort_order": 501
   },
   {
     "id": "readthedocs",
@@ -6045,7 +6021,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#8CA1AF",
-    "sort_order": 504
+    "sort_order": 502
   },
   {
     "id": "mdn",
@@ -6057,7 +6033,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#000000",
-    "sort_order": 505
+    "sort_order": 503
   },
   {
     "id": "cdnjs",
@@ -6069,7 +6045,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#E6852C",
-    "sort_order": 506
+    "sort_order": 504
   },
   {
     "id": "jsdelivr",
@@ -6081,7 +6057,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#F84F2C",
-    "sort_order": 507
+    "sort_order": 505
   },
   {
     "id": "flickr",
@@ -6093,7 +6069,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#0063DC",
-    "sort_order": 508
+    "sort_order": 506
   },
   {
     "id": "wikimedia-video",
@@ -6105,7 +6081,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#0066CC",
-    "sort_order": 509
+    "sort_order": 507
   },
   {
     "id": "openclipart",
@@ -6117,7 +6093,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#000000",
-    "sort_order": 510
+    "sort_order": 508
   },
   {
     "id": "openverse",
@@ -6129,7 +6105,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#0A1B2A",
-    "sort_order": 511
+    "sort_order": 509
   },
   {
     "id": "freemusicarchive",
@@ -6141,7 +6117,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#1A1A1A",
-    "sort_order": 512
+    "sort_order": 510
   },
   {
     "id": "bandcamp",
@@ -6153,7 +6129,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#1DA0C3",
-    "sort_order": 513
+    "sort_order": 511
   },
   {
     "id": "jamendo",
@@ -6165,7 +6141,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#0054A6",
-    "sort_order": 514
+    "sort_order": 512
   },
   {
     "id": "soundcloud",
@@ -6177,7 +6153,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#FF5500",
-    "sort_order": 515
+    "sort_order": 513
   },
   {
     "id": "audius",
@@ -6189,7 +6165,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#CC2567",
-    "sort_order": 516
+    "sort_order": 514
   },
   {
     "id": "vimeo",
@@ -6201,7 +6177,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#1AB7EA",
-    "sort_order": 517
+    "sort_order": 515
   },
   {
     "id": "invidious",
@@ -6213,7 +6189,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#5C6BC0",
-    "sort_order": 518
+    "sort_order": 516
   },
   {
     "id": "openstreetmap-wiki",
@@ -6225,7 +6201,7 @@
     "is_active": true,
     "logo_icon": "Globe",
     "color": "#7EBC6F",
-    "sort_order": 519
+    "sort_order": 517
   },
   {
     "id": "archwiki",
@@ -6237,7 +6213,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#1793D1",
-    "sort_order": 520
+    "sort_order": 518
   },
   {
     "id": "gentoo-wiki",
@@ -6249,7 +6225,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#54487A",
-    "sort_order": 521
+    "sort_order": 519
   },
   {
     "id": "debian-wiki",
@@ -6261,7 +6237,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#A81D33",
-    "sort_order": 522
+    "sort_order": 520
   },
   {
     "id": "ubuntu-wiki",
@@ -6273,7 +6249,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#E95420",
-    "sort_order": 523
+    "sort_order": 521
   },
   {
     "id": "fedora-wiki",
@@ -6285,7 +6261,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#3C6EB4",
-    "sort_order": 524
+    "sort_order": 522
   },
   {
     "id": "freebsd-wiki",
@@ -6297,7 +6273,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#AB2B28",
-    "sort_order": 525
+    "sort_order": 523
   },
   {
     "id": "openbsd-wiki",
@@ -6309,7 +6285,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#E8E8E8",
-    "sort_order": 526
+    "sort_order": 524
   },
   {
     "id": "nixos-wiki",
@@ -6321,7 +6297,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#7E57C2",
-    "sort_order": 527
+    "sort_order": 525
   },
   {
     "id": "alpine-wiki",
@@ -6333,7 +6309,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#0D597F",
-    "sort_order": 528
+    "sort_order": 526
   },
   {
     "id": "mozilla-wiki",
@@ -6345,7 +6321,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#000000",
-    "sort_order": 529
+    "sort_order": 527
   },
   {
     "id": "opensuse-wiki",
@@ -6357,7 +6333,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#73BA25",
-    "sort_order": 530
+    "sort_order": 528
   },
   {
     "id": "caddy-wiki",
@@ -6369,7 +6345,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#1F8C8A",
-    "sort_order": 531
+    "sort_order": 529
   },
   {
     "id": "docker-docs",
@@ -6381,7 +6357,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#2496ED",
-    "sort_order": 532
+    "sort_order": 530
   },
   {
     "id": "k8s-docs",
@@ -6393,7 +6369,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#326CE5",
-    "sort_order": 533
+    "sort_order": 531
   },
   {
     "id": "python-docs",
@@ -6405,7 +6381,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#3776AB",
-    "sort_order": 534
+    "sort_order": 532
   },
   {
     "id": "rust-docs",
@@ -6417,7 +6393,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#000000",
-    "sort_order": 535
+    "sort_order": 533
   },
   {
     "id": "go-docs",
@@ -6429,7 +6405,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#00ADD8",
-    "sort_order": 536
+    "sort_order": 534
   },
   {
     "id": "php-docs",
@@ -6441,7 +6417,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#777BB4",
-    "sort_order": 537
+    "sort_order": 535
   },
   {
     "id": "java-docs",
@@ -6453,7 +6429,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#ED8B00",
-    "sort_order": 538
+    "sort_order": 536
   },
   {
     "id": "cpp-docs",
@@ -6465,7 +6441,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#659AD2",
-    "sort_order": 539
+    "sort_order": 537
   },
   {
     "id": "elixir-docs",
@@ -6477,7 +6453,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#4B275F",
-    "sort_order": 540
+    "sort_order": 538
   },
   {
     "id": "scala-docs",
@@ -6489,7 +6465,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#DC322F",
-    "sort_order": 541
+    "sort_order": 539
   },
   {
     "id": "dart-docs",
@@ -6501,7 +6477,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#00BCD4",
-    "sort_order": 542
+    "sort_order": 540
   },
   {
     "id": "angular-docs",
@@ -6513,7 +6489,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#DD0031",
-    "sort_order": 543
+    "sort_order": 541
   },
   {
     "id": "django-docs",
@@ -6525,6 +6501,6 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#0C4B33",
-    "sort_order": 544
+    "sort_order": 542
   }
 ]
