@@ -63,69 +63,115 @@ function findBacklink(text, pattern) {
   }
 }
 
+function getBaseDomain(url) {
+  try {
+    const host = new URL(url).hostname;
+    const parts = host.split(".");
+    return parts.slice(-2).join(".");
+  } catch {
+    return "";
+  }
+}
+
+const MIN_GAP_MS = 150;
+const domainThrottle = new Map();
+
+async function waitForDomainSlot(baseDomain) {
+  if (!baseDomain) return;
+  const now = Date.now();
+  const nextAllowed = domainThrottle.get(baseDomain) || 0;
+  const scheduledStart = Math.max(now, nextAllowed);
+  domainThrottle.set(baseDomain, scheduledStart + MIN_GAP_MS);
+  const waitMs = scheduledStart - now;
+  if (waitMs > 0) await sleep(waitMs);
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function verifySource(source) {
   const startTime = Date.now();
   const query = encodeURIComponent(TARGET_DOMAIN);
   const searchUrl = source.search_url_template.replace("{query}", query);
+  const baseDomain = getBaseDomain(searchUrl);
+  const maxAttempts = 3;
 
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 20000);
+  await waitForDomainSlot(baseDomain);
 
-    const response = await fetch(searchUrl, {
-      headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; BacklinkVerifier/1.0; +https://immaculate.tr)",
-        Accept: "text/html,application/json,*/*",
-        "Accept-Language": "en-US,en;q=0.9,tr;q=0.8",
-      },
-      signal: controller.signal,
-      redirect: "follow",
-    });
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 20000);
 
-    clearTimeout(timeoutId);
-    const elapsed = Date.now() - startTime;
+      const response = await fetch(searchUrl, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (compatible; BacklinkVerifier/1.0; +https://immaculate.tr)",
+          Accept: "text/html,application/json,*/*",
+          "Accept-Language": "en-US,en;q=0.9,tr;q=0.8",
+        },
+        signal: controller.signal,
+        redirect: "follow",
+      });
 
-    if (!response.ok && response.status !== 302) {
+      clearTimeout(timeoutId);
+      const elapsed = Date.now() - startTime;
+
+      if (response.status === 429 && attempt < maxAttempts) {
+        const retryAfterHeader = response.headers.get("retry-after");
+        const retryAfterMs = retryAfterHeader ? parseInt(retryAfterHeader, 10) * 1000 : 2000 * attempt;
+        await sleep(Math.min(Number.isFinite(retryAfterMs) ? retryAfterMs : 2000 * attempt, 10000));
+        await waitForDomainSlot(baseDomain);
+        continue;
+      }
+
+      if (!response.ok && response.status !== 302) {
+        return {
+          source_id: source.id, source_name: source.name, status: "error",
+          found_url: null, http_status: response.status, response_time_ms: elapsed,
+          page_title: null, anchor_text: null, error_message: "HTTP " + response.status,
+        };
+      }
+
+      const contentType = response.headers.get("content-type") || "";
+      const bodyText = await response.text();
+      let found = null;
+      let pageTitle = null;
+
+      if (contentType.includes("application/json")) {
+        try {
+          const json = JSON.parse(bodyText);
+          const jsonStr = JSON.stringify(json);
+          pageTitle = json.title || json.response?.docs?.[0]?.title || null;
+          found = findBacklink(jsonStr, source.verify_url_pattern);
+        } catch { /* not JSON */ }
+      } else {
+        pageTitle = extractTitle(bodyText);
+        found = findBacklink(bodyText, source.verify_url_pattern);
+      }
+
+      return {
+        source_id: source.id, source_name: source.name,
+        status: found ? "verified" : "not_found",
+        found_url: found ? found.url : null,
+        http_status: response.status, response_time_ms: elapsed,
+        page_title: pageTitle, anchor_text: found ? found.anchorText : null,
+        error_message: null,
+      };
+    } catch (err) {
+      if (attempt < maxAttempts) {
+        await sleep(500 * attempt);
+        await waitForDomainSlot(baseDomain);
+        continue;
+      }
+      const elapsed = Date.now() - startTime;
+      const msg = err.name === "AbortError" ? "Request timed out (20s)" : (err.message || "Unknown error");
       return {
         source_id: source.id, source_name: source.name, status: "error",
-        found_url: null, http_status: response.status, response_time_ms: elapsed,
-        page_title: null, anchor_text: null, error_message: "HTTP " + response.status,
+        found_url: null, http_status: null, response_time_ms: elapsed,
+        page_title: null, anchor_text: null, error_message: msg,
       };
     }
-
-    const contentType = response.headers.get("content-type") || "";
-    const bodyText = await response.text();
-    let found = null;
-    let pageTitle = null;
-
-    if (contentType.includes("application/json")) {
-      try {
-        const json = JSON.parse(bodyText);
-        const jsonStr = JSON.stringify(json);
-        pageTitle = json.title || json.response?.docs?.[0]?.title || null;
-        found = findBacklink(jsonStr, source.verify_url_pattern);
-      } catch { /* not JSON */ }
-    } else {
-      pageTitle = extractTitle(bodyText);
-      found = findBacklink(bodyText, source.verify_url_pattern);
-    }
-
-    return {
-      source_id: source.id, source_name: source.name,
-      status: found ? "verified" : "not_found",
-      found_url: found ? found.url : null,
-      http_status: response.status, response_time_ms: elapsed,
-      page_title: pageTitle, anchor_text: found ? found.anchorText : null,
-      error_message: null,
-    };
-  } catch (err) {
-    const elapsed = Date.now() - startTime;
-    const msg = err.name === "AbortError" ? "Request timed out (20s)" : (err.message || "Unknown error");
-    return {
-      source_id: source.id, source_name: source.name, status: "error",
-      found_url: null, http_status: null, response_time_ms: elapsed,
-      page_title: null, anchor_text: null, error_message: msg,
-    };
   }
 }
 

@@ -303,7 +303,6 @@ add("searx","Searx","search","https://searx.be","https://searx.be/search?q={quer
 add("qwant","Qwant","search","https://www.qwant.com","https://www.qwant.com/?q={query}","Search","#5C97FF");
 add("dogpile","Dogpile","search","https://www.dogpile.com","https://www.dogpile.com/serp?q={query}","Search","#D03C2A");
 add("lycos","Lycos","search","https://www.lycos.com","https://search.lycos.com/web/?q={query}","Search","#1A1A1A");
-add("ask","Ask.com","search","https://www.ask.com","https://www.ask.com/web?q={query}","Search","#CF0000");
 add("marginalia","Marginalia Search","search","https://search.marginalia.nu","https://search.marginalia.nu/search?query={query}","Search","#4A7C59");
 add("stract","Stract","search","https://stract.com","https://stract.com/search?q={query}","Search","#000000");
 add("curlie","Curlie (Open Directory)","directory","https://curlie.org","https://curlie.org/search?q={query}","Search","#1E88E5");
@@ -341,7 +340,6 @@ add("archive-is","archive.is","archive","https://archive.is","https://archive.is
 add("wayback","Wayback Machine","archive","https://web.archive.org","https://web.archive.org/cdx/search/cdx?url={query}&output=json&limit=25","Archive","#000000");
 
 // === DIRECTORY / MAPPING ===
-add("openstreetmap","OpenStreetMap","directory","https://www.openstreetmap.org","https://www.openstreetmap.org/api/0.6/search?q={query}&format=json","Globe","#7EBC6F");
 add("openlibrary","OpenLibrary","directory","https://openlibrary.org","https://openlibrary.org/search.json?q={query}&limit=10","BookOpen","#336699");
 add("project-gutenberg","Project Gutenberg","directory","https://www.gutenberg.org","https://www.gutenberg.org/ebooks/search/?query={query}","BookOpen","#5C6BC0");
 add("wikimedia-meta","Wikimedia Meta","directory","https://meta.wikimedia.org","https://meta.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Database","#666666");
@@ -351,7 +349,7 @@ add("dbpedia","DBpedia Lookup","directory","https://dbpedia.org","https://lookup
 // === ACADEMIC ===
 add("arxiv","arXiv","academic","https://arxiv.org","https://arxiv.org/search/?query={query}&searchtype=all","BookOpen","#B31B1B");
 add("doaj","DOAJ","academic","https://doaj.org","https://doaj.org/search?source={query}","BookOpen","#00A651");
-add("plos","PLOS","academic","https://www.plos.org","https://www.plos.org/search?q={query}","BookOpen","#C10B0B");
+add("plos","PLOS","academic","https://www.plos.org","https://api.plos.org/search?q={query}","BookOpen","#C10B0B");
 add("semantic-scholar","Semantic Scholar","academic","https://www.semanticscholar.org","https://www.semanticscholar.org/search?q={query}","BookOpen","#1857B6");
 add("core","CORE","academic","https://core.ac.uk","https://core.ac.uk/search?q={query}","BookOpen","#004B87");
 add("zenodo","Zenodo","academic","https://zenodo.org","https://zenodo.org/search?q={query}","BookOpen","#00B5A5");
@@ -407,7 +405,6 @@ add("cpp-docs","C++ Reference","docs","https://en.cppreference.com","https://en.
 add("elixir-docs","Elixir Docs","docs","https://hexdocs.pm","https://hexdocs.pm/search?q={query}","BookOpen","#4B275F");
 add("scala-docs","Scala Docs","docs","https://docs.scala-lang.org","https://docs.scala-lang.org/search.html?q={query}","BookOpen","#DC322F");
 add("dart-docs","Dart Docs","docs","https://dart.dev","https://dart.dev/search?q={query}","BookOpen","#00BCD4");
-add("react-docs","React Docs","docs","https://react.dev","https://react.dev/search?q={query}","BookOpen","#087EA4");
 add("angular-docs","Angular Docs","docs","https://angular.io","https://angular.io/search?q={query}","BookOpen","#DD0031");
 add("django-docs","Django Docs","docs","https://docs.djangoproject.com","https://docs.djangoproject.com/search/?q={query}","BookOpen","#0C4B33");
 
