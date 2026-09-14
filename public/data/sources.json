@@ -4896,18 +4896,6 @@
     "sort_order": 408
   },
   {
-    "id": "forgejo",
-    "name": "Forgejo",
-    "platform_type": "social",
-    "base_url": "https://codeberg.org/forgejo",
-    "search_url_template": "https://codeberg.org/forgejo",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "GitBranch",
-    "color": "#2185D0",
-    "sort_order": 409
-  },
-  {
     "id": "gitee",
     "name": "Gitee",
     "platform_type": "social",
@@ -4917,7 +4905,7 @@
     "is_active": true,
     "logo_icon": "GitBranch",
     "color": "#C71D23",
-    "sort_order": 410
+    "sort_order": 409
   },
   {
     "id": "gitgud",
@@ -4929,7 +4917,7 @@
     "is_active": true,
     "logo_icon": "GitBranch",
     "color": "#E67E22",
-    "sort_order": 411
+    "sort_order": 410
   },
   {
     "id": "dagsh",
@@ -4941,7 +4929,7 @@
     "is_active": true,
     "logo_icon": "GitBranch",
     "color": "#3B82F6",
-    "sort_order": 412
+    "sort_order": 411
   },
   {
     "id": "repoorcz",
@@ -4953,7 +4941,7 @@
     "is_active": true,
     "logo_icon": "GitBranch",
     "color": "#000000",
-    "sort_order": 413
+    "sort_order": 412
   },
   {
     "id": "pagure",
@@ -4965,7 +4953,7 @@
     "is_active": true,
     "logo_icon": "GitBranch",
     "color": "#39A0DC",
-    "sort_order": 414
+    "sort_order": 413
   },
   {
     "id": "opensuse",
@@ -4977,7 +4965,7 @@
     "is_active": true,
     "logo_icon": "GitBranch",
     "color": "#73BA25",
-    "sort_order": 415
+    "sort_order": 414
   },
   {
     "id": "fedora-pagure",
@@ -4989,67 +4977,43 @@
     "is_active": true,
     "logo_icon": "GitBranch",
     "color": "#3C6EB4",
+    "sort_order": 415
+  },
+  {
+    "id": "github-repos",
+    "name": "GitHub (Repositories)",
+    "platform_type": "social",
+    "base_url": "https://github.com",
+    "search_url_template": "https://github.com/search?q={query}&type=repositories",
+    "verify_url_pattern": "immaculate\\.tr",
+    "is_active": true,
+    "logo_icon": "Github",
+    "color": "#181717",
     "sort_order": 416
   },
   {
-    "id": "android-aosp",
-    "name": "AOSP Gerrit",
+    "id": "github-gist",
+    "name": "GitHub Gist",
     "platform_type": "social",
-    "base_url": "https://android.googlesource.com",
-    "search_url_template": "https://android.googlesource.com/",
+    "base_url": "https://gist.github.com",
+    "search_url_template": "https://gist.github.com/search?q={query}",
     "verify_url_pattern": "immaculate\\.tr",
     "is_active": true,
-    "logo_icon": "GitBranch",
-    "color": "#3DDC84",
+    "logo_icon": "Github",
+    "color": "#181717",
     "sort_order": 417
   },
   {
-    "id": "chromium",
-    "name": "Chromium Code",
-    "platform_type": "social",
-    "base_url": "https://chromium.googlesource.com",
-    "search_url_template": "https://chromium.googlesource.com/",
+    "id": "softwareheritage",
+    "name": "Software Heritage",
+    "platform_type": "directory",
+    "base_url": "https://archive.softwareheritage.org",
+    "search_url_template": "https://archive.softwareheritage.org/api/1/origin/search/{query}/?limit=20",
     "verify_url_pattern": "immaculate\\.tr",
     "is_active": true,
     "logo_icon": "GitBranch",
-    "color": "#4285F4",
+    "color": "#D91C36",
     "sort_order": 418
-  },
-  {
-    "id": "freebsd",
-    "name": "FreeBSD Git",
-    "platform_type": "social",
-    "base_url": "https://cgit.freebsd.org",
-    "search_url_template": "https://cgit.freebsd.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "GitBranch",
-    "color": "#AB2B28",
-    "sort_order": 419
-  },
-  {
-    "id": "netbsd",
-    "name": "NetBSD CVS",
-    "platform_type": "social",
-    "base_url": "https://cdn.netbsd.org",
-    "search_url_template": "https://cdn.netbsd.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "GitBranch",
-    "color": "#FF6600",
-    "sort_order": 420
-  },
-  {
-    "id": "openbsd",
-    "name": "OpenBSD CVS",
-    "platform_type": "social",
-    "base_url": "https://cvsweb.openbsd.org",
-    "search_url_template": "https://cvsweb.openbsd.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "GitBranch",
-    "color": "#E8E8E8",
-    "sort_order": 421
   },
   {
     "id": "reddit",
@@ -5061,7 +5025,7 @@
     "is_active": true,
     "logo_icon": "MessageCircle",
     "color": "#FF4500",
-    "sort_order": 422
+    "sort_order": 419
   },
   {
     "id": "hackernews",
@@ -5073,7 +5037,7 @@
     "is_active": true,
     "logo_icon": "Newspaper",
     "color": "#FF6600",
-    "sort_order": 423
+    "sort_order": 420
   },
   {
     "id": "lobsters",
@@ -5085,7 +5049,7 @@
     "is_active": true,
     "logo_icon": "Newspaper",
     "color": "#AC130D",
-    "sort_order": 424
+    "sort_order": 421
   },
   {
     "id": "slashdot",
@@ -5097,7 +5061,7 @@
     "is_active": true,
     "logo_icon": "Newspaper",
     "color": "#026664",
-    "sort_order": 425
+    "sort_order": 422
   },
   {
     "id": "quora",
@@ -5109,7 +5073,7 @@
     "is_active": true,
     "logo_icon": "HelpCircle",
     "color": "#B92B27",
-    "sort_order": 426
+    "sort_order": 423
   },
   {
     "id": "diaspora",
@@ -5121,7 +5085,7 @@
     "is_active": true,
     "logo_icon": "MessageCircle",
     "color": "#2D2D2D",
-    "sort_order": 427
+    "sort_order": 424
   },
   {
     "id": "mastodon",
@@ -5133,43 +5097,7 @@
     "is_active": true,
     "logo_icon": "MessageCircle",
     "color": "#6364FF",
-    "sort_order": 428
-  },
-  {
-    "id": "pleroma",
-    "name": "Pleroma",
-    "platform_type": "social",
-    "base_url": "https://pleroma.social",
-    "search_url_template": "https://pleroma.social/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "MessageCircle",
-    "color": "#2D2D2D",
-    "sort_order": 429
-  },
-  {
-    "id": "friendica",
-    "name": "Friendica",
-    "platform_type": "social",
-    "base_url": "https://friendi.ca",
-    "search_url_template": "https://friendi.ca/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "MessageCircle",
-    "color": "#2D2D2D",
-    "sort_order": 430
-  },
-  {
-    "id": "pixelfed",
-    "name": "Pixelfed",
-    "platform_type": "social",
-    "base_url": "https://pixelfed.org",
-    "search_url_template": "https://pixelfed.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "MessageCircle",
-    "color": "#A45DD8",
-    "sort_order": 431
+    "sort_order": 425
   },
   {
     "id": "lemmy",
@@ -5181,7 +5109,7 @@
     "is_active": true,
     "logo_icon": "MessageCircle",
     "color": "#00BCD4",
-    "sort_order": 432
+    "sort_order": 426
   },
   {
     "id": "kbin",
@@ -5193,19 +5121,7 @@
     "is_active": true,
     "logo_icon": "MessageCircle",
     "color": "#E91E63",
-    "sort_order": 433
-  },
-  {
-    "id": "misskey",
-    "name": "Misskey",
-    "platform_type": "social",
-    "base_url": "https://misskey.io",
-    "search_url_template": "https://misskey.io/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "MessageCircle",
-    "color": "#86B300",
-    "sort_order": 434
+    "sort_order": 427
   },
   {
     "id": "peertube",
@@ -5217,7 +5133,7 @@
     "is_active": true,
     "logo_icon": "Newspaper",
     "color": "#F1680D",
-    "sort_order": 435
+    "sort_order": 428
   },
   {
     "id": "nextcloud",
@@ -5229,7 +5145,7 @@
     "is_active": true,
     "logo_icon": "MessageCircle",
     "color": "#0082C9",
-    "sort_order": 436
+    "sort_order": 429
   },
   {
     "id": "discourse-meta",
@@ -5241,31 +5157,7 @@
     "is_active": true,
     "logo_icon": "MessageCircle",
     "color": "#000000",
-    "sort_order": 437
-  },
-  {
-    "id": "element",
-    "name": "Element/Matrix",
-    "platform_type": "social",
-    "base_url": "https://matrix.org",
-    "search_url_template": "https://matrix.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "MessageCircle",
-    "color": "#0DBD8B",
-    "sort_order": 438
-  },
-  {
-    "id": "xmpp",
-    "name": "XMPP",
-    "platform_type": "social",
-    "base_url": "https://xmpp.org",
-    "search_url_template": "https://xmpp.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "MessageCircle",
-    "color": "#0080FF",
-    "sort_order": 439
+    "sort_order": 430
   },
   {
     "id": "devto",
@@ -5277,7 +5169,7 @@
     "is_active": true,
     "logo_icon": "Code",
     "color": "#0A0A0A",
-    "sort_order": 440
+    "sort_order": 431
   },
   {
     "id": "medium",
@@ -5289,7 +5181,7 @@
     "is_active": true,
     "logo_icon": "PenTool",
     "color": "#12100E",
-    "sort_order": 441
+    "sort_order": 432
   },
   {
     "id": "hashnode",
@@ -5301,7 +5193,7 @@
     "is_active": true,
     "logo_icon": "Code",
     "color": "#2962FF",
-    "sort_order": 442
+    "sort_order": 433
   },
   {
     "id": "substack",
@@ -5313,43 +5205,7 @@
     "is_active": true,
     "logo_icon": "PenTool",
     "color": "#FF6719",
-    "sort_order": 443
-  },
-  {
-    "id": "ghost",
-    "name": "Ghost",
-    "platform_type": "social",
-    "base_url": "https://ghost.org",
-    "search_url_template": "https://ghost.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "PenTool",
-    "color": "#212B36",
-    "sort_order": 444
-  },
-  {
-    "id": "writefreely",
-    "name": "WriteFreely",
-    "platform_type": "social",
-    "base_url": "https://write.as",
-    "search_url_template": "https://write.as/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "PenTool",
-    "color": "#5AC4F4",
-    "sort_order": 445
-  },
-  {
-    "id": "omgblog",
-    "name": "OMG Blog",
-    "platform_type": "social",
-    "base_url": "https://omg.blog",
-    "search_url_template": "https://omg.blog/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "PenTool",
-    "color": "#000000",
-    "sort_order": 446
+    "sort_order": 434
   },
   {
     "id": "wordpress-com",
@@ -5361,7 +5217,7 @@
     "is_active": true,
     "logo_icon": "PenTool",
     "color": "#21759B",
-    "sort_order": 447
+    "sort_order": 435
   },
   {
     "id": "tumblr",
@@ -5373,7 +5229,7 @@
     "is_active": true,
     "logo_icon": "PenTool",
     "color": "#001935",
-    "sort_order": 448
+    "sort_order": 436
   },
   {
     "id": "livejournal",
@@ -5385,31 +5241,7 @@
     "is_active": true,
     "logo_icon": "PenTool",
     "color": "#00B0EF",
-    "sort_order": 449
-  },
-  {
-    "id": "dreamwidth",
-    "name": "Dreamwidth",
-    "platform_type": "social",
-    "base_url": "https://www.dreamwidth.org",
-    "search_url_template": "https://www.dreamwidth.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "PenTool",
-    "color": "#5C6BC0",
-    "sort_order": 450
-  },
-  {
-    "id": "plurk",
-    "name": "Plurk",
-    "platform_type": "social",
-    "base_url": "https://www.plurk.com",
-    "search_url_template": "https://www.plurk.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "PenTool",
-    "color": "#CF682F",
-    "sort_order": 451
+    "sort_order": 437
   },
   {
     "id": "telegram-search",
@@ -5421,7 +5253,55 @@
     "is_active": true,
     "logo_icon": "MessageCircle",
     "color": "#0088CC",
-    "sort_order": 452
+    "sort_order": 438
+  },
+  {
+    "id": "indiehackers",
+    "name": "Indie Hackers",
+    "platform_type": "social",
+    "base_url": "https://www.indiehackers.com",
+    "search_url_template": "https://www.indiehackers.com/search?query={query}",
+    "verify_url_pattern": "immaculate\\.tr",
+    "is_active": true,
+    "logo_icon": "MessageCircle",
+    "color": "#0E2439",
+    "sort_order": 439
+  },
+  {
+    "id": "producthunt",
+    "name": "Product Hunt",
+    "platform_type": "social",
+    "base_url": "https://www.producthunt.com",
+    "search_url_template": "https://www.producthunt.com/search?q={query}",
+    "verify_url_pattern": "immaculate\\.tr",
+    "is_active": true,
+    "logo_icon": "MessageCircle",
+    "color": "#DA552F",
+    "sort_order": 440
+  },
+  {
+    "id": "alternativeto",
+    "name": "AlternativeTo",
+    "platform_type": "directory",
+    "base_url": "https://alternativeto.net",
+    "search_url_template": "https://alternativeto.net/browse/search/?q={query}",
+    "verify_url_pattern": "immaculate\\.tr",
+    "is_active": true,
+    "logo_icon": "Package",
+    "color": "#2E4258",
+    "sort_order": 441
+  },
+  {
+    "id": "opencollective",
+    "name": "Open Collective",
+    "platform_type": "directory",
+    "base_url": "https://opencollective.com",
+    "search_url_template": "https://opencollective.com/search?q={query}",
+    "verify_url_pattern": "immaculate\\.tr",
+    "is_active": true,
+    "logo_icon": "Package",
+    "color": "#3385FF",
+    "sort_order": 442
   },
   {
     "id": "duckduckgo",
@@ -5433,7 +5313,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#DE5833",
-    "sort_order": 453
+    "sort_order": 443
   },
   {
     "id": "bing",
@@ -5445,7 +5325,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#008373",
-    "sort_order": 454
+    "sort_order": 444
   },
   {
     "id": "yandex",
@@ -5457,7 +5337,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#FF0000",
-    "sort_order": 455
+    "sort_order": 445
   },
   {
     "id": "startpage",
@@ -5469,7 +5349,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#6C5CE7",
-    "sort_order": 456
+    "sort_order": 446
   },
   {
     "id": "brave-search",
@@ -5481,7 +5361,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#FB542B",
-    "sort_order": 457
+    "sort_order": 447
   },
   {
     "id": "ecosia",
@@ -5493,7 +5373,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#1A8B3E",
-    "sort_order": 458
+    "sort_order": 448
   },
   {
     "id": "swisscows",
@@ -5505,7 +5385,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#DC0000",
-    "sort_order": 459
+    "sort_order": 449
   },
   {
     "id": "mojeek",
@@ -5517,7 +5397,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#4D8FAC",
-    "sort_order": 460
+    "sort_order": 450
   },
   {
     "id": "searx",
@@ -5529,7 +5409,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#3050C0",
-    "sort_order": 461
+    "sort_order": 451
   },
   {
     "id": "qwant",
@@ -5541,7 +5421,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#5C97FF",
-    "sort_order": 462
+    "sort_order": 452
   },
   {
     "id": "dogpile",
@@ -5553,43 +5433,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#D03C2A",
-    "sort_order": 463
-  },
-  {
-    "id": "exalead",
-    "name": "Exalead",
-    "platform_type": "search",
-    "base_url": "https://www.exalead.com",
-    "search_url_template": "https://www.exalead.com/search/web/results/?q={query}",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Search",
-    "color": "#1A6FA0",
-    "sort_order": 464
-  },
-  {
-    "id": "gigablast",
-    "name": "Gigablast",
-    "platform_type": "search",
-    "base_url": "https://gigablast.com",
-    "search_url_template": "https://gigablast.com/search?q={query}",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Search",
-    "color": "#000000",
-    "sort_order": 465
-  },
-  {
-    "id": "onesearch",
-    "name": "OneSearch",
-    "platform_type": "search",
-    "base_url": "https://www.onesearch.com",
-    "search_url_template": "https://www.onesearch.com/yhs/search?q={query}",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Search",
-    "color": "#4A90D9",
-    "sort_order": 466
+    "sort_order": 453
   },
   {
     "id": "lycos",
@@ -5601,43 +5445,7 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#1A1A1A",
-    "sort_order": 467
-  },
-  {
-    "id": "teoma",
-    "name": "Teoma",
-    "platform_type": "search",
-    "base_url": "https://www.teoma.com",
-    "search_url_template": "https://www.teoma.com/web?q={query}",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Search",
-    "color": "#4A4A4A",
-    "sort_order": 468
-  },
-  {
-    "id": "wisenut",
-    "name": "WiseNut",
-    "platform_type": "search",
-    "base_url": "https://www.wisenut.com",
-    "search_url_template": "https://www.wisenut.com/search?q={query}",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Search",
-    "color": "#5C6BC0",
-    "sort_order": 469
-  },
-  {
-    "id": "aol-search",
-    "name": "AOL Search",
-    "platform_type": "search",
-    "base_url": "https://search.aol.com",
-    "search_url_template": "https://search.aol.com/aol/search?q={query}",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Search",
-    "color": "#000000",
-    "sort_order": 470
+    "sort_order": 454
   },
   {
     "id": "ask",
@@ -5649,19 +5457,43 @@
     "is_active": true,
     "logo_icon": "Search",
     "color": "#CF0000",
-    "sort_order": 471
+    "sort_order": 455
   },
   {
-    "id": "blekko",
-    "name": "Blekko",
+    "id": "marginalia",
+    "name": "Marginalia Search",
     "platform_type": "search",
-    "base_url": "https://blekko.com",
-    "search_url_template": "https://blekko.com/ws/{query}",
+    "base_url": "https://search.marginalia.nu",
+    "search_url_template": "https://search.marginalia.nu/search?query={query}",
+    "verify_url_pattern": "immaculate\\.tr",
+    "is_active": true,
+    "logo_icon": "Search",
+    "color": "#4A7C59",
+    "sort_order": 456
+  },
+  {
+    "id": "stract",
+    "name": "Stract",
+    "platform_type": "search",
+    "base_url": "https://stract.com",
+    "search_url_template": "https://stract.com/search?q={query}",
     "verify_url_pattern": "immaculate\\.tr",
     "is_active": true,
     "logo_icon": "Search",
     "color": "#000000",
-    "sort_order": 472
+    "sort_order": 457
+  },
+  {
+    "id": "curlie",
+    "name": "Curlie (Open Directory)",
+    "platform_type": "directory",
+    "base_url": "https://curlie.org",
+    "search_url_template": "https://curlie.org/search?q={query}",
+    "verify_url_pattern": "immaculate\\.tr",
+    "is_active": true,
+    "logo_icon": "Search",
+    "color": "#1E88E5",
+    "sort_order": 458
   },
   {
     "id": "npm",
@@ -5673,7 +5505,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#CB3837",
-    "sort_order": 473
+    "sort_order": 459
   },
   {
     "id": "pypi",
@@ -5685,7 +5517,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#3775A9",
-    "sort_order": 474
+    "sort_order": 460
   },
   {
     "id": "crates-io",
@@ -5697,7 +5529,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#8B5CF6",
-    "sort_order": 475
+    "sort_order": 461
   },
   {
     "id": "rubygems",
@@ -5709,7 +5541,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#E9573F",
-    "sort_order": 476
+    "sort_order": 462
   },
   {
     "id": "packagist",
@@ -5721,7 +5553,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#F28D0A",
-    "sort_order": 477
+    "sort_order": 463
   },
   {
     "id": "nuget",
@@ -5733,7 +5565,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#004880",
-    "sort_order": 478
+    "sort_order": 464
   },
   {
     "id": "maven",
@@ -5745,7 +5577,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#C71A23",
-    "sort_order": 479
+    "sort_order": 465
   },
   {
     "id": "go-pkg",
@@ -5757,19 +5589,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#00ADD8",
-    "sort_order": 480
-  },
-  {
-    "id": "cargo",
-    "name": "Cargo",
-    "platform_type": "directory",
-    "base_url": "https://doc.rust-lang.org",
-    "search_url_template": "https://doc.rust-lang.org/cargo/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Package",
-    "color": "#000000",
-    "sort_order": 481
+    "sort_order": 466
   },
   {
     "id": "conda",
@@ -5781,19 +5601,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#43B02A",
-    "sort_order": 482
-  },
-  {
-    "id": "brew",
-    "name": "Homebrew",
-    "platform_type": "directory",
-    "base_url": "https://formulae.brew.sh",
-    "search_url_template": "https://formulae.brew.sh/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Package",
-    "color": "#FBB040",
-    "sort_order": 483
+    "sort_order": 467
   },
   {
     "id": "chocolatey",
@@ -5805,7 +5613,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#7EB900",
-    "sort_order": 484
+    "sort_order": 468
   },
   {
     "id": "winget",
@@ -5817,7 +5625,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#005A9E",
-    "sort_order": 485
+    "sort_order": 469
   },
   {
     "id": "flatpak",
@@ -5829,7 +5637,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#4A86CF",
-    "sort_order": 486
+    "sort_order": 470
   },
   {
     "id": "snap",
@@ -5841,19 +5649,31 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#82BAA0",
-    "sort_order": 487
+    "sort_order": 471
   },
   {
-    "id": "appimage",
-    "name": "AppImageHub",
+    "id": "fdroid",
+    "name": "F-Droid",
     "platform_type": "directory",
-    "base_url": "https://appimage.github.io",
-    "search_url_template": "https://appimage.github.io/",
+    "base_url": "https://f-droid.org",
+    "search_url_template": "https://search.f-droid.org/?q={query}",
     "verify_url_pattern": "immaculate\\.tr",
     "is_active": true,
     "logo_icon": "Package",
-    "color": "#1A1A1A",
-    "sort_order": 488
+    "color": "#1976D2",
+    "sort_order": 472
+  },
+  {
+    "id": "sourceforge",
+    "name": "SourceForge",
+    "platform_type": "directory",
+    "base_url": "https://sourceforge.net",
+    "search_url_template": "https://sourceforge.net/search/?q={query}",
+    "verify_url_pattern": "immaculate\\.tr",
+    "is_active": true,
+    "logo_icon": "Package",
+    "color": "#FF6600",
+    "sort_order": 473
   },
   {
     "id": "docker-hub",
@@ -5865,31 +5685,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#2496ED",
-    "sort_order": 489
-  },
-  {
-    "id": "pypi2",
-    "name": "PyPI JSON API",
-    "platform_type": "directory",
-    "base_url": "https://pypi.org",
-    "search_url_template": "https://pypi.org/simple/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Package",
-    "color": "#3775A9",
-    "sort_order": 490
-  },
-  {
-    "id": "crates2",
-    "name": "crates.io API",
-    "platform_type": "directory",
-    "base_url": "https://crates.io",
-    "search_url_template": "https://crates.io/api/v1/crates",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Package",
-    "color": "#8B5CF6",
-    "sort_order": 491
+    "sort_order": 474
   },
   {
     "id": "hackage",
@@ -5901,19 +5697,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#5E5086",
-    "sort_order": 492
-  },
-  {
-    "id": "stackage",
-    "name": "Stackage",
-    "platform_type": "directory",
-    "base_url": "https://www.stackage.org",
-    "search_url_template": "https://www.stackage.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Package",
-    "color": "#7E57C2",
-    "sort_order": 493
+    "sort_order": 475
   },
   {
     "id": "clojars",
@@ -5925,7 +5709,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#4A8B5C",
-    "sort_order": 494
+    "sort_order": 476
   },
   {
     "id": "pub-dev",
@@ -5937,7 +5721,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#00BCD4",
-    "sort_order": 495
+    "sort_order": 477
   },
   {
     "id": "hex",
@@ -5949,7 +5733,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#7E57C2",
-    "sort_order": 496
+    "sort_order": 478
   },
   {
     "id": "cpan",
@@ -5961,7 +5745,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#1A6FA0",
-    "sort_order": 497
+    "sort_order": 479
   },
   {
     "id": "ctan",
@@ -5973,7 +5757,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#3F7E9E",
-    "sort_order": 498
+    "sort_order": 480
   },
   {
     "id": "freshmeat",
@@ -5985,7 +5769,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#5C6BC0",
-    "sort_order": 499
+    "sort_order": 481
   },
   {
     "id": "fsf",
@@ -5997,19 +5781,7 @@
     "is_active": true,
     "logo_icon": "Package",
     "color": "#5C6BC0",
-    "sort_order": 500
-  },
-  {
-    "id": "foss",
-    "name": "FOSS Directory",
-    "platform_type": "directory",
-    "base_url": "https://foss.directory",
-    "search_url_template": "https://foss.directory/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Package",
-    "color": "#43A047",
-    "sort_order": 501
+    "sort_order": 482
   },
   {
     "id": "archive-org",
@@ -6021,7 +5793,7 @@
     "is_active": true,
     "logo_icon": "Archive",
     "color": "#000000",
-    "sort_order": 502
+    "sort_order": 483
   },
   {
     "id": "archive-today",
@@ -6033,7 +5805,7 @@
     "is_active": true,
     "logo_icon": "Archive",
     "color": "#0E0E0E",
-    "sort_order": 503
+    "sort_order": 484
   },
   {
     "id": "archive-is",
@@ -6045,19 +5817,7 @@
     "is_active": true,
     "logo_icon": "Archive",
     "color": "#0E0E0E",
-    "sort_order": 504
-  },
-  {
-    "id": "webcite",
-    "name": "WebCite",
-    "platform_type": "archive",
-    "base_url": "https://www.webcitation.org",
-    "search_url_template": "https://www.webcitation.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Archive",
-    "color": "#5C6BC0",
-    "sort_order": 505
+    "sort_order": 485
   },
   {
     "id": "wayback",
@@ -6069,7 +5829,7 @@
     "is_active": true,
     "logo_icon": "Archive",
     "color": "#000000",
-    "sort_order": 506
+    "sort_order": 486
   },
   {
     "id": "openstreetmap",
@@ -6081,7 +5841,7 @@
     "is_active": true,
     "logo_icon": "Globe",
     "color": "#7EBC6F",
-    "sort_order": 507
+    "sort_order": 487
   },
   {
     "id": "openlibrary",
@@ -6093,7 +5853,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#336699",
-    "sort_order": 508
+    "sort_order": 488
   },
   {
     "id": "project-gutenberg",
@@ -6105,7 +5865,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#5C6BC0",
-    "sort_order": 509
+    "sort_order": 489
   },
   {
     "id": "wikimedia-meta",
@@ -6117,7 +5877,31 @@
     "is_active": true,
     "logo_icon": "Database",
     "color": "#666666",
-    "sort_order": 510
+    "sort_order": 490
+  },
+  {
+    "id": "worldcat",
+    "name": "WorldCat",
+    "platform_type": "directory",
+    "base_url": "https://www.worldcat.org",
+    "search_url_template": "https://www.worldcat.org/search?q={query}",
+    "verify_url_pattern": "immaculate\\.tr",
+    "is_active": true,
+    "logo_icon": "BookOpen",
+    "color": "#5C6BC0",
+    "sort_order": 491
+  },
+  {
+    "id": "dbpedia",
+    "name": "DBpedia Lookup",
+    "platform_type": "directory",
+    "base_url": "https://dbpedia.org",
+    "search_url_template": "https://lookup.dbpedia.org/api/search?query={query}",
+    "verify_url_pattern": "immaculate\\.tr",
+    "is_active": true,
+    "logo_icon": "Database",
+    "color": "#FF7A59",
+    "sort_order": 492
   },
   {
     "id": "arxiv",
@@ -6129,7 +5913,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#B31B1B",
-    "sort_order": 511
+    "sort_order": 493
   },
   {
     "id": "doaj",
@@ -6141,7 +5925,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#00A651",
-    "sort_order": 512
+    "sort_order": 494
   },
   {
     "id": "plos",
@@ -6153,7 +5937,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#C10B0B",
-    "sort_order": 513
+    "sort_order": 495
   },
   {
     "id": "semantic-scholar",
@@ -6165,7 +5949,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#1857B6",
-    "sort_order": 514
+    "sort_order": 496
   },
   {
     "id": "core",
@@ -6177,7 +5961,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#004B87",
-    "sort_order": 515
+    "sort_order": 497
   },
   {
     "id": "zenodo",
@@ -6189,7 +5973,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#00B5A5",
-    "sort_order": 516
+    "sort_order": 498
   },
   {
     "id": "figshare",
@@ -6201,7 +5985,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#1A1A1A",
-    "sort_order": 517
+    "sort_order": 499
   },
   {
     "id": "osf",
@@ -6213,7 +5997,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#2D2D2D",
-    "sort_order": 518
+    "sort_order": 500
   },
   {
     "id": "dblp",
@@ -6225,7 +6009,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#1B5E20",
-    "sort_order": 519
+    "sort_order": 501
   },
   {
     "id": "crossref",
@@ -6237,31 +6021,43 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#3B82F6",
-    "sort_order": 520
+    "sort_order": 502
   },
   {
-    "id": "opencitations",
-    "name": "OpenCitations",
+    "id": "openalex",
+    "name": "OpenAlex",
     "platform_type": "academic",
-    "base_url": "https://opencitations.net",
-    "search_url_template": "https://opencitations.net/",
+    "base_url": "https://openalex.org",
+    "search_url_template": "https://api.openalex.org/works?search={query}",
     "verify_url_pattern": "immaculate\\.tr",
     "is_active": true,
     "logo_icon": "BookOpen",
-    "color": "#4A4A4A",
-    "sort_order": 521
+    "color": "#6A5ACD",
+    "sort_order": 503
   },
   {
-    "id": "connected-papers",
-    "name": "Connected Papers",
+    "id": "ia-scholar",
+    "name": "Internet Archive Scholar",
     "platform_type": "academic",
-    "base_url": "https://www.connectedpapers.com",
-    "search_url_template": "https://www.connectedpapers.com/",
+    "base_url": "https://scholar.archive.org",
+    "search_url_template": "https://scholar.archive.org/search?q={query}",
     "verify_url_pattern": "immaculate\\.tr",
     "is_active": true,
     "logo_icon": "BookOpen",
-    "color": "#5C6BC0",
-    "sort_order": 522
+    "color": "#000000",
+    "sort_order": 504
+  },
+  {
+    "id": "hathitrust",
+    "name": "HathiTrust",
+    "platform_type": "academic",
+    "base_url": "https://www.hathitrust.org",
+    "search_url_template": "https://babel.hathitrust.org/cgi/ls?q1={query};a=srchls;lmt=ft",
+    "verify_url_pattern": "immaculate\\.tr",
+    "is_active": true,
+    "logo_icon": "BookOpen",
+    "color": "#8B1A1A",
+    "sort_order": 505
   },
   {
     "id": "readthedocs",
@@ -6273,31 +6069,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#8CA1AF",
-    "sort_order": 523
-  },
-  {
-    "id": "gitbook",
-    "name": "GitBook",
-    "platform_type": "docs",
-    "base_url": "https://www.gitbook.com",
-    "search_url_template": "https://www.gitbook.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#3884FF",
-    "sort_order": 524
-  },
-  {
-    "id": "docusaurus",
-    "name": "Docusaurus",
-    "platform_type": "docs",
-    "base_url": "https://docusaurus.io",
-    "search_url_template": "https://docusaurus.io/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#3ECC8F",
-    "sort_order": 525
+    "sort_order": 506
   },
   {
     "id": "mdn",
@@ -6309,19 +6081,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#000000",
-    "sort_order": 526
-  },
-  {
-    "id": "devdocs",
-    "name": "DevDocs",
-    "platform_type": "docs",
-    "base_url": "https://devdocs.io",
-    "search_url_template": "https://devdocs.io/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#5C6BC0",
-    "sort_order": 527
+    "sort_order": 507
   },
   {
     "id": "cdnjs",
@@ -6333,7 +6093,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#E6852C",
-    "sort_order": 528
+    "sort_order": 508
   },
   {
     "id": "jsdelivr",
@@ -6345,91 +6105,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#F84F2C",
-    "sort_order": 529
-  },
-  {
-    "id": "unpkg",
-    "name": "unpkg",
-    "platform_type": "docs",
-    "base_url": "https://unpkg.com",
-    "search_url_template": "https://unpkg.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#000000",
-    "sort_order": 530
-  },
-  {
-    "id": "discourse-org",
-    "name": "Discourse",
-    "platform_type": "forum",
-    "base_url": "https://www.discourse.org",
-    "search_url_template": "https://www.discourse.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "MessageCircle",
-    "color": "#000000",
-    "sort_order": 531
-  },
-  {
-    "id": "fluxbb",
-    "name": "FluxBB",
-    "platform_type": "forum",
-    "base_url": "https://fluxbb.org",
-    "search_url_template": "https://fluxbb.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "MessageCircle",
-    "color": "#5C6BC0",
-    "sort_order": 532
-  },
-  {
-    "id": "phpbb",
-    "name": "phpBB",
-    "platform_type": "forum",
-    "base_url": "https://www.phpbb.com",
-    "search_url_template": "https://www.phpbb.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "MessageCircle",
-    "color": "#5A7CA0",
-    "sort_order": 533
-  },
-  {
-    "id": "vanilla",
-    "name": "Vanilla Forums",
-    "platform_type": "forum",
-    "base_url": "https://vanillaforums.com",
-    "search_url_template": "https://vanillaforums.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "MessageCircle",
-    "color": "#2D2D2D",
-    "sort_order": 534
-  },
-  {
-    "id": "flarum",
-    "name": "Flarum",
-    "platform_type": "forum",
-    "base_url": "https://flarum.org",
-    "search_url_template": "https://flarum.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "MessageCircle",
-    "color": "#1876E4",
-    "sort_order": 535
-  },
-  {
-    "id": "nodebb",
-    "name": "NodeBB",
-    "platform_type": "forum",
-    "base_url": "https://nodebb.org",
-    "search_url_template": "https://nodebb.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "MessageCircle",
-    "color": "#1A8B3E",
-    "sort_order": 536
+    "sort_order": 509
   },
   {
     "id": "flickr",
@@ -6441,7 +6117,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#0063DC",
-    "sort_order": 537
+    "sort_order": 510
   },
   {
     "id": "wikimedia-video",
@@ -6453,7 +6129,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#0066CC",
-    "sort_order": 538
+    "sort_order": 511
   },
   {
     "id": "openclipart",
@@ -6465,19 +6141,19 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#000000",
-    "sort_order": 539
+    "sort_order": 512
   },
   {
-    "id": "openphoto",
-    "name": "OpenPhoto",
+    "id": "openverse",
+    "name": "Openverse",
     "platform_type": "media",
-    "base_url": "https://openphoto.net",
-    "search_url_template": "https://openphoto.net/",
+    "base_url": "https://openverse.org",
+    "search_url_template": "https://api.openverse.org/v1/images/?q={query}",
     "verify_url_pattern": "immaculate\\.tr",
     "is_active": true,
     "logo_icon": "Image",
-    "color": "#5C6BC0",
-    "sort_order": 540
+    "color": "#0A1B2A",
+    "sort_order": 513
   },
   {
     "id": "freemusicarchive",
@@ -6489,19 +6165,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#1A1A1A",
-    "sort_order": 541
-  },
-  {
-    "id": "ccmixter",
-    "name": "ccMixter",
-    "platform_type": "media",
-    "base_url": "https://ccmixter.org",
-    "search_url_template": "https://ccmixter.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Image",
-    "color": "#FF6600",
-    "sort_order": 542
+    "sort_order": 514
   },
   {
     "id": "bandcamp",
@@ -6513,7 +6177,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#1DA0C3",
-    "sort_order": 543
+    "sort_order": 515
   },
   {
     "id": "jamendo",
@@ -6525,7 +6189,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#0054A6",
-    "sort_order": 544
+    "sort_order": 516
   },
   {
     "id": "soundcloud",
@@ -6537,7 +6201,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#FF5500",
-    "sort_order": 545
+    "sort_order": 517
   },
   {
     "id": "audius",
@@ -6549,7 +6213,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#CC2567",
-    "sort_order": 546
+    "sort_order": 518
   },
   {
     "id": "vimeo",
@@ -6561,7 +6225,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#1AB7EA",
-    "sort_order": 547
+    "sort_order": 519
   },
   {
     "id": "invidious",
@@ -6573,67 +6237,7 @@
     "is_active": true,
     "logo_icon": "Image",
     "color": "#5C6BC0",
-    "sort_order": 548
-  },
-  {
-    "id": "mediagoblin",
-    "name": "MediaGoblin",
-    "platform_type": "media",
-    "base_url": "https://mediagoblin.org",
-    "search_url_template": "https://mediagoblin.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Image",
-    "color": "#1A8B3E",
-    "sort_order": 549
-  },
-  {
-    "id": "rss-bridge",
-    "name": "RSS Bridge",
-    "platform_type": "feed",
-    "base_url": "https://rss-bridge.org",
-    "search_url_template": "https://rss-bridge.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Newspaper",
-    "color": "#5C6BC0",
-    "sort_order": 550
-  },
-  {
-    "id": "miniflux",
-    "name": "Miniflux",
-    "platform_type": "feed",
-    "base_url": "https://miniflux.app",
-    "search_url_template": "https://miniflux.app/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Newspaper",
-    "color": "#5C6BC0",
-    "sort_order": 551
-  },
-  {
-    "id": "freshrss",
-    "name": "FreshRSS",
-    "platform_type": "feed",
-    "base_url": "https://freshrss.org",
-    "search_url_template": "https://freshrss.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Newspaper",
-    "color": "#0066CC",
-    "sort_order": 552
-  },
-  {
-    "id": "tt-rss",
-    "name": "Tiny Tiny RSS",
-    "platform_type": "feed",
-    "base_url": "https://tt-rss.org",
-    "search_url_template": "https://tt-rss.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "Newspaper",
-    "color": "#FF8800",
-    "sort_order": 553
+    "sort_order": 520
   },
   {
     "id": "openstreetmap-wiki",
@@ -6645,7 +6249,7 @@
     "is_active": true,
     "logo_icon": "Globe",
     "color": "#7EBC6F",
-    "sort_order": 554
+    "sort_order": 521
   },
   {
     "id": "archwiki",
@@ -6657,7 +6261,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#1793D1",
-    "sort_order": 555
+    "sort_order": 522
   },
   {
     "id": "gentoo-wiki",
@@ -6669,7 +6273,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#54487A",
-    "sort_order": 556
+    "sort_order": 523
   },
   {
     "id": "debian-wiki",
@@ -6681,7 +6285,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#A81D33",
-    "sort_order": 557
+    "sort_order": 524
   },
   {
     "id": "ubuntu-wiki",
@@ -6693,7 +6297,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#E95420",
-    "sort_order": 558
+    "sort_order": 525
   },
   {
     "id": "fedora-wiki",
@@ -6705,7 +6309,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#3C6EB4",
-    "sort_order": 559
+    "sort_order": 526
   },
   {
     "id": "freebsd-wiki",
@@ -6717,19 +6321,19 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#AB2B28",
-    "sort_order": 560
+    "sort_order": 527
   },
   {
     "id": "openbsd-wiki",
     "name": "OpenBSD Wiki",
     "platform_type": "wiki",
     "base_url": "https://wiki.openbsd.org",
-    "search_url_template": "https://wiki.openbsd.org/",
+    "search_url_template": "https://wiki.openbsd.org/wiki/Special:Search?search={query}",
     "verify_url_pattern": "immaculate\\.tr",
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#E8E8E8",
-    "sort_order": 561
+    "sort_order": 528
   },
   {
     "id": "nixos-wiki",
@@ -6741,7 +6345,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#7E57C2",
-    "sort_order": 562
+    "sort_order": 529
   },
   {
     "id": "alpine-wiki",
@@ -6753,7 +6357,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#0D597F",
-    "sort_order": 563
+    "sort_order": 530
   },
   {
     "id": "mozilla-wiki",
@@ -6765,7 +6369,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#000000",
-    "sort_order": 564
+    "sort_order": 531
   },
   {
     "id": "opensuse-wiki",
@@ -6777,7 +6381,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#73BA25",
-    "sort_order": 565
+    "sort_order": 532
   },
   {
     "id": "caddy-wiki",
@@ -6789,31 +6393,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#1F8C8A",
-    "sort_order": 566
-  },
-  {
-    "id": "nginx-docs",
-    "name": "NGINX Docs",
-    "platform_type": "docs",
-    "base_url": "https://nginx.org",
-    "search_url_template": "https://nginx.org/en/docs/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#009639",
-    "sort_order": 567
-  },
-  {
-    "id": "apache-docs",
-    "name": "Apache Docs",
-    "platform_type": "docs",
-    "base_url": "https://httpd.apache.org",
-    "search_url_template": "https://httpd.apache.org/docs/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#B21142",
-    "sort_order": 568
+    "sort_order": 533
   },
   {
     "id": "docker-docs",
@@ -6825,7 +6405,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#2496ED",
-    "sort_order": 569
+    "sort_order": 534
   },
   {
     "id": "k8s-docs",
@@ -6837,19 +6417,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#326CE5",
-    "sort_order": 570
-  },
-  {
-    "id": "nodejs-docs",
-    "name": "Node.js Docs",
-    "platform_type": "docs",
-    "base_url": "https://nodejs.org",
-    "search_url_template": "https://nodejs.org/en/docs/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#5FA04E",
-    "sort_order": 571
+    "sort_order": 535
   },
   {
     "id": "python-docs",
@@ -6861,7 +6429,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#3776AB",
-    "sort_order": 572
+    "sort_order": 536
   },
   {
     "id": "rust-docs",
@@ -6873,7 +6441,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#000000",
-    "sort_order": 573
+    "sort_order": 537
   },
   {
     "id": "go-docs",
@@ -6885,19 +6453,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#00ADD8",
-    "sort_order": 574
-  },
-  {
-    "id": "ruby-docs",
-    "name": "Ruby Docs",
-    "platform_type": "docs",
-    "base_url": "https://docs.ruby-lang.org",
-    "search_url_template": "https://docs.ruby-lang.org/en/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#CC342D",
-    "sort_order": 575
+    "sort_order": 538
   },
   {
     "id": "php-docs",
@@ -6909,7 +6465,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#777BB4",
-    "sort_order": 576
+    "sort_order": 539
   },
   {
     "id": "java-docs",
@@ -6921,7 +6477,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#ED8B00",
-    "sort_order": 577
+    "sort_order": 540
   },
   {
     "id": "cpp-docs",
@@ -6933,7 +6489,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#659AD2",
-    "sort_order": 578
+    "sort_order": 541
   },
   {
     "id": "elixir-docs",
@@ -6945,43 +6501,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#4B275F",
-    "sort_order": 579
-  },
-  {
-    "id": "haskell-docs",
-    "name": "Haskell Docs",
-    "platform_type": "docs",
-    "base_url": "https://haskell.org",
-    "search_url_template": "https://haskell.org/documentation.html",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#5E5086",
-    "sort_order": 580
-  },
-  {
-    "id": "swift-docs",
-    "name": "Swift Docs",
-    "platform_type": "docs",
-    "base_url": "https://swift.org",
-    "search_url_template": "https://swift.org/documentation/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#FA7343",
-    "sort_order": 581
-  },
-  {
-    "id": "kotlin-docs",
-    "name": "Kotlin Docs",
-    "platform_type": "docs",
-    "base_url": "https://kotlinlang.org",
-    "search_url_template": "https://kotlinlang.org/docs/home.html",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#7F52FF",
-    "sort_order": 582
+    "sort_order": 542
   },
   {
     "id": "scala-docs",
@@ -6993,31 +6513,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#DC322F",
-    "sort_order": 583
-  },
-  {
-    "id": "perl-docs",
-    "name": "Perl Docs",
-    "platform_type": "docs",
-    "base_url": "https://perldoc.perl.org",
-    "search_url_template": "https://perldoc.perl.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#39A0DC",
-    "sort_order": 584
-  },
-  {
-    "id": "lua-docs",
-    "name": "Lua Docs",
-    "platform_type": "docs",
-    "base_url": "https://www.lua.org",
-    "search_url_template": "https://www.lua.org/docs.html",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#000080",
-    "sort_order": 585
+    "sort_order": 543
   },
   {
     "id": "dart-docs",
@@ -7029,19 +6525,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#00BCD4",
-    "sort_order": 586
-  },
-  {
-    "id": "typescript-docs",
-    "name": "TypeScript Docs",
-    "platform_type": "docs",
-    "base_url": "https://www.typescriptlang.org",
-    "search_url_template": "https://www.typescriptlang.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#3178C6",
-    "sort_order": 587
+    "sort_order": 544
   },
   {
     "id": "react-docs",
@@ -7053,19 +6537,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#087EA4",
-    "sort_order": 588
-  },
-  {
-    "id": "vue-docs",
-    "name": "Vue Docs",
-    "platform_type": "docs",
-    "base_url": "https://vuejs.org",
-    "search_url_template": "https://vuejs.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#42B883",
-    "sort_order": 589
+    "sort_order": 545
   },
   {
     "id": "angular-docs",
@@ -7077,151 +6549,7 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#DD0031",
-    "sort_order": 590
-  },
-  {
-    "id": "svelte-docs",
-    "name": "Svelte Docs",
-    "platform_type": "docs",
-    "base_url": "https://svelte.dev",
-    "search_url_template": "https://svelte.dev/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#FF3E00",
-    "sort_order": 591
-  },
-  {
-    "id": "nextjs-docs",
-    "name": "Next.js Docs",
-    "platform_type": "docs",
-    "base_url": "https://nextjs.org",
-    "search_url_template": "https://nextjs.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#000000",
-    "sort_order": 592
-  },
-  {
-    "id": "nuxt-docs",
-    "name": "Nuxt Docs",
-    "platform_type": "docs",
-    "base_url": "https://nuxt.com",
-    "search_url_template": "https://nuxt.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#00DC82",
-    "sort_order": 593
-  },
-  {
-    "id": "astro-docs",
-    "name": "Astro Docs",
-    "platform_type": "docs",
-    "base_url": "https://astro.build",
-    "search_url_template": "https://astro.build/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#FF5D01",
-    "sort_order": 594
-  },
-  {
-    "id": "remix-docs",
-    "name": "Remix Docs",
-    "platform_type": "docs",
-    "base_url": "https://remix.run",
-    "search_url_template": "https://remix.run/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#3992FF",
-    "sort_order": 595
-  },
-  {
-    "id": "vite-docs",
-    "name": "Vite Docs",
-    "platform_type": "docs",
-    "base_url": "https://vitejs.dev",
-    "search_url_template": "https://vitejs.dev/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#646CFF",
-    "sort_order": 596
-  },
-  {
-    "id": "webpack-docs",
-    "name": "Webpack Docs",
-    "platform_type": "docs",
-    "base_url": "https://webpack.js.org",
-    "search_url_template": "https://webpack.js.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#1C78C0",
-    "sort_order": 597
-  },
-  {
-    "id": "rollup-docs",
-    "name": "Rollup Docs",
-    "platform_type": "docs",
-    "base_url": "https://rollupjs.org",
-    "search_url_template": "https://rollupjs.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#EC4A3F",
-    "sort_order": 598
-  },
-  {
-    "id": "esbuild-docs",
-    "name": "esBuild Docs",
-    "platform_type": "docs",
-    "base_url": "https://esbuild.github.io",
-    "search_url_template": "https://esbuild.github.io/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#FFAA00",
-    "sort_order": 599
-  },
-  {
-    "id": "tailwind-docs",
-    "name": "Tailwind Docs",
-    "platform_type": "docs",
-    "base_url": "https://tailwindcss.com",
-    "search_url_template": "https://tailwindcss.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#06B6D4",
-    "sort_order": 600
-  },
-  {
-    "id": "bootstrap-docs",
-    "name": "Bootstrap Docs",
-    "platform_type": "docs",
-    "base_url": "https://getbootstrap.com",
-    "search_url_template": "https://getbootstrap.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#7952B3",
-    "sort_order": 601
-  },
-  {
-    "id": "jquery-docs",
-    "name": "jQuery Docs",
-    "platform_type": "docs",
-    "base_url": "https://jquery.com",
-    "search_url_template": "https://jquery.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#0769AD",
-    "sort_order": 602
+    "sort_order": 546
   },
   {
     "id": "django-docs",
@@ -7233,258 +6561,6 @@
     "is_active": true,
     "logo_icon": "BookOpen",
     "color": "#0C4B33",
-    "sort_order": 603
-  },
-  {
-    "id": "flask-docs",
-    "name": "Flask Docs",
-    "platform_type": "docs",
-    "base_url": "https://flask.palletsprojects.com",
-    "search_url_template": "https://flask.palletsprojects.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#000000",
-    "sort_order": 604
-  },
-  {
-    "id": "fastapi-docs",
-    "name": "FastAPI Docs",
-    "platform_type": "docs",
-    "base_url": "https://fastapi.tiangolo.com",
-    "search_url_template": "https://fastapi.tiangolo.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#009688",
-    "sort_order": 605
-  },
-  {
-    "id": "rails-docs",
-    "name": "Rails Docs",
-    "platform_type": "docs",
-    "base_url": "https://guides.rubyonrails.org",
-    "search_url_template": "https://guides.rubyonrails.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#CC0000",
-    "sort_order": 606
-  },
-  {
-    "id": "laravel-docs",
-    "name": "Laravel Docs",
-    "platform_type": "docs",
-    "base_url": "https://laravel.com",
-    "search_url_template": "https://laravel.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#FF2D20",
-    "sort_order": 607
-  },
-  {
-    "id": "spring-docs",
-    "name": "Spring Docs",
-    "platform_type": "docs",
-    "base_url": "https://spring.io",
-    "search_url_template": "https://spring.io/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#6DB33F",
-    "sort_order": 608
-  },
-  {
-    "id": "express-docs",
-    "name": "Express Docs",
-    "platform_type": "docs",
-    "base_url": "https://expressjs.com",
-    "search_url_template": "https://expressjs.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#000000",
-    "sort_order": 609
-  },
-  {
-    "id": "fastify-docs",
-    "name": "Fastify Docs",
-    "platform_type": "docs",
-    "base_url": "https://fastify.io",
-    "search_url_template": "https://fastify.io/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#000000",
-    "sort_order": 610
-  },
-  {
-    "id": "nestjs-docs",
-    "name": "NestJS Docs",
-    "platform_type": "docs",
-    "base_url": "https://nestjs.com",
-    "search_url_template": "https://nestjs.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#E0234E",
-    "sort_order": 611
-  },
-  {
-    "id": "actix-docs",
-    "name": "Actix Docs",
-    "platform_type": "docs",
-    "base_url": "https://actix.rs",
-    "search_url_template": "https://actix.rs/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#000000",
-    "sort_order": 612
-  },
-  {
-    "id": "axum-docs",
-    "name": "Axum Docs",
-    "platform_type": "docs",
-    "base_url": "https://docs.rs/axum",
-    "search_url_template": "https://docs.rs/axum",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#000000",
-    "sort_order": 613
-  },
-  {
-    "id": "rocket-docs",
-    "name": "Rocket Docs",
-    "platform_type": "docs",
-    "base_url": "https://rocket.rs",
-    "search_url_template": "https://rocket.rs/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#D3382B",
-    "sort_order": 614
-  },
-  {
-    "id": "gin-docs",
-    "name": "Gin Docs",
-    "platform_type": "docs",
-    "base_url": "https://gin-gonic.com",
-    "search_url_template": "https://gin-gonic.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#00BEC8",
-    "sort_order": 615
-  },
-  {
-    "id": "fiber-docs",
-    "name": "Fiber Docs",
-    "platform_type": "docs",
-    "base_url": "https://docs.gofiber.io",
-    "search_url_template": "https://docs.gofiber.io/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#00B570",
-    "sort_order": 616
-  },
-  {
-    "id": "echo-docs",
-    "name": "Echo Docs",
-    "platform_type": "docs",
-    "base_url": "https://echo.labstack.com",
-    "search_url_template": "https://echo.labstack.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#3FB0EF",
-    "sort_order": 617
-  },
-  {
-    "id": "phoenix-docs",
-    "name": "Phoenix Docs",
-    "platform_type": "docs",
-    "base_url": "https://hexdocs.pm/phoenix",
-    "search_url_template": "https://hexdocs.pm/phoenix/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#FD4F00",
-    "sort_order": 618
-  },
-  {
-    "id": "symfony-docs",
-    "name": "Symfony Docs",
-    "platform_type": "docs",
-    "base_url": "https://symfony.com",
-    "search_url_template": "https://symfony.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#000000",
-    "sort_order": 619
-  },
-  {
-    "id": "codeigniter-docs",
-    "name": "CodeIgniter Docs",
-    "platform_type": "docs",
-    "base_url": "https://codeigniter.com",
-    "search_url_template": "https://codeigniter.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#DD4814",
-    "sort_order": 620
-  },
-  {
-    "id": "yii-docs",
-    "name": "Yii Docs",
-    "platform_type": "docs",
-    "base_url": "https://www.yiiframework.com",
-    "search_url_template": "https://www.yiiframework.com/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#40B570",
-    "sort_order": 621
-  },
-  {
-    "id": "tornado-docs",
-    "name": "Tornado Docs",
-    "platform_type": "docs",
-    "base_url": "https://www.tornadoweb.org",
-    "search_url_template": "https://www.tornadoweb.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#000000",
-    "sort_order": 622
-  },
-  {
-    "id": "aiohttp-docs",
-    "name": "aiohttp Docs",
-    "platform_type": "docs",
-    "base_url": "https://docs.aiohttp.org",
-    "search_url_template": "https://docs.aiohttp.org/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#2C5BB4",
-    "sort_order": 623
-  },
-  {
-    "id": "starlette-docs",
-    "name": "Starlette Docs",
-    "platform_type": "docs",
-    "base_url": "https://www.starlette.io",
-    "search_url_template": "https://www.starlette.io/",
-    "verify_url_pattern": "immaculate\\.tr",
-    "is_active": true,
-    "logo_icon": "BookOpen",
-    "color": "#E91E63",
-    "sort_order": 624
+    "sort_order": 547
   }
 ]
