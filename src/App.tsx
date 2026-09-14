@@ -152,12 +152,12 @@ export default function App() {
   const scanPct = scanTotal > 0 ? Math.round((scanCompleted / scanTotal) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-[#0A0E14] text-slate-200">
-      <header className="sticky top-0 z-50 border-b border-white/5 bg-[#0A0E14]/90 backdrop-blur-xl">
+    <div className="min-h-screen bg-[#060B1A] text-slate-200">
+      <header className="sticky top-0 z-50 border-b border-white/5 bg-[#060B1A]/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg shadow-blue-500/20">
-              <TrendingUp className="h-5 w-5 text-white" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-lg shadow-yellow-500/20">
+              <TrendingUp className="h-5 w-5 text-[#060B1A]" />
             </div>
             <div>
               <h1 className="text-base font-bold text-white">Backlink Doğrulama Merkezi</h1>
@@ -182,7 +182,7 @@ export default function App() {
             <button
               onClick={runScan}
               disabled={isScanning}
-              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition-all hover:shadow-blue-500/40 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-500 px-4 py-2 text-sm font-semibold text-[#060B1A] shadow-lg shadow-yellow-500/20 transition-all hover:shadow-yellow-500/40 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isScanning ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -198,19 +198,19 @@ export default function App() {
       <main className="mx-auto max-w-7xl px-6 py-8">
         {/* Live Scan Progress */}
         {isScanning && (
-          <div className="mb-6 rounded-xl border border-blue-500/20 bg-blue-500/5 p-4">
+          <div className="mb-6 rounded-xl border border-yellow-500/20 bg-yellow-500/5 p-4">
             <div className="mb-2 flex items-center justify-between text-sm">
-              <span className="flex items-center gap-2 text-blue-300">
+              <span className="flex items-center gap-2 text-yellow-300">
                 <Activity className="h-4 w-4 animate-pulse" />
                 {scanCurrent} taranıyor...
               </span>
-              <span className="font-mono text-blue-300">
+              <span className="font-mono text-yellow-300">
                 {scanCompleted}/{scanTotal} ({scanPct}%)
               </span>
             </div>
-            <div className="h-2 overflow-hidden rounded-full bg-blue-950">
+            <div className="h-2 overflow-hidden rounded-full bg-yellow-950/60">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-500"
+                className="h-full rounded-full bg-gradient-to-r from-yellow-500 to-yellow-300 transition-all duration-500"
                 style={{ width: `${scanPct}%` }}
               />
             </div>
@@ -327,9 +327,9 @@ function OverviewTab({
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard label="Toplam Platform" value={sourcesCount} icon={Globe} color="#3B82F6" sublabel="Aktif açık kaynak" />
+        <StatCard label="Toplam Platform" value={sourcesCount} icon={Globe} color="#E5E7EB" sublabel="Aktif açık kaynak" />
         <StatCard label="Doğrulanmış Backlink" value={stats.verified} icon={CheckCircle2} color="#22C55E" sublabel={`${verifiedPct}% başarı oranı`} />
-        <StatCard label="Bulunamadı" value={stats.notFound} icon={XCircle} color="#F59E0B" sublabel="Backlink tespit edilmedi" />
+        <StatCard label="Bulunamadı" value={stats.notFound} icon={XCircle} color="#FACC15" sublabel="Backlink tespit edilmedi" />
         <StatCard label="Hata" value={stats.errors} icon={AlertCircle} color="#EF4444" sublabel="Erişilemedi" />
       </div>
 
@@ -343,7 +343,7 @@ function OverviewTab({
               <defs>
                 <linearGradient id="gradVerify" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#22C55E" />
-                  <stop offset="100%" stopColor="#3B82F6" />
+                  <stop offset="100%" stopColor="#FACC15" />
                 </linearGradient>
               </defs>
             </svg>
@@ -399,7 +399,7 @@ function OverviewTab({
       {historyByDate.length > 0 && (
         <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
           <h3 className="mb-4 flex items-center gap-2 text-sm font-medium text-slate-300">
-            <Clock className="h-4 w-4 text-blue-400" />
+            <Clock className="h-4 w-4 text-yellow-400" />
             Tarama Geçmişi
           </h3>
           <div className="space-y-3">
@@ -408,7 +408,7 @@ function OverviewTab({
                 <div className="w-32 shrink-0 text-xs text-slate-400">{date}</div>
                 <div className="flex-1">
                   <div className="h-2 overflow-hidden rounded-full bg-white/5">
-                    <div className="h-full rounded-full bg-gradient-to-r from-green-500 to-blue-500 transition-all" style={{ width: `${verifiedPct}%` }} />
+                    <div className="h-full rounded-full bg-gradient-to-r from-green-500 to-yellow-400 transition-all" style={{ width: `${verifiedPct}%` }} />
                   </div>
                 </div>
                 <div className="w-24 shrink-0 text-right text-xs tabular-nums text-slate-300">{stats.verified}/{stats.total} doğrulandı</div>
@@ -442,7 +442,7 @@ function SourcesTab({ sources }: { sources: BacklinkSource[] }) {
                   )}
                 </div>
                 <p className="mt-1 text-xs capitalize text-slate-400">{src.platform_type}</p>
-                <a href={src.base_url} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-1 text-xs text-slate-500 transition-colors hover:text-blue-400">
+                <a href={src.base_url} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-1 text-xs text-slate-500 transition-colors hover:text-yellow-400">
                   {src.base_url.replace("https://", "")}
                   <ArrowUpRight className="h-3 w-3" />
                 </a>
@@ -504,7 +504,7 @@ function ResultsTab({
         <div className="overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02]">
           <div className="max-h-[600px] overflow-y-auto">
             <table className="w-full">
-              <thead className="sticky top-0 bg-[#0A0E14]">
+              <thead className="sticky top-0 bg-[#060B1A]">
                 <tr className="border-b border-white/5 text-left text-xs text-slate-500">
                   <th className="px-4 py-3 font-medium">Platform</th>
                   <th className="px-4 py-3 font-medium">Durum</th>
@@ -564,7 +564,7 @@ function SetupTab({ sourcesCount }: { sourcesCount: number }) {
     <div className="space-y-6">
       <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
         <h3 className="mb-2 flex items-center gap-2 text-lg font-semibold text-white">
-          <Info className="h-5 w-5 text-blue-400" />
+          <Info className="h-5 w-5 text-yellow-400" />
           Nasıl Çalışır?
         </h3>
         <p className="text-sm text-slate-400">
@@ -575,13 +575,13 @@ function SetupTab({ sourcesCount }: { sourcesCount: number }) {
 
       <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
         <h3 className="mb-4 flex items-center gap-2 text-base font-semibold text-white">
-          <Settings className="h-5 w-5 text-blue-400" />
+          <Settings className="h-5 w-5 text-yellow-400" />
           Kurulum Adımları
         </h3>
         <div className="space-y-4">
           {steps.map((step, i) => (
             <div key={i} className="flex gap-4">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-sm font-bold text-blue-400">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-yellow-500/10 text-sm font-bold text-yellow-400">
                 {i + 1}
               </div>
               <div className="flex-1">
@@ -593,7 +593,7 @@ function SetupTab({ sourcesCount }: { sourcesCount: number }) {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-blue-500/10 bg-blue-500/[0.03] p-6">
+      <div className="rounded-2xl border border-yellow-500/10 bg-yellow-500/[0.03] p-6">
         <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-white">
           <Play className="h-4 w-4 text-green-400" />
           Tarayıcıdan Tarama
@@ -608,7 +608,7 @@ function SetupTab({ sourcesCount }: { sourcesCount: number }) {
 
       <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
         <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-white">
-          <Clock className="h-4 w-4 text-blue-400" />
+          <Clock className="h-4 w-4 text-yellow-400" />
           Otomatik Haftalık Tarama
         </h3>
         <p className="text-sm text-slate-400">
@@ -620,7 +620,7 @@ function SetupTab({ sourcesCount }: { sourcesCount: number }) {
 
       <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
         <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-white">
-          <Database className="h-4 w-4 text-blue-400" />
+          <Database className="h-4 w-4 text-yellow-400" />
           Platform Dağılımı
         </h3>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
@@ -653,7 +653,7 @@ function SetupTab({ sourcesCount }: { sourcesCount: number }) {
 function StatusBadge({ status }: { status: VerificationResult["status"] }) {
   const config = {
     verified: { icon: CheckCircle2, text: "Doğrulandı", color: "text-green-400", bg: "bg-green-500/10", border: "border-green-500/20" },
-    not_found: { icon: XCircle, text: "Bulunamadı", color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
+    not_found: { icon: XCircle, text: "Bulunamadı", color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20" },
     error: { icon: AlertCircle, text: "Hata", color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20" },
   };
   const c = config[status];
