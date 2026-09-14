@@ -4,7 +4,12 @@ import { TARGET_DOMAIN, SOURCES } from "@/lib/sources";
 export interface VerificationResult {
   source_id: string;
   source_name: string;
-  status: "verified" | "not_found" | "error";
+  /**
+   * "server_only" means this platform doesn't support cross-origin browser
+   * requests (see BacklinkSource.cors_ok) and simply hasn't been checked yet
+   * by the weekly GitHub Actions run — it is NOT an error, just "no data yet".
+   */
+  status: "verified" | "not_found" | "error" | "server_only";
   found_url: string | null;
   http_status: number | null;
   response_time_ms: number | null;
@@ -120,11 +125,47 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+const SERVER_ONLY_MESSAGE =
+  "Bu platform tarayıcıdan (CORS) doğrudan erişilemiyor; yalnızca haftalık GitHub Actions taramasında kontrol edilir.";
+
+/**
+ * For a platform that doesn't support cross-origin browser fetches, there is
+ * nothing useful to do from the browser: attempting fetch() would just burn
+ * a 15s timeout and produce a guaranteed, misleading "Hata". Instead, reuse
+ * whatever the last real (server-side) check found for it, if we have one —
+ * otherwise report it honestly as "not checked from the browser yet" rather
+ * than a false error.
+ */
+function serverOnlyResult(
+  source: BacklinkSource,
+  previous?: VerificationResult
+): VerificationResult {
+  if (previous && (previous.status === "verified" || previous.status === "not_found" || previous.status === "error")) {
+    return { ...previous, source_id: source.id, source_name: source.name };
+  }
+  return {
+    source_id: source.id,
+    source_name: source.name,
+    status: "server_only",
+    found_url: null,
+    http_status: null,
+    response_time_ms: null,
+    page_title: null,
+    anchor_text: null,
+    error_message: SERVER_ONLY_MESSAGE,
+  };
+}
+
 async function verifySource(
   source: BacklinkSource,
   domain: string,
-  throttle: Map<string, number>
+  throttle: Map<string, number>,
+  previousBySourceId?: Map<string, VerificationResult>
 ): Promise<VerificationResult> {
+  if (!source.cors_ok) {
+    return serverOnlyResult(source, previousBySourceId?.get(source.id));
+  }
+
   const startTime = Date.now();
   const query = encodeURIComponent(domain);
   const searchUrl = source.search_url_template.replace("{query}", query);
@@ -225,19 +266,28 @@ export type ProgressCallback = (completed: number, total: number, currentName: s
 export async function runVerification(
   domain: string,
   sourcesToScan: BacklinkSource[],
-  onProgress?: ProgressCallback
+  onProgress?: ProgressCallback,
+  previousResults?: VerificationResult[]
 ): Promise<VerificationResult[]> {
   const active = sourcesToScan.filter((s) => s.is_active);
   const concurrencyLimit = 8;
   const throttle = new Map<string, number>();
   const results: VerificationResult[] = [];
+  const previousBySourceId = new Map<string, VerificationResult>();
+  for (const r of previousResults || []) {
+    previousBySourceId.set(r.source_id, r);
+  }
   let completed = 0;
 
+  // "Kademeli" rollout: sources are checked in small concurrent batches with a
+  // per-domain throttle (see waitForDomainSlot) rather than all 500+ at once,
+  // so shared infrastructure (e.g. every Wikipedia language edition) never
+  // gets hit hard enough to trigger 429s.
   for (let i = 0; i < active.length; i += concurrencyLimit) {
     const batch = active.slice(i, i + concurrencyLimit);
     const batchResults = await Promise.all(
       batch.map(async (src) => {
-        const result = await verifySource(src, domain, throttle);
+        const result = await verifySource(src, domain, throttle, previousBySourceId);
         completed++;
         if (onProgress) {
           onProgress(completed, active.length, src.name);
