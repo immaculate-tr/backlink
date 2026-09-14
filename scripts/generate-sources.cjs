@@ -264,7 +264,8 @@ add("softwareheritage","Software Heritage","directory","https://archive.software
 
 // === SOCIAL / NEWS ===
 add("reddit","Reddit","social","https://www.reddit.com","https://www.reddit.com/search/.json?q={query}&limit=25","MessageCircle","#FF4500");
-add("hackernews","Hacker News","social","https://news.ycombinator.com","https://hn.algolia.com/api/v1/search?query={query}","Newspaper","#FF6600");
+add("hackernews","Hacker News","social","https://news.ycombinator.com","https://hn.algolia.com/api/v1/search?query={query}","MessageCircle","#FF6600");
+add("bluesky","Bluesky","social","https://bsky.app","https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q={query}","MessageCircle","#0085FF");
 add("lobsters","Lobsters","social","https://lobste.rs","https://lobste.rs/search.json?q={query}","Newspaper","#AC130D");
 add("slashdot","Slashdot","social","https://slashdot.org","https://slashdot.org/search?query={query}","Newspaper","#026664");
 add("quora","Quora","qa","https://www.quora.com","https://www.quora.com/search?q={query}","HelpCircle","#B92B27");
@@ -277,7 +278,6 @@ add("nextcloud","Nextcloud Forum","social","https://help.nextcloud.com","https:/
 add("discourse-meta","Discourse Meta","social","https://meta.discourse.org","https://meta.discourse.org/search?q={query}","MessageCircle","#000000");
 
 // === BLOG / PUBLISHING ===
-add("devto","Dev.to","social","https://dev.to","https://dev.to/search/feed?q={query}&per_page=30","Code","#0A0A0A");
 add("medium","Medium","social","https://medium.com","https://medium.com/search?q={query}","PenTool","#12100E");
 add("hashnode","Hashnode","social","https://hashnode.com","https://hashnode.com/search?q={query}","Code","#2962FF");
 add("substack","Substack","social","https://substack.com","https://substack.com/search/{query}","PenTool","#FF6719");
@@ -298,7 +298,6 @@ add("startpage","Startpage","search","https://www.startpage.com","https://www.st
 add("brave-search","Brave Search","search","https://search.brave.com","https://search.brave.com/search?q={query}","Search","#FB542B");
 add("ecosia","Ecosia","search","https://www.ecosia.org","https://www.ecosia.org/search?q={query}","Search","#1A8B3E");
 add("swisscows","Swisscows","search","https://swisscows.com","https://swisscows.com/web?query={query}","Search","#DC0000");
-add("mojeek","Mojeek","search","https://www.mojeek.com","https://www.mojeek.com/search?q={query}","Search","#4D8FAC");
 add("searx","Searx","search","https://searx.be","https://searx.be/search?q={query}","Search","#3050C0");
 add("qwant","Qwant","search","https://www.qwant.com","https://www.qwant.com/?q={query}","Search","#5C97FF");
 add("dogpile","Dogpile","search","https://www.dogpile.com","https://www.dogpile.com/serp?q={query}","Search","#D03C2A");
@@ -324,6 +323,7 @@ add("snap","Snap Store","directory","https://snapcraft.io","https://snapcraft.io
 add("fdroid","F-Droid","directory","https://f-droid.org","https://search.f-droid.org/?q={query}","Package","#1976D2");
 add("sourceforge","SourceForge","directory","https://sourceforge.net","https://sourceforge.net/search/?q={query}","Package","#FF6600");
 add("docker-hub","Docker Hub","directory","https://hub.docker.com","https://hub.docker.com/search?q={query}","Package","#2496ED");
+add("huggingface","Hugging Face","directory","https://huggingface.co","https://huggingface.co/api/models?search={query}","Package","#FFD21E");
 add("hackage","Hackage (Haskell)","directory","https://hackage.haskell.org","https://hackage.haskell.org/search?terms={query}","Package","#5E5086");
 add("clojars","Clojars","directory","https://clojars.org","https://clojars.org/search?q={query}","Package","#4A8B5C");
 add("pub-dev","pub.dev (Dart)","directory","https://pub.dev","https://pub.dev/packages?q={query}","Package","#00BCD4");
@@ -335,8 +335,6 @@ add("fsf","FSF Directory","directory","https://directory.fsf.org","https://direc
 
 // === ARCHIVES ===
 add("archive-org","Internet Archive","archive","https://archive.org","https://archive.org/advancedsearch.php?q={query}&fl[]=identifier&fl[]=title&fl[]=url&rows=25&output=json","Archive","#000000");
-add("archive-today","archive.today","archive","https://archive.ph","https://archive.ph/{query}","Archive","#0E0E0E");
-add("archive-is","archive.is","archive","https://archive.is","https://archive.is/{query}","Archive","#0E0E0E");
 add("wayback","Wayback Machine","archive","https://web.archive.org","https://web.archive.org/cdx/search/cdx?url={query}&output=json&limit=25","Archive","#000000");
 
 // === DIRECTORY / MAPPING ===
