@@ -112,21 +112,51 @@ function getBaseDomain(url) {
   }
 }
 
+// Every language edition of Wikipedia, plus every sister project
+// (Wiktionary, Wikiquote, Wikibooks, ...), is served by the SAME shared
+// Wikimedia backend and rate limiter — even though "en.wikipedia.org" and
+// "en.wiktionary.org" are different base domains by the naive last-two-labels
+// rule above. Grouping them under one throttle key (instead of one per base
+// domain) is what actually avoids the 429s a per-host-only throttle can't
+// prevent, since dozens of "different" base domains could otherwise still be
+// hit in near-parallel. Same idea for the Stack Exchange network: every site
+// is a `?site=` parameter against the single host api.stackexchange.com, so
+// getBaseDomain already collapses it to one key — it just needs a wider gap
+// now that this script is the only thing checking all 128 of them.
+const WIKIMEDIA_HOST_SUFFIXES = [
+  "wikipedia.org", "wiktionary.org", "wikiquote.org", "wikibooks.org",
+  "wikisource.org", "wikinews.org", "wikiversity.org", "wikivoyage.org",
+  "wikidata.org", "wikimedia.org", "mediawiki.org", "wikispecies.org",
+];
+const FAMILY_MIN_GAP_MS = {
+  wikimedia: Math.max(MIN_DOMAIN_GAP_MS, 500),
+  "stackexchange.com": Math.max(MIN_DOMAIN_GAP_MS, 300),
+};
+
+function getThrottleKey(url) {
+  const base = getBaseDomain(url);
+  if (WIKIMEDIA_HOST_SUFFIXES.includes(base)) return "wikimedia";
+  return base;
+}
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// Reserves the next available time slot for a given base domain so requests
+// Reserves the next available time slot for a given throttle key so requests
 // to the same shared infrastructure (e.g. every Wikipedia language edition,
 // or the Stack Exchange API) are spaced out instead of firing all at once —
 // this is exactly what triggers HTTP 429 responses. "Kademeli" (gradual).
+// `extraDelayMs` lets a caller (e.g. Stack Exchange's `backoff` field) push
+// the next slot for this key further out on top of the normal gap.
 const domainThrottle = new Map();
-async function waitForDomainSlot(baseDomain) {
-  if (!baseDomain) return;
+async function waitForDomainSlot(throttleKey, extraDelayMs = 0) {
+  if (!throttleKey) return;
+  const gap = FAMILY_MIN_GAP_MS[throttleKey] || MIN_DOMAIN_GAP_MS;
   const now = Date.now();
-  const nextAllowed = domainThrottle.get(baseDomain) || 0;
+  const nextAllowed = domainThrottle.get(throttleKey) || 0;
   const scheduledStart = Math.max(now, nextAllowed);
-  domainThrottle.set(baseDomain, scheduledStart + MIN_DOMAIN_GAP_MS);
+  domainThrottle.set(throttleKey, scheduledStart + gap + extraDelayMs);
   const waitMs = scheduledStart - now;
   if (waitMs > 0) await sleep(waitMs);
 }
@@ -217,9 +247,9 @@ async function verifySource(source, opts) {
   const startTime = Date.now();
   const query = encodeURIComponent(TARGET_DOMAIN);
   const searchUrl = source.search_url_template.replace("{query}", query);
-  const baseDomain = getBaseDomain(searchUrl);
+  const throttleKey = getThrottleKey(searchUrl);
 
-  await waitForDomainSlot(baseDomain);
+  await waitForDomainSlot(throttleKey);
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
@@ -231,7 +261,7 @@ async function verifySource(source, opts) {
         await response.body?.cancel?.().catch(() => {});
         if (attempt < maxRetries) {
           await sleep(backoffDelay(attempt, parseRetryAfter(response.headers.get("retry-after"))));
-          await waitForDomainSlot(baseDomain);
+          await waitForDomainSlot(throttleKey);
           continue;
         }
         return buildResult(source, "error", {
@@ -246,13 +276,44 @@ async function verifySource(source, opts) {
         await response.body?.cancel?.().catch(() => {});
         if (attempt < maxRetries) {
           await sleep(backoffDelay(attempt));
-          await waitForDomainSlot(baseDomain);
+          await waitForDomainSlot(throttleKey);
           continue;
         }
         return buildResult(source, "error", {
           http_status: response.status,
           elapsed: elapsedSoFar,
           error_message: `HTTP ${response.status} after ${attempt + 1} attempts`,
+        });
+      }
+
+      // Stack Exchange's API returns HTTP 400 with a JSON body (not a 429)
+      // when a client goes over quota — `error_id: 502` / `error_name:
+      // "throttle_violation"` — and it tells you exactly how long to wait via
+      // `backoff` (seconds). Ignoring that and continuing to hit the API is
+      // what escalates into a temporary IP-level block, which is what turned
+      // into the wall of plain "Failed to fetch" after the first few 400s in
+      // the error report. So: read it, respect it, retry — instead of just
+      // failing immediately like a generic 400.
+      if (response.status === 400) {
+        const rawBody = await readBodyLimited(response, maxBodyBytes);
+        let seBackoffSeconds = null;
+        let seErrorName = null;
+        try {
+          const parsed = JSON.parse(rawBody);
+          if (parsed && parsed.error_name === "throttle_violation") {
+            seBackoffSeconds = Number(parsed.backoff) || 2;
+            seErrorName = parsed.error_name;
+          }
+        } catch { /* not the SE throttle JSON shape */ }
+
+        if (seErrorName && attempt < maxRetries) {
+          await waitForDomainSlot(throttleKey, seBackoffSeconds * 1000);
+          continue;
+        }
+        return buildResult(source, "error", {
+          http_status: 400,
+          elapsed: elapsedSoFar,
+          error_message: seErrorName ? `Stack Exchange throttle_violation (backoff ${seBackoffSeconds}s) after ${attempt + 1} attempts` : "HTTP 400",
         });
       }
 
@@ -309,7 +370,7 @@ async function verifySource(source, opts) {
 
       if (retryable && attempt < maxRetries) {
         await sleep(backoffDelay(attempt));
-        await waitForDomainSlot(baseDomain);
+        await waitForDomainSlot(throttleKey);
         continue;
       }
       return buildResult(source, "error", { elapsed, error_message: message });

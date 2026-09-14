@@ -82,8 +82,24 @@ const wikiLangNames = {
 };
 
 // The MediaWiki API's `origin=*` parameter is an officially documented CORS
-// mechanism (https://www.mediawiki.org/wiki/API:Cross-site_requests), so every
-// Wikimedia project below can be verified directly from the browser.
+// mechanism (https://www.mediawiki.org/wiki/API:Cross-site_requests), so in
+// principle every Wikimedia project below CAN be verified directly from the
+// browser. In practice, all Wikimedia wikis (every language edition of
+// Wikipedia plus every sister project — Wiktionary, Wikiquote, etc.) sit
+// behind the SAME shared edge/rate-limiter. Firing near-simultaneous requests
+// at dozens of them from one visitor's browser reliably trips that shared
+// limiter and comes back as HTTP 429 — this is exactly what the uploaded
+// error report showed (Wikipedia (ak), Wiktionary (EN), Wikiquote (EN) all
+// 429). Rather than "fix" that with more retries (it isn't a bug, it's a
+// resource limit), only a small, proven-safe set of major-language editions
+// is checked live from the browser. Everything else is still checked — just
+// server-side, once a week, from Node (scripts/verify-backlinks.cjs), which
+// has no CORS restriction and paces its own requests across the whole
+// Wikimedia family (see WIKIMEDIA_FAMILY below) so it never gets rate-limited
+// either.
+const CLIENT_SAFE_WIKI_LANGS = new Set([
+  "en", "tr", "de", "fr", "es", "ru", "ar", "zh", "ja", "pt", "it", "nl",
+]);
 const seenWiki = new Set();
 for (const lang of wikiLangs) {
   if (seenWiki.has(lang)) continue;
@@ -97,23 +113,25 @@ for (const lang of wikiLangs) {
     `https://${lang}.wikipedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*`,
     "BookOpen",
     "#000000",
-    true
+    CLIENT_SAFE_WIKI_LANGS.has(lang)
   );
 }
 
 // === WIKIMEDIA SISTER PROJECTS ===
-add("wikimedia-commons","Wikimedia Commons","wiki","https://commons.wikimedia.org","https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Image","#0066CC",true);
-add("wikidata","Wikidata","wiki","https://www.wikidata.org","https://www.wikidata.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Database","#000000",true);
-add("wiktionary-en","Wiktionary (EN)","wiki","https://en.wiktionary.org","https://en.wiktionary.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#4A4A4A",true);
-add("wikiquote-en","Wikiquote (EN)","wiki","https://en.wikiquote.org","https://en.wikiquote.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#665A3E",true);
-add("wikibooks-en","Wikibooks (EN)","wiki","https://en.wikibooks.org","https://en.wikibooks.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#5C7A99",true);
-add("wikisource-en","Wikisource (EN)","wiki","https://en.wikisource.org","https://en.wikisource.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#436F82",true);
-add("wikinews-en","Wikinews (EN)","wiki","https://en.wikinews.org","https://en.wikinews.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Newspaper","#995533",true);
-add("wikiversity-en","Wikiversity (EN)","wiki","https://en.wikiversity.org","https://en.wikiversity.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#704090",true);
-add("wikivoyage-en","Wikivoyage (EN)","wiki","https://en.wikivoyage.org","https://en.wikivoyage.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Globe","#7EBC6F",true);
-add("wikispecies","Wikispecies","wiki","https://species.wikimedia.org","https://species.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Globe","#336699",true);
-add("meta-wiki","Meta-Wiki","wiki","https://meta.wikimedia.org","https://meta.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Database","#666666",true);
-add("mediawiki-wiki","MediaWiki","wiki","https://www.mediawiki.org","https://www.mediawiki.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#FF7F00",true);
+// Server-only (see comment above) — checked weekly via GitHub Actions instead
+// of from every visitor's browser.
+add("wikimedia-commons","Wikimedia Commons","wiki","https://commons.wikimedia.org","https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Image","#0066CC",false);
+add("wikidata","Wikidata","wiki","https://www.wikidata.org","https://www.wikidata.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Database","#000000",false);
+add("wiktionary-en","Wiktionary (EN)","wiki","https://en.wiktionary.org","https://en.wiktionary.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#4A4A4A",false);
+add("wikiquote-en","Wikiquote (EN)","wiki","https://en.wikiquote.org","https://en.wikiquote.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#665A3E",false);
+add("wikibooks-en","Wikibooks (EN)","wiki","https://en.wikibooks.org","https://en.wikibooks.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#5C7A99",false);
+add("wikisource-en","Wikisource (EN)","wiki","https://en.wikisource.org","https://en.wikisource.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#436F82",false);
+add("wikinews-en","Wikinews (EN)","wiki","https://en.wikinews.org","https://en.wikinews.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Newspaper","#995533",false);
+add("wikiversity-en","Wikiversity (EN)","wiki","https://en.wikiversity.org","https://en.wikiversity.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#704090",false);
+add("wikivoyage-en","Wikivoyage (EN)","wiki","https://en.wikivoyage.org","https://en.wikivoyage.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Globe","#7EBC6F",false);
+add("wikispecies","Wikispecies","wiki","https://species.wikimedia.org","https://species.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Globe","#336699",false);
+add("meta-wiki","Meta-Wiki","wiki","https://meta.wikimedia.org","https://meta.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Database","#666666",false);
+add("mediawiki-wiki","MediaWiki","wiki","https://www.mediawiki.org","https://www.mediawiki.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#FF7F00",false);
 
 // === STACK EXCHANGE NETWORK ===
 // "health" and "astronomy" were removed: there is no standalone health.* or
@@ -251,8 +269,25 @@ const seSites = [
   ["stats","Cross Validated (Stats)","#3B82F6"],
 ];
 
+// A handful of Stack Exchange sites predate the unified *.stackexchange.com
+// naming and live at their own historic domains — everything else genuinely
+// is at https://{site}.stackexchange.com.
+const SE_CUSTOM_DOMAINS = {
+  stackoverflow: "https://stackoverflow.com",
+  serverfault: "https://serverfault.com",
+  superuser: "https://superuser.com",
+  askubuntu: "https://askubuntu.com",
+  mathoverflow: "https://mathoverflow.net",
+};
+
 // The Stack Exchange API (api.stackexchange.com) sends
-// `Access-Control-Allow-Origin: *`, so it's safe to call directly from the browser.
+// `Access-Control-Allow-Origin: *`, so a browser CAN call it directly — but
+// every one of these 128 sites is really just a `site=` query parameter
+// against that single shared host, with a single shared request quota. All
+// 128 checked back-to-back from one visitor's browser is what produced the
+// HTTP 400 "throttle_violation" / cascading "Failed to fetch" wall in the
+// error report. So: server-only. The weekly Node run (unlimited by CORS,
+// see scripts/verify-backlinks.cjs) paces these properly instead.
 const seenSE = new Set();
 for (const [site, name, color] of seSites) {
   if (seenSE.has(site)) continue;
@@ -261,11 +296,11 @@ for (const [site, name, color] of seSites) {
     `se-${site}`,
     name,
     "qa",
-    `https://${site}.stackexchange.com`,
+    SE_CUSTOM_DOMAINS[site] || `https://${site}.stackexchange.com`,
     `https://api.stackexchange.com/2.3/search/advanced?q={query}&site=${site}&pagesize=10&order=desc&sort=relevance`,
     "HelpCircle",
     color,
-    true
+    false
   );
 }
 
@@ -407,7 +442,7 @@ add("jsdelivr","jsDelivr","docs","https://www.jsdelivr.com","https://www.jsdeliv
 
 // === MEDIA / CREATIVE ===
 add("flickr","Flickr","media","https://www.flickr.com","https://www.flickr.com/search/?q={query}","Image","#0063DC");
-add("wikimedia-video","Wikimedia Video","media","https://commons.wikimedia.org","https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}+filetype%3Avideo&srlimit=10&format=json&origin=*","Image","#0066CC",true);
+add("wikimedia-video","Wikimedia Video","media","https://commons.wikimedia.org","https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}+filetype%3Avideo&srlimit=10&format=json&origin=*","Image","#0066CC",false);
 add("openclipart","OpenClipart","media","https://openclipart.org","https://openclipart.org/search/?query={query}","Image","#000000");
 add("openverse","Openverse","media","https://openverse.org","https://api.openverse.org/v1/images/?q={query}","Image","#0A1B2A",true);
 add("freemusicarchive","Free Music Archive","media","https://freemusicarchive.org","https://freemusicarchive.org/search?q={query}","Image","#1A1A1A");
