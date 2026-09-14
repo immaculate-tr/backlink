@@ -5402,7 +5402,7 @@
     "search_url_template": "https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q={query}",
     "verify_url_pattern": "immaculate\\.tr",
     "is_active": true,
-    "cors_ok": true,
+    "cors_ok": false,
     "logo_icon": "MessageCircle",
     "color": "#0085FF",
     "sort_order": 416
@@ -6065,7 +6065,7 @@
     "search_url_template": "https://web.archive.org/cdx/search/cdx?url={query}&output=json&limit=25",
     "verify_url_pattern": "immaculate\\.tr",
     "is_active": true,
-    "cors_ok": true,
+    "cors_ok": false,
     "logo_icon": "Archive",
     "color": "#000000",
     "sort_order": 467
@@ -6156,7 +6156,7 @@
     "search_url_template": "https://api.semanticscholar.org/graph/v1/paper/search?query={query}",
     "verify_url_pattern": "immaculate\\.tr",
     "is_active": true,
-    "cors_ok": true,
+    "cors_ok": false,
     "logo_icon": "BookOpen",
     "color": "#1857B6",
     "sort_order": 474
@@ -6364,7 +6364,7 @@
     "search_url_template": "https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}+filetype%3Avideo&srlimit=10&format=json&origin=*",
     "verify_url_pattern": "immaculate\\.tr",
     "is_active": true,
-    "cors_ok": true,
+    "cors_ok": false,
     "logo_icon": "Image",
     "color": "#0066CC",
     "sort_order": 490
