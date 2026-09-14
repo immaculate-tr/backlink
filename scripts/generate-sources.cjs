@@ -251,7 +251,6 @@ add("sourcehut","SourceHut","social","https://sr.ht","https://sr.ht/projects?sea
 add("bitbucket","Bitbucket","social","https://bitbucket.org","https://bitbucket.org/search?q={query}","GitBranch","#0052CC");
 add("gitea","Gitea","social","https://gitea.com","https://gitea.com/explore/repos?q={query}","GitBranch","#609926");
 add("notabug","NotABug","social","https://notabug.org","https://notabug.org/explore/repos?q={query}","GitBranch","#4A4A4A");
-add("forgejo","Forgejo","social","https://codeberg.org/forgejo","https://codeberg.org/forgejo","GitBranch","#2185D0");
 add("gitee","Gitee","social","https://gitee.com","https://gitee.com/search?q={query}","GitBranch","#C71D23");
 add("gitgud","GitGud","social","https://gitgud.io","https://gitgud.io/explore/projects?q={query}","GitBranch","#E67E22");
 add("dagsh","DagsHub","social","https://dagshub.com","https://dagshub.com/search?q={query}","GitBranch","#3B82F6");
@@ -259,11 +258,9 @@ add("repoorcz","repo.or.cz","social","https://repo.or.cz","https://repo.or.cz/?s
 add("pagure","Pagure","social","https://pagure.io","https://pagure.io/search?q={query}","GitBranch","#39A0DC");
 add("opensuse","openSUSE Code","social","https://code.opensuse.org","https://code.opensuse.org/search?q={query}","GitBranch","#73BA25");
 add("fedora-pagure","Fedora Pagure","social","https://pagure.io","https://pagure.io/search?q={query}","GitBranch","#3C6EB4");
-add("android-aosp","AOSP Gerrit","social","https://android.googlesource.com","https://android.googlesource.com/","GitBranch","#3DDC84");
-add("chromium","Chromium Code","social","https://chromium.googlesource.com","https://chromium.googlesource.com/","GitBranch","#4285F4");
-add("freebsd","FreeBSD Git","social","https://cgit.freebsd.org","https://cgit.freebsd.org/","GitBranch","#AB2B28");
-add("netbsd","NetBSD CVS","social","https://cdn.netbsd.org","https://cdn.netbsd.org/","GitBranch","#FF6600");
-add("openbsd","OpenBSD CVS","social","https://cvsweb.openbsd.org","https://cvsweb.openbsd.org/","GitBranch","#E8E8E8");
+add("github-repos","GitHub (Repositories)","social","https://github.com","https://github.com/search?q={query}&type=repositories","Github","#181717");
+add("github-gist","GitHub Gist","social","https://gist.github.com","https://gist.github.com/search?q={query}","Github","#181717");
+add("softwareheritage","Software Heritage","directory","https://archive.softwareheritage.org","https://archive.softwareheritage.org/api/1/origin/search/{query}/?limit=20","GitBranch","#D91C36");
 
 // === SOCIAL / NEWS ===
 add("reddit","Reddit","social","https://www.reddit.com","https://www.reddit.com/search/.json?q={query}&limit=25","MessageCircle","#FF4500");
@@ -273,32 +270,25 @@ add("slashdot","Slashdot","social","https://slashdot.org","https://slashdot.org/
 add("quora","Quora","qa","https://www.quora.com","https://www.quora.com/search?q={query}","HelpCircle","#B92B27");
 add("diaspora","Diaspora","social","https://diasp.org","https://diasp.org/search?q={query}","MessageCircle","#2D2D2D");
 add("mastodon","Mastodon","social","https://mastodon.social","https://mastodon.social/api/v2/search?q={query}","MessageCircle","#6364FF");
-add("pleroma","Pleroma","social","https://pleroma.social","https://pleroma.social/","MessageCircle","#2D2D2D");
-add("friendica","Friendica","social","https://friendi.ca","https://friendi.ca/","MessageCircle","#2D2D2D");
-add("pixelfed","Pixelfed","social","https://pixelfed.org","https://pixelfed.org/","MessageCircle","#A45DD8");
 add("lemmy","Lemmy","social","https://lemmy.world","https://lemmy.world/search?q={query}","MessageCircle","#00BCD4");
 add("kbin","Kbin","social","https://kbin.social","https://kbin.social/search?q={query}","MessageCircle","#E91E63");
-add("misskey","Misskey","social","https://misskey.io","https://misskey.io/","MessageCircle","#86B300");
 add("peertube","PeerTube","social","https://joinpeertube.org","https://sepiasearch.org/api/v1/search/videos?search={query}","Newspaper","#F1680D");
 add("nextcloud","Nextcloud Forum","social","https://help.nextcloud.com","https://help.nextcloud.com/search?q={query}","MessageCircle","#0082C9");
 add("discourse-meta","Discourse Meta","social","https://meta.discourse.org","https://meta.discourse.org/search?q={query}","MessageCircle","#000000");
-add("element","Element/Matrix","social","https://matrix.org","https://matrix.org/","MessageCircle","#0DBD8B");
-add("xmpp","XMPP","social","https://xmpp.org","https://xmpp.org/","MessageCircle","#0080FF");
 
 // === BLOG / PUBLISHING ===
 add("devto","Dev.to","social","https://dev.to","https://dev.to/search/feed?q={query}&per_page=30","Code","#0A0A0A");
 add("medium","Medium","social","https://medium.com","https://medium.com/search?q={query}","PenTool","#12100E");
 add("hashnode","Hashnode","social","https://hashnode.com","https://hashnode.com/search?q={query}","Code","#2962FF");
 add("substack","Substack","social","https://substack.com","https://substack.com/search/{query}","PenTool","#FF6719");
-add("ghost","Ghost","social","https://ghost.org","https://ghost.org/","PenTool","#212B36");
-add("writefreely","WriteFreely","social","https://write.as","https://write.as/","PenTool","#5AC4F4");
-add("omgblog","OMG Blog","social","https://omg.blog","https://omg.blog/","PenTool","#000000");
 add("wordpress-com","WordPress.com","social","https://wordpress.com","https://wordpress.com/search/{query}","PenTool","#21759B");
 add("tumblr","Tumblr","social","https://www.tumblr.com","https://www.tumblr.com/search/{query}","PenTool","#001935");
 add("livejournal","LiveJournal","social","https://www.livejournal.com","https://www.livejournal.com/search/?q={query}","PenTool","#00B0EF");
-add("dreamwidth","Dreamwidth","social","https://www.dreamwidth.org","https://www.dreamwidth.org/","PenTool","#5C6BC0");
-add("plurk","Plurk","social","https://www.plurk.com","https://www.plurk.com/","PenTool","#CF682F");
 add("telegram-search","Telegram Search","social","https://t.me","https://t.me/s/search?q={query}","MessageCircle","#0088CC");
+add("indiehackers","Indie Hackers","social","https://www.indiehackers.com","https://www.indiehackers.com/search?query={query}","MessageCircle","#0E2439");
+add("producthunt","Product Hunt","social","https://www.producthunt.com","https://www.producthunt.com/search?q={query}","MessageCircle","#DA552F");
+add("alternativeto","AlternativeTo","directory","https://alternativeto.net","https://alternativeto.net/browse/search/?q={query}","Package","#2E4258");
+add("opencollective","Open Collective","directory","https://opencollective.com","https://opencollective.com/search?q={query}","Package","#3385FF");
 
 // === SEARCH ENGINES ===
 add("duckduckgo","DuckDuckGo","search","https://duckduckgo.com","https://html.duckduckgo.com/html/?q={query}","Search","#DE5833");
@@ -312,15 +302,11 @@ add("mojeek","Mojeek","search","https://www.mojeek.com","https://www.mojeek.com/
 add("searx","Searx","search","https://searx.be","https://searx.be/search?q={query}","Search","#3050C0");
 add("qwant","Qwant","search","https://www.qwant.com","https://www.qwant.com/?q={query}","Search","#5C97FF");
 add("dogpile","Dogpile","search","https://www.dogpile.com","https://www.dogpile.com/serp?q={query}","Search","#D03C2A");
-add("exalead","Exalead","search","https://www.exalead.com","https://www.exalead.com/search/web/results/?q={query}","Search","#1A6FA0");
-add("gigablast","Gigablast","search","https://gigablast.com","https://gigablast.com/search?q={query}","Search","#000000");
-add("onesearch","OneSearch","search","https://www.onesearch.com","https://www.onesearch.com/yhs/search?q={query}","Search","#4A90D9");
 add("lycos","Lycos","search","https://www.lycos.com","https://search.lycos.com/web/?q={query}","Search","#1A1A1A");
-add("teoma","Teoma","search","https://www.teoma.com","https://www.teoma.com/web?q={query}","Search","#4A4A4A");
-add("wisenut","WiseNut","search","https://www.wisenut.com","https://www.wisenut.com/search?q={query}","Search","#5C6BC0");
-add("aol-search","AOL Search","search","https://search.aol.com","https://search.aol.com/aol/search?q={query}","Search","#000000");
 add("ask","Ask.com","search","https://www.ask.com","https://www.ask.com/web?q={query}","Search","#CF0000");
-add("blekko","Blekko","search","https://blekko.com","https://blekko.com/ws/{query}","Search","#000000");
+add("marginalia","Marginalia Search","search","https://search.marginalia.nu","https://search.marginalia.nu/search?query={query}","Search","#4A7C59");
+add("stract","Stract","search","https://stract.com","https://stract.com/search?q={query}","Search","#000000");
+add("curlie","Curlie (Open Directory)","directory","https://curlie.org","https://curlie.org/search?q={query}","Search","#1E88E5");
 
 // === PACKAGE REGISTRIES ===
 add("npm","npm","directory","https://www.npmjs.com","https://registry.npmjs.org/-/v1/search?text={query}&size=25","Package","#CB3837");
@@ -331,19 +317,15 @@ add("packagist","Packagist (PHP)","directory","https://packagist.org","https://p
 add("nuget","NuGet","directory","https://www.nuget.org","https://www.nuget.org/packages?q={query}","Package","#004880");
 add("maven","Maven Central","directory","https://central.sonatype.com","https://central.sonatype.com/search?q={query}","Package","#C71A23");
 add("go-pkg","Go Packages","directory","https://pkg.go.dev","https://pkg.go.dev/search?q={query}","Package","#00ADD8");
-add("cargo","Cargo","directory","https://doc.rust-lang.org","https://doc.rust-lang.org/cargo/","Package","#000000");
 add("conda","Conda","directory","https://anaconda.org","https://anaconda.org/search?q={query}","Package","#43B02A");
-add("brew","Homebrew","directory","https://formulae.brew.sh","https://formulae.brew.sh/","Package","#FBB040");
 add("chocolatey","Chocolatey","directory","https://community.chocolatey.org","https://community.chocolatey.org/packages?q={query}","Package","#7EB900");
 add("winget","Winget","directory","https://github.com/microsoft/winget-pkgs","https://github.com/search?q={query}+repo%3Amicrosoft%2Fwinget-pkgs&type=code","Package","#005A9E");
 add("flatpak","Flathub","directory","https://flathub.org","https://flathub.org/api/v2/search?q={query}","Package","#4A86CF");
 add("snap","Snap Store","directory","https://snapcraft.io","https://snapcraft.io/search?q={query}","Package","#82BAA0");
-add("appimage","AppImageHub","directory","https://appimage.github.io","https://appimage.github.io/","Package","#1A1A1A");
+add("fdroid","F-Droid","directory","https://f-droid.org","https://search.f-droid.org/?q={query}","Package","#1976D2");
+add("sourceforge","SourceForge","directory","https://sourceforge.net","https://sourceforge.net/search/?q={query}","Package","#FF6600");
 add("docker-hub","Docker Hub","directory","https://hub.docker.com","https://hub.docker.com/search?q={query}","Package","#2496ED");
-add("pypi2","PyPI JSON API","directory","https://pypi.org","https://pypi.org/simple/","Package","#3775A9");
-add("crates2","crates.io API","directory","https://crates.io","https://crates.io/api/v1/crates","Package","#8B5CF6");
 add("hackage","Hackage (Haskell)","directory","https://hackage.haskell.org","https://hackage.haskell.org/search?terms={query}","Package","#5E5086");
-add("stackage","Stackage","directory","https://www.stackage.org","https://www.stackage.org/","Package","#7E57C2");
 add("clojars","Clojars","directory","https://clojars.org","https://clojars.org/search?q={query}","Package","#4A8B5C");
 add("pub-dev","pub.dev (Dart)","directory","https://pub.dev","https://pub.dev/packages?q={query}","Package","#00BCD4");
 add("hex","Hex (Elixir)","directory","https://hex.pm","https://hex.pm/packages?search={query}","Package","#7E57C2");
@@ -351,13 +333,11 @@ add("cpan","CPAN (Perl)","directory","https://metacpan.org","https://metacpan.or
 add("ctan","CTAN (LaTeX)","directory","https://ctan.org","https://ctan.org/search?phrase={query}","Package","#3F7E9E");
 add("freshmeat","Freshcode","directory","https://freshcode.club","https://freshcode.club/search?q={query}","Package","#5C6BC0");
 add("fsf","FSF Directory","directory","https://directory.fsf.org","https://directory.fsf.org/wiki?search={query}","Package","#5C6BC0");
-add("foss","FOSS Directory","directory","https://foss.directory","https://foss.directory/","Package","#43A047");
 
 // === ARCHIVES ===
 add("archive-org","Internet Archive","archive","https://archive.org","https://archive.org/advancedsearch.php?q={query}&fl[]=identifier&fl[]=title&fl[]=url&rows=25&output=json","Archive","#000000");
 add("archive-today","archive.today","archive","https://archive.ph","https://archive.ph/{query}","Archive","#0E0E0E");
 add("archive-is","archive.is","archive","https://archive.is","https://archive.is/{query}","Archive","#0E0E0E");
-add("webcite","WebCite","archive","https://www.webcitation.org","https://www.webcitation.org/","Archive","#5C6BC0");
 add("wayback","Wayback Machine","archive","https://web.archive.org","https://web.archive.org/cdx/search/cdx?url={query}&output=json&limit=25","Archive","#000000");
 
 // === DIRECTORY / MAPPING ===
@@ -365,6 +345,8 @@ add("openstreetmap","OpenStreetMap","directory","https://www.openstreetmap.org",
 add("openlibrary","OpenLibrary","directory","https://openlibrary.org","https://openlibrary.org/search.json?q={query}&limit=10","BookOpen","#336699");
 add("project-gutenberg","Project Gutenberg","directory","https://www.gutenberg.org","https://www.gutenberg.org/ebooks/search/?query={query}","BookOpen","#5C6BC0");
 add("wikimedia-meta","Wikimedia Meta","directory","https://meta.wikimedia.org","https://meta.wikimedia.org/w/index.php?search={query}","Database","#666666");
+add("worldcat","WorldCat","directory","https://www.worldcat.org","https://www.worldcat.org/search?q={query}","BookOpen","#5C6BC0");
+add("dbpedia","DBpedia Lookup","directory","https://dbpedia.org","https://lookup.dbpedia.org/api/search?query={query}","Database","#FF7A59");
 
 // === ACADEMIC ===
 add("arxiv","arXiv","academic","https://arxiv.org","https://arxiv.org/search/?query={query}&searchtype=all","BookOpen","#B31B1B");
@@ -377,47 +359,28 @@ add("figshare","Figshare","academic","https://figshare.com","https://figshare.co
 add("osf","Open Science Framework","academic","https://osf.io","https://osf.io/search/?q={query}","BookOpen","#2D2D2D");
 add("dblp","DBLP","academic","https://dblp.org","https://dblp.org/search?q={query}","BookOpen","#1B5E20");
 add("crossref","Crossref","academic","https://www.crossref.org","https://api.crossref.org/works?query={query}&rows=10","BookOpen","#3B82F6");
-add("opencitations","OpenCitations","academic","https://opencitations.net","https://opencitations.net/","BookOpen","#4A4A4A");
-add("connected-papers","Connected Papers","academic","https://www.connectedpapers.com","https://www.connectedpapers.com/","BookOpen","#5C6BC0");
+add("openalex","OpenAlex","academic","https://openalex.org","https://api.openalex.org/works?search={query}","BookOpen","#6A5ACD");
+add("ia-scholar","Internet Archive Scholar","academic","https://scholar.archive.org","https://scholar.archive.org/search?q={query}","BookOpen","#000000");
+add("hathitrust","HathiTrust","academic","https://www.hathitrust.org","https://babel.hathitrust.org/cgi/ls?q1={query};a=srchls;lmt=ft","BookOpen","#8B1A1A");
 
 // === DOCUMENTATION ===
 add("readthedocs","Read the Docs","docs","https://readthedocs.org","https://readthedocs.org/search/?q={query}","BookOpen","#8CA1AF");
-add("gitbook","GitBook","docs","https://www.gitbook.com","https://www.gitbook.com/","BookOpen","#3884FF");
-add("docusaurus","Docusaurus","docs","https://docusaurus.io","https://docusaurus.io/","BookOpen","#3ECC8F");
 add("mdn","MDN Web Docs","docs","https://developer.mozilla.org","https://developer.mozilla.org/en-US/search?q={query}","BookOpen","#000000");
-add("devdocs","DevDocs","docs","https://devdocs.io","https://devdocs.io/","BookOpen","#5C6BC0");
 add("cdnjs","cdnjs","docs","https://cdnjs.com","https://cdnjs.com/search?q={query}","BookOpen","#E6852C");
 add("jsdelivr","jsDelivr","docs","https://www.jsdelivr.com","https://www.jsdelivr.com/?query={query}","BookOpen","#F84F2C");
-add("unpkg","unpkg","docs","https://unpkg.com","https://unpkg.com/","BookOpen","#000000");
-
-// === FORUM / DISCUSSION ===
-add("discourse-org","Discourse","forum","https://www.discourse.org","https://www.discourse.org/","MessageCircle","#000000");
-add("fluxbb","FluxBB","forum","https://fluxbb.org","https://fluxbb.org/","MessageCircle","#5C6BC0");
-add("phpbb","phpBB","forum","https://www.phpbb.com","https://www.phpbb.com/","MessageCircle","#5A7CA0");
-add("vanilla","Vanilla Forums","forum","https://vanillaforums.com","https://vanillaforums.com/","MessageCircle","#2D2D2D");
-add("flarum","Flarum","forum","https://flarum.org","https://flarum.org/","MessageCircle","#1876E4");
-add("nodebb","NodeBB","forum","https://nodebb.org","https://nodebb.org/","MessageCircle","#1A8B3E");
 
 // === MEDIA / CREATIVE ===
 add("flickr","Flickr","media","https://www.flickr.com","https://www.flickr.com/search/?q={query}","Image","#0063DC");
 add("wikimedia-video","Wikimedia Video","media","https://commons.wikimedia.org","https://commons.wikimedia.org/w/index.php?search={query}+filetype%3Avideo","Image","#0066CC");
 add("openclipart","OpenClipart","media","https://openclipart.org","https://openclipart.org/search/?query={query}","Image","#000000");
-add("openphoto","OpenPhoto","media","https://openphoto.net","https://openphoto.net/","Image","#5C6BC0");
+add("openverse","Openverse","media","https://openverse.org","https://api.openverse.org/v1/images/?q={query}","Image","#0A1B2A");
 add("freemusicarchive","Free Music Archive","media","https://freemusicarchive.org","https://freemusicarchive.org/search?q={query}","Image","#1A1A1A");
-add("ccmixter","ccMixter","media","https://ccmixter.org","https://ccmixter.org/","Image","#FF6600");
 add("bandcamp","Bandcamp","media","https://bandcamp.com","https://bandcamp.com/search?q={query}","Image","#1DA0C3");
 add("jamendo","Jamendo","media","https://www.jamendo.com","https://www.jamendo.com/search?q={query}","Image","#0054A6");
 add("soundcloud","SoundCloud","media","https://soundcloud.com","https://soundcloud.com/search?q={query}","Image","#FF5500");
 add("audius","Audius","media","https://audius.co","https://audius.co/search?q={query}","Image","#CC2567");
 add("vimeo","Vimeo","media","https://vimeo.com","https://vimeo.com/search?q={query}","Image","#1AB7EA");
 add("invidious","Invidious","media","https://yewtu.be","https://yewtu.be/search?q={query}","Image","#5C6BC0");
-add("mediagoblin","MediaGoblin","media","https://mediagoblin.org","https://mediagoblin.org/","Image","#1A8B3E");
-
-// === RSS / FEED ===
-add("rss-bridge","RSS Bridge","feed","https://rss-bridge.org","https://rss-bridge.org/","Newspaper","#5C6BC0");
-add("miniflux","Miniflux","feed","https://miniflux.app","https://miniflux.app/","Newspaper","#5C6BC0");
-add("freshrss","FreshRSS","feed","https://freshrss.org","https://freshrss.org/","Newspaper","#0066CC");
-add("tt-rss","Tiny Tiny RSS","feed","https://tt-rss.org","https://tt-rss.org/","Newspaper","#FF8800");
 
 // === OTHER OPEN SOURCE / MISC ===
 add("openstreetmap-wiki","OSM Wiki","wiki","https://wiki.openstreetmap.org","https://wiki.openstreetmap.org/w/index.php?search={query}","Globe","#7EBC6F");
@@ -427,70 +390,26 @@ add("debian-wiki","Debian Wiki","wiki","https://wiki.debian.org","https://wiki.d
 add("ubuntu-wiki","Ubuntu Wiki","wiki","https://wiki.ubuntu.com","https://wiki.ubuntu.com/FrontPage?action=fullsearch&value={query}","BookOpen","#E95420");
 add("fedora-wiki","Fedora Wiki","wiki","https://fedoraproject.org","https://fedoraproject.org/wiki/Special:Search?search={query}","BookOpen","#3C6EB4");
 add("freebsd-wiki","FreeBSD Wiki","wiki","https://wiki.freebsd.org","https://wiki.freebsd.org/Special:Search?search={query}","BookOpen","#AB2B28");
-add("openbsd-wiki","OpenBSD Wiki","wiki","https://wiki.openbsd.org","https://wiki.openbsd.org/","BookOpen","#E8E8E8");
+add("openbsd-wiki","OpenBSD Wiki","wiki","https://wiki.openbsd.org","https://wiki.openbsd.org/wiki/Special:Search?search={query}","BookOpen","#E8E8E8");
 add("nixos-wiki","NixOS Wiki","wiki","https://nixos.wiki","https://nixos.wiki/index.php?search={query}","BookOpen","#7E57C2");
 add("alpine-wiki","Alpine Wiki","wiki","https://wiki.alpinelinux.org","https://wiki.alpinelinux.org/w/index.php?search={query}","BookOpen","#0D597F");
 add("mozilla-wiki","Mozilla Wiki","wiki","https://wiki.mozilla.org","https://wiki.mozilla.org/Special:Search?search={query}","BookOpen","#000000");
 add("opensuse-wiki","openSUSE Wiki","wiki","https://en.opensuse.org","https://en.opensuse.org/index.php?search={query}","BookOpen","#73BA25");
 add("caddy-wiki","Caddy Wiki","docs","https://caddyserver.com","https://caddyserver.com/docs?q={query}","BookOpen","#1F8C8A");
-add("nginx-docs","NGINX Docs","docs","https://nginx.org","https://nginx.org/en/docs/","BookOpen","#009639");
-add("apache-docs","Apache Docs","docs","https://httpd.apache.org","https://httpd.apache.org/docs/","BookOpen","#B21142");
 add("docker-docs","Docker Docs","docs","https://docs.docker.com","https://docs.docker.com/search/?q={query}","BookOpen","#2496ED");
 add("k8s-docs","Kubernetes Docs","docs","https://kubernetes.io","https://kubernetes.io/search/?q={query}","BookOpen","#326CE5");
-add("nodejs-docs","Node.js Docs","docs","https://nodejs.org","https://nodejs.org/en/docs/","BookOpen","#5FA04E");
 add("python-docs","Python Docs","docs","https://docs.python.org","https://docs.python.org/3/search.html?q={query}","BookOpen","#3776AB");
 add("rust-docs","Rust Docs","docs","https://doc.rust-lang.org","https://doc.rust-lang.org/std/?search={query}","BookOpen","#000000");
 add("go-docs","Go Docs","docs","https://go.dev","https://go.dev/search?q={query}","BookOpen","#00ADD8");
-add("ruby-docs","Ruby Docs","docs","https://docs.ruby-lang.org","https://docs.ruby-lang.org/en/","BookOpen","#CC342D");
 add("php-docs","PHP Docs","docs","https://www.php.net","https://www.php.net/manual-lookup.php?pattern={query}","BookOpen","#777BB4");
 add("java-docs","Java Docs","docs","https://docs.oracle.com","https://docs.oracle.com/search/?q={query}&pt=en","BookOpen","#ED8B00");
 add("cpp-docs","C++ Reference","docs","https://en.cppreference.com","https://en.cppreference.com/mwiki/index.php?search={query}","BookOpen","#659AD2");
 add("elixir-docs","Elixir Docs","docs","https://hexdocs.pm","https://hexdocs.pm/search?q={query}","BookOpen","#4B275F");
-add("haskell-docs","Haskell Docs","docs","https://haskell.org","https://haskell.org/documentation.html","BookOpen","#5E5086");
-add("swift-docs","Swift Docs","docs","https://swift.org","https://swift.org/documentation/","BookOpen","#FA7343");
-add("kotlin-docs","Kotlin Docs","docs","https://kotlinlang.org","https://kotlinlang.org/docs/home.html","BookOpen","#7F52FF");
 add("scala-docs","Scala Docs","docs","https://docs.scala-lang.org","https://docs.scala-lang.org/search.html?q={query}","BookOpen","#DC322F");
-add("perl-docs","Perl Docs","docs","https://perldoc.perl.org","https://perldoc.perl.org/","BookOpen","#39A0DC");
-add("lua-docs","Lua Docs","docs","https://www.lua.org","https://www.lua.org/docs.html","BookOpen","#000080");
 add("dart-docs","Dart Docs","docs","https://dart.dev","https://dart.dev/search?q={query}","BookOpen","#00BCD4");
-add("typescript-docs","TypeScript Docs","docs","https://www.typescriptlang.org","https://www.typescriptlang.org/","BookOpen","#3178C6");
 add("react-docs","React Docs","docs","https://react.dev","https://react.dev/search?q={query}","BookOpen","#087EA4");
-add("vue-docs","Vue Docs","docs","https://vuejs.org","https://vuejs.org/","BookOpen","#42B883");
 add("angular-docs","Angular Docs","docs","https://angular.io","https://angular.io/search?q={query}","BookOpen","#DD0031");
-add("svelte-docs","Svelte Docs","docs","https://svelte.dev","https://svelte.dev/","BookOpen","#FF3E00");
-add("nextjs-docs","Next.js Docs","docs","https://nextjs.org","https://nextjs.org/","BookOpen","#000000");
-add("nuxt-docs","Nuxt Docs","docs","https://nuxt.com","https://nuxt.com/","BookOpen","#00DC82");
-add("astro-docs","Astro Docs","docs","https://astro.build","https://astro.build/","BookOpen","#FF5D01");
-add("remix-docs","Remix Docs","docs","https://remix.run","https://remix.run/","BookOpen","#3992FF");
-add("vite-docs","Vite Docs","docs","https://vitejs.dev","https://vitejs.dev/","BookOpen","#646CFF");
-add("webpack-docs","Webpack Docs","docs","https://webpack.js.org","https://webpack.js.org/","BookOpen","#1C78C0");
-add("rollup-docs","Rollup Docs","docs","https://rollupjs.org","https://rollupjs.org/","BookOpen","#EC4A3F");
-add("esbuild-docs","esBuild Docs","docs","https://esbuild.github.io","https://esbuild.github.io/","BookOpen","#FFAA00");
-add("tailwind-docs","Tailwind Docs","docs","https://tailwindcss.com","https://tailwindcss.com/","BookOpen","#06B6D4");
-add("bootstrap-docs","Bootstrap Docs","docs","https://getbootstrap.com","https://getbootstrap.com/","BookOpen","#7952B3");
-add("jquery-docs","jQuery Docs","docs","https://jquery.com","https://jquery.com/","BookOpen","#0769AD");
 add("django-docs","Django Docs","docs","https://docs.djangoproject.com","https://docs.djangoproject.com/search/?q={query}","BookOpen","#0C4B33");
-add("flask-docs","Flask Docs","docs","https://flask.palletsprojects.com","https://flask.palletsprojects.com/","BookOpen","#000000");
-add("fastapi-docs","FastAPI Docs","docs","https://fastapi.tiangolo.com","https://fastapi.tiangolo.com/","BookOpen","#009688");
-add("rails-docs","Rails Docs","docs","https://guides.rubyonrails.org","https://guides.rubyonrails.org/","BookOpen","#CC0000");
-add("laravel-docs","Laravel Docs","docs","https://laravel.com","https://laravel.com/","BookOpen","#FF2D20");
-add("spring-docs","Spring Docs","docs","https://spring.io","https://spring.io/","BookOpen","#6DB33F");
-add("express-docs","Express Docs","docs","https://expressjs.com","https://expressjs.com/","BookOpen","#000000");
-add("fastify-docs","Fastify Docs","docs","https://fastify.io","https://fastify.io/","BookOpen","#000000");
-add("nestjs-docs","NestJS Docs","docs","https://nestjs.com","https://nestjs.com/","BookOpen","#E0234E");
-add("actix-docs","Actix Docs","docs","https://actix.rs","https://actix.rs/","BookOpen","#000000");
-add("axum-docs","Axum Docs","docs","https://docs.rs/axum","https://docs.rs/axum","BookOpen","#000000");
-add("rocket-docs","Rocket Docs","docs","https://rocket.rs","https://rocket.rs/","BookOpen","#D3382B");
-add("gin-docs","Gin Docs","docs","https://gin-gonic.com","https://gin-gonic.com/","BookOpen","#00BEC8");
-add("fiber-docs","Fiber Docs","docs","https://docs.gofiber.io","https://docs.gofiber.io/","BookOpen","#00B570");
-add("echo-docs","Echo Docs","docs","https://echo.labstack.com","https://echo.labstack.com/","BookOpen","#3FB0EF");
-add("phoenix-docs","Phoenix Docs","docs","https://hexdocs.pm/phoenix","https://hexdocs.pm/phoenix/","BookOpen","#FD4F00");
-add("symfony-docs","Symfony Docs","docs","https://symfony.com","https://symfony.com/","BookOpen","#000000");
-add("codeigniter-docs","CodeIgniter Docs","docs","https://codeigniter.com","https://codeigniter.com/","BookOpen","#DD4814");
-add("yii-docs","Yii Docs","docs","https://www.yiiframework.com","https://www.yiiframework.com/","BookOpen","#40B570");
-add("tornado-docs","Tornado Docs","docs","https://www.tornadoweb.org","https://www.tornadoweb.org/","BookOpen","#000000");
-add("aiohttp-docs","aiohttp Docs","docs","https://docs.aiohttp.org","https://docs.aiohttp.org/","BookOpen","#2C5BB4");
-add("starlette-docs","Starlette Docs","docs","https://www.starlette.io","https://www.starlette.io/","BookOpen","#E91E63");
 
 // Sort by sort_order
 sources.sort((a, b) => a.sort_order - b.sort_order);
