@@ -154,7 +154,15 @@ function serverOnlyResult(
   source: BacklinkSource,
   previous?: VerificationResult
 ): VerificationResult {
-  if (previous && (previous.status === "verified" || previous.status === "not_found" || previous.status === "error")) {
+  // Only ever reuse a previous result here if it was an actual, trustworthy
+  // check outcome (found it / confirmed not there). A previous "error" is
+  // discarded on purpose: for a source that just became server-only, that
+  // "error" is almost certainly a stale browser-side failure (CORS block,
+  // rate limit, quota ban) from before it was reclassified — carrying it
+  // forward would silently resurrect exactly the bug this status exists to
+  // avoid. If there's no verified/not_found result to fall back on, this is
+  // honestly "not checked yet", not an error.
+  if (previous && (previous.status === "verified" || previous.status === "not_found")) {
     return { ...previous, source_id: source.id, source_name: source.name };
   }
   return {
