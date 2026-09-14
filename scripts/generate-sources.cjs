@@ -72,25 +72,25 @@ for (const lang of wikiLangs) {
     `Wikipedia (${name})`,
     "wiki",
     `https://${lang}.wikipedia.org`,
-    `https://${lang}.wikipedia.org/w/index.php?search={query}`,
+    `https://${lang}.wikipedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*`,
     "BookOpen",
     "#000000"
   );
 }
 
 // === WIKIMEDIA SISTER PROJECTS ===
-add("wikimedia-commons","Wikimedia Commons","wiki","https://commons.wikimedia.org","https://commons.wikimedia.org/w/index.php?search={query}","Image","#0066CC");
-add("wikidata","Wikidata","wiki","https://www.wikidata.org","https://www.wikidata.org/w/index.php?search={query}","Database","#000000");
-add("wiktionary-en","Wiktionary (EN)","wiki","https://en.wiktionary.org","https://en.wiktionary.org/w/index.php?search={query}","BookOpen","#4A4A4A");
-add("wikiquote-en","Wikiquote (EN)","wiki","https://en.wikiquote.org","https://en.wikiquote.org/w/index.php?search={query}","BookOpen","#665A3E");
-add("wikibooks-en","Wikibooks (EN)","wiki","https://en.wikibooks.org","https://en.wikibooks.org/w/index.php?search={query}","BookOpen","#5C7A99");
-add("wikisource-en","Wikisource (EN)","wiki","https://en.wikisource.org","https://en.wikisource.org/w/index.php?search={query}","BookOpen","#436F82");
-add("wikinews-en","Wikinews (EN)","wiki","https://en.wikinews.org","https://en.wikinews.org/w/index.php?search={query}","Newspaper","#995533");
-add("wikiversity-en","Wikiversity (EN)","wiki","https://en.wikiversity.org","https://en.wikiversity.org/w/index.php?search={query}","BookOpen","#704090");
-add("wikivoyage-en","Wikivoyage (EN)","wiki","https://en.wikivoyage.org","https://en.wikivoyage.org/w/index.php?search={query}","Globe","#7EBC6F");
-add("wikispecies","Wikispecies","wiki","https://species.wikimedia.org","https://species.wikimedia.org/w/index.php?search={query}","Globe","#336699");
-add("meta-wiki","Meta-Wiki","wiki","https://meta.wikimedia.org","https://meta.wikimedia.org/w/index.php?search={query}","Database","#666666");
-add("mediawiki-wiki","MediaWiki","wiki","https://www.mediawiki.org","https://www.mediawiki.org/w/index.php?search={query}","BookOpen","#FF7F00");
+add("wikimedia-commons","Wikimedia Commons","wiki","https://commons.wikimedia.org","https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Image","#0066CC");
+add("wikidata","Wikidata","wiki","https://www.wikidata.org","https://www.wikidata.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Database","#000000");
+add("wiktionary-en","Wiktionary (EN)","wiki","https://en.wiktionary.org","https://en.wiktionary.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#4A4A4A");
+add("wikiquote-en","Wikiquote (EN)","wiki","https://en.wikiquote.org","https://en.wikiquote.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#665A3E");
+add("wikibooks-en","Wikibooks (EN)","wiki","https://en.wikibooks.org","https://en.wikibooks.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#5C7A99");
+add("wikisource-en","Wikisource (EN)","wiki","https://en.wikisource.org","https://en.wikisource.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#436F82");
+add("wikinews-en","Wikinews (EN)","wiki","https://en.wikinews.org","https://en.wikinews.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Newspaper","#995533");
+add("wikiversity-en","Wikiversity (EN)","wiki","https://en.wikiversity.org","https://en.wikiversity.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#704090");
+add("wikivoyage-en","Wikivoyage (EN)","wiki","https://en.wikivoyage.org","https://en.wikivoyage.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Globe","#7EBC6F");
+add("wikispecies","Wikispecies","wiki","https://species.wikimedia.org","https://species.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Globe","#336699");
+add("meta-wiki","Meta-Wiki","wiki","https://meta.wikimedia.org","https://meta.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Database","#666666");
+add("mediawiki-wiki","MediaWiki","wiki","https://www.mediawiki.org","https://www.mediawiki.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#FF7F00");
 
 // === STACK EXCHANGE NETWORK (~60+ sites) ===
 const seSites = [
@@ -344,7 +344,7 @@ add("wayback","Wayback Machine","archive","https://web.archive.org","https://web
 add("openstreetmap","OpenStreetMap","directory","https://www.openstreetmap.org","https://www.openstreetmap.org/api/0.6/search?q={query}&format=json","Globe","#7EBC6F");
 add("openlibrary","OpenLibrary","directory","https://openlibrary.org","https://openlibrary.org/search.json?q={query}&limit=10","BookOpen","#336699");
 add("project-gutenberg","Project Gutenberg","directory","https://www.gutenberg.org","https://www.gutenberg.org/ebooks/search/?query={query}","BookOpen","#5C6BC0");
-add("wikimedia-meta","Wikimedia Meta","directory","https://meta.wikimedia.org","https://meta.wikimedia.org/w/index.php?search={query}","Database","#666666");
+add("wikimedia-meta","Wikimedia Meta","directory","https://meta.wikimedia.org","https://meta.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Database","#666666");
 add("worldcat","WorldCat","directory","https://www.worldcat.org","https://www.worldcat.org/search?q={query}","BookOpen","#5C6BC0");
 add("dbpedia","DBpedia Lookup","directory","https://dbpedia.org","https://lookup.dbpedia.org/api/search?query={query}","Database","#FF7A59");
 
@@ -371,7 +371,7 @@ add("jsdelivr","jsDelivr","docs","https://www.jsdelivr.com","https://www.jsdeliv
 
 // === MEDIA / CREATIVE ===
 add("flickr","Flickr","media","https://www.flickr.com","https://www.flickr.com/search/?q={query}","Image","#0063DC");
-add("wikimedia-video","Wikimedia Video","media","https://commons.wikimedia.org","https://commons.wikimedia.org/w/index.php?search={query}+filetype%3Avideo","Image","#0066CC");
+add("wikimedia-video","Wikimedia Video","media","https://commons.wikimedia.org","https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}+filetype%3Avideo&srlimit=10&format=json&origin=*","Image","#0066CC");
 add("openclipart","OpenClipart","media","https://openclipart.org","https://openclipart.org/search/?query={query}","Image","#000000");
 add("openverse","Openverse","media","https://openverse.org","https://api.openverse.org/v1/images/?q={query}","Image","#0A1B2A");
 add("freemusicarchive","Free Music Archive","media","https://freemusicarchive.org","https://freemusicarchive.org/search?q={query}","Image","#1A1A1A");
