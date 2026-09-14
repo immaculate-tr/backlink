@@ -78,72 +78,146 @@ function findBacklink(text: string, pattern: string): { url: string; anchorText:
   }
 }
 
-async function verifySource(source: BacklinkSource, domain: string): Promise<VerificationResult> {
+/**
+ * Extracts the registrable "base domain" (last two labels) from a URL's
+ * hostname — e.g. "en.wikipedia.org" and "commons.wikimedia.org" both share
+ * request quotas with their siblings, but "en.wikipedia.org" and
+ * "tr.wikipedia.org" are DIFFERENT hostnames that still hit the SAME shared
+ * backend. Grouping by base domain lets us throttle requests to the same
+ * underlying infrastructure even when each source uses a different subdomain.
+ */
+function getBaseDomain(url: string): string {
+  try {
+    const host = new URL(url).hostname;
+    const parts = host.split(".");
+    return parts.slice(-2).join(".");
+  } catch {
+    return "";
+  }
+}
+
+const MIN_GAP_MS = 200;
+
+/**
+ * Reserves the next available time slot for a given base domain so that
+ * concurrent requests to the same shared infrastructure (e.g. all Wikipedia
+ * language editions, or the Stack Exchange API) are spaced out instead of
+ * firing all at once — which is exactly what triggers HTTP 429 responses.
+ */
+async function waitForDomainSlot(baseDomain: string, throttle: Map<string, number>): Promise<void> {
+  if (!baseDomain) return;
+  const now = Date.now();
+  const nextAllowed = throttle.get(baseDomain) ?? 0;
+  const scheduledStart = Math.max(now, nextAllowed);
+  throttle.set(baseDomain, scheduledStart + MIN_GAP_MS);
+  const waitMs = scheduledStart - now;
+  if (waitMs > 0) {
+    await new Promise((resolve) => setTimeout(resolve, waitMs));
+  }
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function verifySource(
+  source: BacklinkSource,
+  domain: string,
+  throttle: Map<string, number>
+): Promise<VerificationResult> {
   const startTime = Date.now();
   const query = encodeURIComponent(domain);
   const searchUrl = source.search_url_template.replace("{query}", query);
+  const baseDomain = getBaseDomain(searchUrl);
+  const maxAttempts = 3;
 
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+  await waitForDomainSlot(baseDomain, throttle);
 
-    const response = await fetch(searchUrl, {
-      headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; BacklinkVerifier/1.0; +https://immaculate.tr)",
-        Accept: "text/html,application/json,*/*",
-        "Accept-Language": "en-US,en;q=0.9,tr;q=0.8",
-      },
-      signal: controller.signal,
-      redirect: "follow",
-    });
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-    clearTimeout(timeoutId);
-    const elapsed = Date.now() - startTime;
+      const response = await fetch(searchUrl, {
+        headers: {
+          Accept: "text/html,application/json,*/*",
+          "Accept-Language": "en-US,en;q=0.9,tr;q=0.8",
+        },
+        signal: controller.signal,
+        redirect: "follow",
+      });
 
-    if (!response.ok && response.status !== 302) {
+      clearTimeout(timeoutId);
+      const elapsed = Date.now() - startTime;
+
+      // Rate-limited: back off and retry instead of giving up immediately.
+      if (response.status === 429 && attempt < maxAttempts) {
+        const retryAfterHeader = response.headers.get("retry-after");
+        const retryAfterMs = retryAfterHeader ? parseInt(retryAfterHeader, 10) * 1000 : 1500 * attempt;
+        await sleep(Math.min(Number.isFinite(retryAfterMs) ? retryAfterMs : 1500 * attempt, 6000));
+        await waitForDomainSlot(baseDomain, throttle);
+        continue;
+      }
+
+      if (!response.ok && response.status !== 302) {
+        return {
+          source_id: source.id, source_name: source.name, status: "error",
+          found_url: null, http_status: response.status, response_time_ms: elapsed,
+          page_title: null, anchor_text: null, error_message: "HTTP " + response.status,
+        };
+      }
+
+      const contentType = response.headers.get("content-type") || "";
+      const bodyText = await response.text();
+      let found: { url: string; anchorText: string } | null = null;
+      let pageTitle: string | null = null;
+
+      if (contentType.includes("application/json")) {
+        try {
+          const json = JSON.parse(bodyText);
+          const jsonStr = JSON.stringify(json);
+          pageTitle = json.title || null;
+          found = findBacklink(jsonStr, source.verify_url_pattern);
+        } catch { /* not JSON */ }
+      } else {
+        pageTitle = extractTitle(bodyText);
+        found = findBacklink(bodyText, source.verify_url_pattern);
+      }
+
+      return {
+        source_id: source.id, source_name: source.name,
+        status: found ? "verified" : "not_found",
+        found_url: found ? found.url : null,
+        http_status: response.status, response_time_ms: elapsed,
+        page_title: pageTitle, anchor_text: found ? found.anchorText : null,
+        error_message: null,
+      };
+    } catch (err) {
+      const isLastAttempt = attempt >= maxAttempts;
+      if (!isLastAttempt) {
+        // Transient network hiccup — brief backoff, then retry once more.
+        await sleep(500 * attempt);
+        await waitForDomainSlot(baseDomain, throttle);
+        continue;
+      }
+      const elapsed = Date.now() - startTime;
+      const msg = err instanceof Error
+        ? err.name === "AbortError" ? "Zaman aşımı (15s)" : err.message
+        : "Bilinmeyen hata";
       return {
         source_id: source.id, source_name: source.name, status: "error",
-        found_url: null, http_status: response.status, response_time_ms: elapsed,
-        page_title: null, anchor_text: null, error_message: "HTTP " + response.status,
+        found_url: null, http_status: null, response_time_ms: elapsed,
+        page_title: null, anchor_text: null, error_message: msg,
       };
     }
-
-    const contentType = response.headers.get("content-type") || "";
-    const bodyText = await response.text();
-    let found: { url: string; anchorText: string } | null = null;
-    let pageTitle: string | null = null;
-
-    if (contentType.includes("application/json")) {
-      try {
-        const json = JSON.parse(bodyText);
-        const jsonStr = JSON.stringify(json);
-        pageTitle = json.title || null;
-        found = findBacklink(jsonStr, source.verify_url_pattern);
-      } catch { /* not JSON */ }
-    } else {
-      pageTitle = extractTitle(bodyText);
-      found = findBacklink(bodyText, source.verify_url_pattern);
-    }
-
-    return {
-      source_id: source.id, source_name: source.name,
-      status: found ? "verified" : "not_found",
-      found_url: found ? found.url : null,
-      http_status: response.status, response_time_ms: elapsed,
-      page_title: pageTitle, anchor_text: found ? found.anchorText : null,
-      error_message: null,
-    };
-  } catch (err) {
-    const elapsed = Date.now() - startTime;
-    const msg = err instanceof Error
-      ? err.name === "AbortError" ? "Zaman aşımı (15s)" : err.message
-      : "Bilinmeyen hata";
-    return {
-      source_id: source.id, source_name: source.name, status: "error",
-      found_url: null, http_status: null, response_time_ms: elapsed,
-      page_title: null, anchor_text: null, error_message: msg,
-    };
   }
+
+  // Unreachable, but keeps TypeScript satisfied.
+  return {
+    source_id: source.id, source_name: source.name, status: "error",
+    found_url: null, http_status: null, response_time_ms: Date.now() - startTime,
+    page_title: null, anchor_text: null, error_message: "Bilinmeyen hata",
+  };
 }
 
 export type ProgressCallback = (completed: number, total: number, currentName: string) => void;
@@ -155,6 +229,7 @@ export async function runVerification(
 ): Promise<VerificationResult[]> {
   const active = sourcesToScan.filter((s) => s.is_active);
   const concurrencyLimit = 8;
+  const throttle = new Map<string, number>();
   const results: VerificationResult[] = [];
   let completed = 0;
 
@@ -162,7 +237,7 @@ export async function runVerification(
     const batch = active.slice(i, i + concurrencyLimit);
     const batchResults = await Promise.all(
       batch.map(async (src) => {
-        const result = await verifySource(src, domain);
+        const result = await verifySource(src, domain, throttle);
         completed++;
         if (onProgress) {
           onProgress(completed, active.length, src.name);
