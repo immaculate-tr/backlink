@@ -331,7 +331,7 @@ add("softwareheritage","Software Heritage","directory","https://archive.software
 // usable result either from the browser or from GitHub Actions.
 add("reddit","Reddit","social","https://www.reddit.com","https://www.reddit.com/search/.json?q={query}&limit=25","MessageCircle","#FF4500");
 add("hackernews","Hacker News","social","https://news.ycombinator.com","https://hn.algolia.com/api/v1/search?query={query}","MessageCircle","#FF6600",true);
-add("bluesky","Bluesky","social","https://bsky.app","https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q={query}","MessageCircle","#0085FF",true);
+add("bluesky","Bluesky","social","https://bsky.app","https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q={query}","MessageCircle","#0085FF",false);
 add("lobsters","Lobsters","social","https://lobste.rs","https://lobste.rs/search.json?q={query}","Newspaper","#AC130D");
 add("slashdot","Slashdot","social","https://slashdot.org","https://slashdot.org/search?query={query}","Newspaper","#026664");
 add("diaspora","Diaspora","social","https://diasp.org","https://diasp.org/search?q={query}","MessageCircle","#2D2D2D");
@@ -404,7 +404,7 @@ add("fsf","FSF Directory","directory","https://directory.fsf.org","https://direc
 // The Internet Archive's APIs send permissive CORS headers, so both of these
 // work straight from the browser — this is the "web arşiv" coverage.
 add("archive-org","Internet Archive","archive","https://archive.org","https://archive.org/advancedsearch.php?q={query}&fl[]=identifier&fl[]=title&fl[]=url&rows=25&output=json","Archive","#000000",true);
-add("wayback","Wayback Machine","archive","https://web.archive.org","https://web.archive.org/cdx/search/cdx?url={query}&output=json&limit=25","Archive","#000000",true);
+add("wayback","Wayback Machine","archive","https://web.archive.org","https://web.archive.org/cdx/search/cdx?url={query}&output=json&limit=25","Archive","#000000",false);
 
 // === DIRECTORY / MAPPING ===
 // "WorldCat" was removed — worldcat.org is a JavaScript single-page app; a
@@ -422,7 +422,7 @@ add("dbpedia","DBpedia Lookup","directory","https://dbpedia.org","https://lookup
 add("arxiv","arXiv","academic","https://arxiv.org","https://export.arxiv.org/api/query?search_query=all:{query}&max_results=20","BookOpen","#B31B1B");
 add("doaj","DOAJ","academic","https://doaj.org","https://doaj.org/api/search/articles/{query}","BookOpen","#00A651");
 add("plos","PLOS","academic","https://www.plos.org","https://api.plos.org/search?q={query}","BookOpen","#C10B0B");
-add("semantic-scholar","Semantic Scholar","academic","https://www.semanticscholar.org","https://api.semanticscholar.org/graph/v1/paper/search?query={query}","BookOpen","#1857B6",true);
+add("semantic-scholar","Semantic Scholar","academic","https://www.semanticscholar.org","https://api.semanticscholar.org/graph/v1/paper/search?query={query}","BookOpen","#1857B6",false);
 add("core","CORE","academic","https://core.ac.uk","https://core.ac.uk/search?q={query}","BookOpen","#004B87");
 add("zenodo","Zenodo","academic","https://zenodo.org","https://zenodo.org/api/records?q={query}","BookOpen","#00B5A5",true);
 add("figshare","Figshare","academic","https://figshare.com","https://figshare.com/search?q={query}","BookOpen","#1A1A1A");
