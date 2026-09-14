@@ -95,11 +95,16 @@ export default function App() {
     setScanCurrent("Tarama başlatılıyor...");
 
     try {
-      const results = await runVerification(TARGET_DOMAIN, sources, (completed, total, name) => {
-        setScanCompleted(completed);
-        setScanTotal(total);
-        setScanCurrent(name);
-      });
+      const results = await runVerification(
+        TARGET_DOMAIN,
+        sources,
+        (completed, total, name) => {
+          setScanCompleted(completed);
+          setScanTotal(total);
+          setScanCurrent(name);
+        },
+        resultsData?.results
+      );
 
       const now = new Date().toISOString();
       saveResults(results, now);
@@ -113,7 +118,7 @@ export default function App() {
         setScanCurrent("");
       }, 3000);
     }
-  }, [sources, loadData]);
+  }, [sources, loadData, resultsData]);
 
   const handleDownloadErrorReport = useCallback(() => {
     if (!resultsData) return;
@@ -492,6 +497,7 @@ function ResultsTab({
     { id: "verified", label: "Doğrulandı" },
     { id: "not_found", label: "Bulunamadı" },
     { id: "error", label: "Hata" },
+    { id: "server_only", label: "Sunucu Bekliyor" },
   ];
 
   return (
@@ -622,8 +628,9 @@ function SetupTab({ sourcesCount }: { sourcesCount: number }) {
         <p className="text-sm text-slate-400">
           "Tarama Başlat" butonuna tıklayarak anında tarama yapabilirsiniz.
           Tarama sonucu tarayıcıda kaydedilir ve sayfa yenilense bile kaybolmaz.
-          Bazı platformlar tarayıcı güvenlik kısıtlamaları (CORS) nedeniyle erişilemeyebilir —
-          bu platformlar GitHub Actions üzerinden otomatik taranır.
+          Bazı platformlar tarayıcı güvenlik kısıtlamaları (CORS) nedeniyle erişilemez —
+          bu platformlar tarayıcı taramasında "Sunucu Taraması Bekliyor" olarak işaretlenir
+          (bu bir hata değildir) ve yalnızca GitHub Actions üzerinden otomatik olarak taranır.
         </p>
       </div>
 
@@ -676,6 +683,7 @@ function StatusBadge({ status }: { status: VerificationResult["status"] }) {
     verified: { icon: CheckCircle2, text: "Doğrulandı", color: "text-green-400", bg: "bg-green-500/10", border: "border-green-500/20" },
     not_found: { icon: XCircle, text: "Bulunamadı", color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20" },
     error: { icon: AlertCircle, text: "Hata", color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20" },
+    server_only: { icon: Clock, text: "Sunucu Taraması Bekliyor", color: "text-slate-400", bg: "bg-slate-500/10", border: "border-slate-500/20" },
   };
   const c = config[status];
   return (
