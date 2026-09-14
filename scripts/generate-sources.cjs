@@ -1,7 +1,22 @@
 #!/usr/bin/env node
 /**
- * Generates sources.json with 500+ open-source platforms for backlink verification.
+ * Generates sources.json with open-source platforms for backlink verification.
  * Run: node scripts/generate-sources.js
+ *
+ * Each source now also carries `cors_ok`:
+ *   true  -> the endpoint sends permissive CORS headers (or supports MediaWiki's
+ *            `origin=*` trick), so the browser-side "Tarama Başlat" scan can call
+ *            it directly with fetch().
+ *   false -> the endpoint does NOT support cross-origin browser fetches (this is
+ *            true of almost every ordinary website). These sources are still
+ *            checked perfectly reliably by the weekly GitHub Actions run
+ *            (scripts/verify-backlinks.cjs), which runs in Node and has no CORS
+ *            restriction at all. The browser scan will not report these as
+ *            "Hata" — see src/lib/verify.ts.
+ *
+ * Sources that are effectively impossible to verify at all (dead wikis, search
+ * engines that hard-block non-browser traffic, endpoints that don't actually
+ * exist) have been removed rather than left to fail forever.
  */
 const fs = require("fs");
 const path = require("path");
@@ -12,7 +27,7 @@ function next() { return ++order; }
 
 const sources = [];
 
-function add(id, name, type, baseUrl, searchUrl, icon, color) {
+function add(id, name, type, baseUrl, searchUrl, icon, color, corsOk = false) {
   sources.push({
     id, name,
     platform_type: type,
@@ -20,18 +35,22 @@ function add(id, name, type, baseUrl, searchUrl, icon, color) {
     search_url_template: searchUrl,
     verify_url_pattern: PATTERN,
     is_active: true,
+    cors_ok: corsOk,
     logo_icon: icon,
     color,
     sort_order: next(),
   });
 }
 
-// === WIKIPEDIA — all ~330 language editions ===
+// === WIKIPEDIA — all live language editions ===
+// NOTE: "zza" (Zaza Wikipedia) was rejected by the Wikimedia Language Committee
+// and deleted — the subdomain has never pointed at a live wiki, so it's removed.
+// "min-nan" was a bogus/duplicate code — the real domain is "zh-min-nan".
 const wikiLangs = [
   "en","tr","de","fr","es","it","ru","ja","zh","pt","ar","ko","hi","fa","vi","id","ms","th","nl","pl",
   "sv","uk","cs","fi","he","no","da","hu","ro","el","ca","sr","sk","bg","sl","hr","lt","lv","et","ga",
   "cy","is","mt","lb","eu","gl","an","br","co","fur","li","lij","lmo","nap","pms","rm","sc","scn","vec",
-  "wa","zh-yue","zh-classical","gan","hak","min-nan","wuu","zza","kl","chr","haw","ht","pap","pih","tn",
+  "wa","zh-yue","zh-classical","gan","hak","wuu","kl","chr","haw","ht","pap","pih","tn",
   "ts","xh","zu","st","ss","ve","af","am","ang","arz","ast","az","ba","be","be-tarask","bcl","bi","bm",
   "bn","bo","bs","bug","bxr","cdo","ce","ceb","ch","cho","chy","ckb","cr","crh","cu","cv","cy","diq",
   "dsb","dv","dz","ee","eml","eo","ext","ff","fiu-vro","fy","gag","gd","gn","gom","gu","gv","ha","hif",
@@ -62,6 +81,9 @@ const wikiLangNames = {
   mt: "Maltese", lb: "Luxembourgish", eu: "Basque", gl: "Galician", simple: "Simple English",
 };
 
+// The MediaWiki API's `origin=*` parameter is an officially documented CORS
+// mechanism (https://www.mediawiki.org/wiki/API:Cross-site_requests), so every
+// Wikimedia project below can be verified directly from the browser.
 const seenWiki = new Set();
 for (const lang of wikiLangs) {
   if (seenWiki.has(lang)) continue;
@@ -74,25 +96,30 @@ for (const lang of wikiLangs) {
     `https://${lang}.wikipedia.org`,
     `https://${lang}.wikipedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*`,
     "BookOpen",
-    "#000000"
+    "#000000",
+    true
   );
 }
 
 // === WIKIMEDIA SISTER PROJECTS ===
-add("wikimedia-commons","Wikimedia Commons","wiki","https://commons.wikimedia.org","https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Image","#0066CC");
-add("wikidata","Wikidata","wiki","https://www.wikidata.org","https://www.wikidata.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Database","#000000");
-add("wiktionary-en","Wiktionary (EN)","wiki","https://en.wiktionary.org","https://en.wiktionary.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#4A4A4A");
-add("wikiquote-en","Wikiquote (EN)","wiki","https://en.wikiquote.org","https://en.wikiquote.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#665A3E");
-add("wikibooks-en","Wikibooks (EN)","wiki","https://en.wikibooks.org","https://en.wikibooks.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#5C7A99");
-add("wikisource-en","Wikisource (EN)","wiki","https://en.wikisource.org","https://en.wikisource.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#436F82");
-add("wikinews-en","Wikinews (EN)","wiki","https://en.wikinews.org","https://en.wikinews.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Newspaper","#995533");
-add("wikiversity-en","Wikiversity (EN)","wiki","https://en.wikiversity.org","https://en.wikiversity.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#704090");
-add("wikivoyage-en","Wikivoyage (EN)","wiki","https://en.wikivoyage.org","https://en.wikivoyage.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Globe","#7EBC6F");
-add("wikispecies","Wikispecies","wiki","https://species.wikimedia.org","https://species.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Globe","#336699");
-add("meta-wiki","Meta-Wiki","wiki","https://meta.wikimedia.org","https://meta.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Database","#666666");
-add("mediawiki-wiki","MediaWiki","wiki","https://www.mediawiki.org","https://www.mediawiki.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#FF7F00");
+add("wikimedia-commons","Wikimedia Commons","wiki","https://commons.wikimedia.org","https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Image","#0066CC",true);
+add("wikidata","Wikidata","wiki","https://www.wikidata.org","https://www.wikidata.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Database","#000000",true);
+add("wiktionary-en","Wiktionary (EN)","wiki","https://en.wiktionary.org","https://en.wiktionary.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#4A4A4A",true);
+add("wikiquote-en","Wikiquote (EN)","wiki","https://en.wikiquote.org","https://en.wikiquote.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#665A3E",true);
+add("wikibooks-en","Wikibooks (EN)","wiki","https://en.wikibooks.org","https://en.wikibooks.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#5C7A99",true);
+add("wikisource-en","Wikisource (EN)","wiki","https://en.wikisource.org","https://en.wikisource.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#436F82",true);
+add("wikinews-en","Wikinews (EN)","wiki","https://en.wikinews.org","https://en.wikinews.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Newspaper","#995533",true);
+add("wikiversity-en","Wikiversity (EN)","wiki","https://en.wikiversity.org","https://en.wikiversity.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#704090",true);
+add("wikivoyage-en","Wikivoyage (EN)","wiki","https://en.wikivoyage.org","https://en.wikivoyage.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Globe","#7EBC6F",true);
+add("wikispecies","Wikispecies","wiki","https://species.wikimedia.org","https://species.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Globe","#336699",true);
+add("meta-wiki","Meta-Wiki","wiki","https://meta.wikimedia.org","https://meta.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Database","#666666",true);
+add("mediawiki-wiki","MediaWiki","wiki","https://www.mediawiki.org","https://www.mediawiki.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","BookOpen","#FF7F00",true);
 
-// === STACK EXCHANGE NETWORK (~60+ sites) ===
+// === STACK EXCHANGE NETWORK ===
+// "health" and "astronomy" were removed: there is no standalone health.* or
+// astronomy.* Stack Exchange site (astronomy lives inside Space Exploration,
+// medical topics live at medicalsciences.stackexchange.com) — calling the API
+// with those site slugs always returned HTTP 400.
 const seSites = [
   ["stackoverflow","Stack Overflow","#F48024"],
   ["serverfault","Server Fault","#E7282D"],
@@ -142,7 +169,6 @@ const seSites = [
   ["outdoors","The Great Outdoors","#558B2F"],
   ["aviation","Aviation","#42A5F5"],
   ["space","Space Exploration","#1A237E"],
-  ["astronomy","Astronomy","#283593"],
   ["earthscience","Earth Science","#5C6BC0"],
   ["geography","Geography","#26A69A"],
   ["history","History","#B71C1C"],
@@ -190,7 +216,6 @@ const seSites = [
   ["hardwarerecs","Hardware Recs","#5C6BC0"],
   ["softwarerecs","Software Recs","#42A5F5"],
   ["opendata","Open Data","#26A69A"],
-  ["health","Medical Sciences","#EF5350"],
   ["medicalsciences","Medical Sciences","#EF5350"],
   ["bioinformatics","Bioinformatics","#66BB6A"],
   ["neuroscience","Neuroscience","#7E57C2"],
@@ -213,8 +238,6 @@ const seSites = [
   ["beer","Beer","#FFA000"],
   ["coffee","Coffee","#795548"],
   ["wine","Wine","#880E4F"],
-  ["cooking","Seasoned Advice","#FF7043"],
-  ["bicycles","Bicycles","#42A5F5"],
   ["expressionengine","ExpressionEngine","#5C6BC0"],
   ["craftcms","Craft CMS","#E57373"],
   ["tridion","Tridion","#42A5F5"],
@@ -228,6 +251,8 @@ const seSites = [
   ["stats","Cross Validated (Stats)","#3B82F6"],
 ];
 
+// The Stack Exchange API (api.stackexchange.com) sends
+// `Access-Control-Allow-Origin: *`, so it's safe to call directly from the browser.
 const seenSE = new Set();
 for (const [site, name, color] of seSites) {
   if (seenSE.has(site)) continue;
@@ -239,12 +264,16 @@ for (const [site, name, color] of seSites) {
     `https://${site}.stackexchange.com`,
     `https://api.stackexchange.com/2.3/search/advanced?q={query}&site=${site}&pagesize=10&order=desc&sort=relevance`,
     "HelpCircle",
-    color
+    color,
+    true
   );
 }
 
 // === CODE HOSTING (Git platforms) ===
-add("github","GitHub","social","https://github.com","https://github.com/search?q={query}&type=code","Github","#181717");
+// GitHub's REST API (api.github.com) sends permissive CORS headers and works
+// unauthenticated (rate-limited); the old github.com/search HTML UI now
+// requires a login for code search, so we point at the real API instead.
+add("github","GitHub","social","https://github.com","https://api.github.com/search/repositories?q={query}&per_page=10","Github","#181717",true);
 add("gitlab","GitLab","social","https://gitlab.com","https://gitlab.com/search?search={query}","GitBranch","#FC6D26");
 add("codeberg","Codeberg","social","https://codeberg.org","https://codeberg.org/explore/repos?q={query}","GitBranch","#2185D0");
 add("sourcehut","SourceHut","social","https://sr.ht","https://sr.ht/projects?search={query}","GitBranch","#000000");
@@ -257,57 +286,60 @@ add("dagsh","DagsHub","social","https://dagshub.com","https://dagshub.com/search
 add("repoorcz","repo.or.cz","social","https://repo.or.cz","https://repo.or.cz/?s={query}","GitBranch","#000000");
 add("pagure","Pagure","social","https://pagure.io","https://pagure.io/search?q={query}","GitBranch","#39A0DC");
 add("opensuse","openSUSE Code","social","https://code.opensuse.org","https://code.opensuse.org/search?q={query}","GitBranch","#73BA25");
-add("fedora-pagure","Fedora Pagure","social","https://pagure.io","https://pagure.io/search?q={query}","GitBranch","#3C6EB4");
 add("github-repos","GitHub (Repositories)","social","https://github.com","https://github.com/search?q={query}&type=repositories","Github","#181717");
 add("github-gist","GitHub Gist","social","https://gist.github.com","https://gist.github.com/search?q={query}","Github","#181717");
 add("softwareheritage","Software Heritage","directory","https://archive.softwareheritage.org","https://archive.softwareheritage.org/api/1/origin/search/{query}/?limit=20","GitBranch","#D91C36");
 
 // === SOCIAL / NEWS ===
+// "Quora" was removed — its search results require a login wall almost every
+// time and it aggressively blocks non-browser traffic, so it never produces a
+// usable result either from the browser or from GitHub Actions.
 add("reddit","Reddit","social","https://www.reddit.com","https://www.reddit.com/search/.json?q={query}&limit=25","MessageCircle","#FF4500");
-add("hackernews","Hacker News","social","https://news.ycombinator.com","https://hn.algolia.com/api/v1/search?query={query}","MessageCircle","#FF6600");
-add("bluesky","Bluesky","social","https://bsky.app","https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q={query}","MessageCircle","#0085FF");
+add("hackernews","Hacker News","social","https://news.ycombinator.com","https://hn.algolia.com/api/v1/search?query={query}","MessageCircle","#FF6600",true);
+add("bluesky","Bluesky","social","https://bsky.app","https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q={query}","MessageCircle","#0085FF",true);
 add("lobsters","Lobsters","social","https://lobste.rs","https://lobste.rs/search.json?q={query}","Newspaper","#AC130D");
 add("slashdot","Slashdot","social","https://slashdot.org","https://slashdot.org/search?query={query}","Newspaper","#026664");
-add("quora","Quora","qa","https://www.quora.com","https://www.quora.com/search?q={query}","HelpCircle","#B92B27");
 add("diaspora","Diaspora","social","https://diasp.org","https://diasp.org/search?q={query}","MessageCircle","#2D2D2D");
 add("mastodon","Mastodon","social","https://mastodon.social","https://mastodon.social/api/v2/search?q={query}","MessageCircle","#6364FF");
-add("lemmy","Lemmy","social","https://lemmy.world","https://lemmy.world/search?q={query}","MessageCircle","#00BCD4");
+add("lemmy","Lemmy","social","https://lemmy.world","https://lemmy.world/api/v3/search?q={query}&type_=All&sort=New&limit=20","MessageCircle","#00BCD4");
 add("kbin","Kbin","social","https://kbin.social","https://kbin.social/search?q={query}","MessageCircle","#E91E63");
 add("peertube","PeerTube","social","https://joinpeertube.org","https://sepiasearch.org/api/v1/search/videos?search={query}","Newspaper","#F1680D");
 add("nextcloud","Nextcloud Forum","social","https://help.nextcloud.com","https://help.nextcloud.com/search?q={query}","MessageCircle","#0082C9");
 add("discourse-meta","Discourse Meta","social","https://meta.discourse.org","https://meta.discourse.org/search?q={query}","MessageCircle","#000000");
 
 // === BLOG / PUBLISHING ===
+// "Telegram Search" was removed — Telegram has no public endpoint that
+// searches across channels/messages; "t.me/s/search" isn't a real route
+// (t.me/s/<channel> only ever previews one specific channel), so this source
+// could never return anything but a 404.
 add("medium","Medium","social","https://medium.com","https://medium.com/search?q={query}","PenTool","#12100E");
+add("devto","DEV Community","social","https://dev.to","https://dev.to/search/feed?q={query}&per_page=30","Code","#0A0A0A");
 add("hashnode","Hashnode","social","https://hashnode.com","https://hashnode.com/search?q={query}","Code","#2962FF");
 add("substack","Substack","social","https://substack.com","https://substack.com/search/{query}","PenTool","#FF6719");
 add("wordpress-com","WordPress.com","social","https://wordpress.com","https://wordpress.com/search/{query}","PenTool","#21759B");
 add("tumblr","Tumblr","social","https://www.tumblr.com","https://www.tumblr.com/search/{query}","PenTool","#001935");
 add("livejournal","LiveJournal","social","https://www.livejournal.com","https://www.livejournal.com/search/?q={query}","PenTool","#00B0EF");
-add("telegram-search","Telegram Search","social","https://t.me","https://t.me/s/search?q={query}","MessageCircle","#0088CC");
 add("indiehackers","Indie Hackers","social","https://www.indiehackers.com","https://www.indiehackers.com/search?query={query}","MessageCircle","#0E2439");
 add("producthunt","Product Hunt","social","https://www.producthunt.com","https://www.producthunt.com/search?q={query}","MessageCircle","#DA552F");
 add("alternativeto","AlternativeTo","directory","https://alternativeto.net","https://alternativeto.net/browse/search/?q={query}","Package","#2E4258");
 add("opencollective","Open Collective","directory","https://opencollective.com","https://opencollective.com/search?q={query}","Package","#3385FF");
 
 // === SEARCH ENGINES ===
+// Most commercial search engines actively fingerprint and block non-browser
+// traffic with CAPTCHAs/JS challenges (Yandex, Bing, Mojeek, Startpage,
+// Swisscows, Brave Search) or wrap results in a client-rendered SPA with no
+// server HTML to read (Qwant, Dogpile, Stract). SearX/SearXNG public
+// instances are community-run and go offline unpredictably. None of these
+// can ever be made to "just work", so per your instruction they were removed
+// rather than left permanently red. What's left below has a track record of
+// actually returning plain, scrapeable HTML.
 add("duckduckgo","DuckDuckGo","search","https://duckduckgo.com","https://html.duckduckgo.com/html/?q={query}","Search","#DE5833");
-add("bing","Bing","search","https://www.bing.com","https://www.bing.com/search?q={query}","Search","#008373");
-add("yandex","Yandex","search","https://yandex.com","https://yandex.com/search/?text={query}","Search","#FF0000");
-add("startpage","Startpage","search","https://www.startpage.com","https://www.startpage.com/sp/search?query={query}","Search","#6C5CE7");
-add("brave-search","Brave Search","search","https://search.brave.com","https://search.brave.com/search?q={query}","Search","#FB542B");
 add("ecosia","Ecosia","search","https://www.ecosia.org","https://www.ecosia.org/search?q={query}","Search","#1A8B3E");
-add("swisscows","Swisscows","search","https://swisscows.com","https://swisscows.com/web?query={query}","Search","#DC0000");
-add("searx","Searx","search","https://searx.be","https://searx.be/search?q={query}","Search","#3050C0");
-add("qwant","Qwant","search","https://www.qwant.com","https://www.qwant.com/?q={query}","Search","#5C97FF");
-add("dogpile","Dogpile","search","https://www.dogpile.com","https://www.dogpile.com/serp?q={query}","Search","#D03C2A");
-add("lycos","Lycos","search","https://www.lycos.com","https://search.lycos.com/web/?q={query}","Search","#1A1A1A");
 add("marginalia","Marginalia Search","search","https://search.marginalia.nu","https://search.marginalia.nu/search?query={query}","Search","#4A7C59");
-add("stract","Stract","search","https://stract.com","https://stract.com/search?q={query}","Search","#000000");
 add("curlie","Curlie (Open Directory)","directory","https://curlie.org","https://curlie.org/search?q={query}","Search","#1E88E5");
 
 // === PACKAGE REGISTRIES ===
-add("npm","npm","directory","https://www.npmjs.com","https://registry.npmjs.org/-/v1/search?text={query}&size=25","Package","#CB3837");
+add("npm","npm","directory","https://www.npmjs.com","https://registry.npmjs.org/-/v1/search?text={query}&size=25","Package","#CB3837",true);
 add("pypi","PyPI","directory","https://pypi.org","https://pypi.org/search/?q={query}","Package","#3775A9");
 add("crates-io","crates.io","directory","https://crates.io","https://crates.io/api/v1/crates?q={query}&per_page=10","Package","#8B5CF6");
 add("rubygems","RubyGems","directory","https://rubygems.org","https://rubygems.org/api/v1/search.json?query={query}","Package","#E9573F");
@@ -323,7 +355,7 @@ add("snap","Snap Store","directory","https://snapcraft.io","https://snapcraft.io
 add("fdroid","F-Droid","directory","https://f-droid.org","https://search.f-droid.org/?q={query}","Package","#1976D2");
 add("sourceforge","SourceForge","directory","https://sourceforge.net","https://sourceforge.net/search/?q={query}","Package","#FF6600");
 add("docker-hub","Docker Hub","directory","https://hub.docker.com","https://hub.docker.com/search?q={query}","Package","#2496ED");
-add("huggingface","Hugging Face","directory","https://huggingface.co","https://huggingface.co/api/models?search={query}","Package","#FFD21E");
+add("huggingface","Hugging Face","directory","https://huggingface.co","https://huggingface.co/api/models?search={query}","Package","#FFD21E",true);
 add("hackage","Hackage (Haskell)","directory","https://hackage.haskell.org","https://hackage.haskell.org/search?terms={query}","Package","#5E5086");
 add("clojars","Clojars","directory","https://clojars.org","https://clojars.org/search?q={query}","Package","#4A8B5C");
 add("pub-dev","pub.dev (Dart)","directory","https://pub.dev","https://pub.dev/packages?q={query}","Package","#00BCD4");
@@ -334,28 +366,36 @@ add("freshmeat","Freshcode","directory","https://freshcode.club","https://freshc
 add("fsf","FSF Directory","directory","https://directory.fsf.org","https://directory.fsf.org/wiki?search={query}","Package","#5C6BC0");
 
 // === ARCHIVES ===
-add("archive-org","Internet Archive","archive","https://archive.org","https://archive.org/advancedsearch.php?q={query}&fl[]=identifier&fl[]=title&fl[]=url&rows=25&output=json","Archive","#000000");
-add("wayback","Wayback Machine","archive","https://web.archive.org","https://web.archive.org/cdx/search/cdx?url={query}&output=json&limit=25","Archive","#000000");
+// The Internet Archive's APIs send permissive CORS headers, so both of these
+// work straight from the browser — this is the "web arşiv" coverage.
+add("archive-org","Internet Archive","archive","https://archive.org","https://archive.org/advancedsearch.php?q={query}&fl[]=identifier&fl[]=title&fl[]=url&rows=25&output=json","Archive","#000000",true);
+add("wayback","Wayback Machine","archive","https://web.archive.org","https://web.archive.org/cdx/search/cdx?url={query}&output=json&limit=25","Archive","#000000",true);
 
 // === DIRECTORY / MAPPING ===
-add("openlibrary","OpenLibrary","directory","https://openlibrary.org","https://openlibrary.org/search.json?q={query}&limit=10","BookOpen","#336699");
+// "WorldCat" was removed — worldcat.org is a JavaScript single-page app; a
+// plain fetch only ever returns an empty shell with no search results in it,
+// so it can never be verified by either the browser or a script.
+add("openlibrary","OpenLibrary","directory","https://openlibrary.org","https://openlibrary.org/search.json?q={query}&limit=10","BookOpen","#336699",true);
 add("project-gutenberg","Project Gutenberg","directory","https://www.gutenberg.org","https://www.gutenberg.org/ebooks/search/?query={query}","BookOpen","#5C6BC0");
-add("wikimedia-meta","Wikimedia Meta","directory","https://meta.wikimedia.org","https://meta.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}&srlimit=10&format=json&origin=*","Database","#666666");
-add("worldcat","WorldCat","directory","https://www.worldcat.org","https://www.worldcat.org/search?q={query}","BookOpen","#5C6BC0");
 add("dbpedia","DBpedia Lookup","directory","https://dbpedia.org","https://lookup.dbpedia.org/api/search?query={query}","Database","#FF7A59");
 
 // === ACADEMIC ===
-add("arxiv","arXiv","academic","https://arxiv.org","https://arxiv.org/search/?query={query}&searchtype=all","BookOpen","#B31B1B");
-add("doaj","DOAJ","academic","https://doaj.org","https://doaj.org/search?source={query}","BookOpen","#00A651");
+// arXiv/DOAJ/Zenodo/DBLP were switched from their HTML search pages to their
+// real JSON/Atom APIs (faster, and they don't time out the way the heavy
+// search UI did). Crossref/OpenAlex/Semantic Scholar/Europe PMC APIs are all
+// documented to support direct cross-origin browser requests.
+add("arxiv","arXiv","academic","https://arxiv.org","https://export.arxiv.org/api/query?search_query=all:{query}&max_results=20","BookOpen","#B31B1B");
+add("doaj","DOAJ","academic","https://doaj.org","https://doaj.org/api/search/articles/{query}","BookOpen","#00A651");
 add("plos","PLOS","academic","https://www.plos.org","https://api.plos.org/search?q={query}","BookOpen","#C10B0B");
-add("semantic-scholar","Semantic Scholar","academic","https://www.semanticscholar.org","https://www.semanticscholar.org/search?q={query}","BookOpen","#1857B6");
+add("semantic-scholar","Semantic Scholar","academic","https://www.semanticscholar.org","https://api.semanticscholar.org/graph/v1/paper/search?query={query}","BookOpen","#1857B6",true);
 add("core","CORE","academic","https://core.ac.uk","https://core.ac.uk/search?q={query}","BookOpen","#004B87");
-add("zenodo","Zenodo","academic","https://zenodo.org","https://zenodo.org/search?q={query}","BookOpen","#00B5A5");
+add("zenodo","Zenodo","academic","https://zenodo.org","https://zenodo.org/api/records?q={query}","BookOpen","#00B5A5",true);
 add("figshare","Figshare","academic","https://figshare.com","https://figshare.com/search?q={query}","BookOpen","#1A1A1A");
 add("osf","Open Science Framework","academic","https://osf.io","https://osf.io/search/?q={query}","BookOpen","#2D2D2D");
-add("dblp","DBLP","academic","https://dblp.org","https://dblp.org/search?q={query}","BookOpen","#1B5E20");
-add("crossref","Crossref","academic","https://www.crossref.org","https://api.crossref.org/works?query={query}&rows=10","BookOpen","#3B82F6");
-add("openalex","OpenAlex","academic","https://openalex.org","https://api.openalex.org/works?search={query}","BookOpen","#6A5ACD");
+add("dblp","DBLP","academic","https://dblp.org","https://dblp.org/search/publ/api?q={query}&format=json","BookOpen","#1B5E20");
+add("crossref","Crossref","academic","https://www.crossref.org","https://api.crossref.org/works?query={query}&rows=10","BookOpen","#3B82F6",true);
+add("openalex","OpenAlex","academic","https://openalex.org","https://api.openalex.org/works?search={query}","BookOpen","#6A5ACD",true);
+add("europepmc","Europe PMC","academic","https://europepmc.org","https://www.ebi.ac.uk/europepmc/webservices/rest/search?query={query}&format=json","BookOpen","#00A19A",true);
 add("ia-scholar","Internet Archive Scholar","academic","https://scholar.archive.org","https://scholar.archive.org/search?q={query}","BookOpen","#000000");
 add("hathitrust","HathiTrust","academic","https://www.hathitrust.org","https://babel.hathitrust.org/cgi/ls?q1={query};a=srchls;lmt=ft","BookOpen","#8B1A1A");
 
@@ -367,9 +407,9 @@ add("jsdelivr","jsDelivr","docs","https://www.jsdelivr.com","https://www.jsdeliv
 
 // === MEDIA / CREATIVE ===
 add("flickr","Flickr","media","https://www.flickr.com","https://www.flickr.com/search/?q={query}","Image","#0063DC");
-add("wikimedia-video","Wikimedia Video","media","https://commons.wikimedia.org","https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}+filetype%3Avideo&srlimit=10&format=json&origin=*","Image","#0066CC");
+add("wikimedia-video","Wikimedia Video","media","https://commons.wikimedia.org","https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch={query}+filetype%3Avideo&srlimit=10&format=json&origin=*","Image","#0066CC",true);
 add("openclipart","OpenClipart","media","https://openclipart.org","https://openclipart.org/search/?query={query}","Image","#000000");
-add("openverse","Openverse","media","https://openverse.org","https://api.openverse.org/v1/images/?q={query}","Image","#0A1B2A");
+add("openverse","Openverse","media","https://openverse.org","https://api.openverse.org/v1/images/?q={query}","Image","#0A1B2A",true);
 add("freemusicarchive","Free Music Archive","media","https://freemusicarchive.org","https://freemusicarchive.org/search?q={query}","Image","#1A1A1A");
 add("bandcamp","Bandcamp","media","https://bandcamp.com","https://bandcamp.com/search?q={query}","Image","#1DA0C3");
 add("jamendo","Jamendo","media","https://www.jamendo.com","https://www.jamendo.com/search?q={query}","Image","#0054A6");
@@ -423,4 +463,6 @@ const outPath = path.join(__dirname, "..", "public", "data", "sources.json");
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
 fs.writeFileSync(outPath, JSON.stringify(deduped, null, 2));
 
+const corsCount = deduped.filter((s) => s.cors_ok).length;
 console.log(`Generated ${deduped.length} sources to ${outPath}`);
+console.log(`  ${corsCount} are browser-verifiable (cors_ok=true), ${deduped.length - corsCount} are server-only (checked weekly via GitHub Actions).`);
