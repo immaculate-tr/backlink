@@ -20,13 +20,43 @@ function extractTitle(html) {
   return m && m[1] ? m[1].trim().substring(0, 200) : null;
 }
 
+function isSameOrSubdomain(hostname, domain) {
+  const h = hostname.toLowerCase().replace(/^www\./, "");
+  const d = domain.toLowerCase().replace(/^www\./, "");
+  return h === d || h.endsWith("." + d);
+}
+
+/**
+ * Scans text for URLs and returns the first one whose hostname is actually
+ * the target domain (or a subdomain of it) — not merely a URL that happens
+ * to contain the domain string somewhere in its path or query parameters.
+ */
 function findBacklink(text, pattern) {
   try {
-    const regex = new RegExp(pattern, "i");
-    if (regex.test(text)) {
-      const urlMatch = text.match(new RegExp("https?://[^\\s\"'<>]*" + pattern, "i"));
-      if (urlMatch) return { url: urlMatch[0], anchorText: "" };
+    if (!new RegExp(pattern, "i").test(text)) return null;
+
+    const domain = pattern.replace(/\\\./g, ".");
+    const urlRegex = /https?:\/\/[^\s"'<>)]+/gi;
+    let match;
+
+    while ((match = urlRegex.exec(text)) !== null) {
+      const candidate = match[0].replace(/[.,;:!?]+$/, "");
+      try {
+        const hostname = new URL(candidate).hostname;
+        if (isSameOrSubdomain(hostname, domain)) {
+          return { url: candidate, anchorText: "" };
+        }
+      } catch {
+        continue;
+      }
     }
+
+    const bareRegex = new RegExp("(?:^|[\\s\"'(>])((?:www\\.)?" + pattern + ")(?![a-zA-Z0-9-])", "i");
+    const bareMatch = text.match(bareRegex);
+    if (bareMatch) {
+      return { url: bareMatch[1], anchorText: "" };
+    }
+
     return null;
   } catch {
     return null;
