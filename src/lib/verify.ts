@@ -32,13 +32,46 @@ function extractTitle(html: string): string | null {
   return m && m[1] ? m[1].trim().substring(0, 200) : null;
 }
 
+function isSameOrSubdomain(hostname: string, domain: string): boolean {
+  const h = hostname.toLowerCase().replace(/^www\./, "");
+  const d = domain.toLowerCase().replace(/^www\./, "");
+  return h === d || h.endsWith("." + d);
+}
+
+/**
+ * Scans text for URLs and returns the first one whose hostname is actually
+ * the target domain (or a subdomain of it) — not merely a URL that happens
+ * to contain the domain string somewhere in its path or query parameters.
+ * `pattern` is the pre-escaped domain regex (e.g. "immaculate\\.tr").
+ */
 function findBacklink(text: string, pattern: string): { url: string; anchorText: string } | null {
   try {
-    const regex = new RegExp(pattern, "i");
-    if (regex.test(text)) {
-      const urlMatch = text.match(new RegExp("https?://[^\\s\"'<>]*" + pattern, "i"));
-      if (urlMatch) return { url: urlMatch[0], anchorText: "" };
+    // Quick pre-check: bail out fast if the domain string doesn't appear at all.
+    if (!new RegExp(pattern, "i").test(text)) return null;
+
+    const domain = pattern.replace(/\\\./g, ".");
+    const urlRegex = /https?:\/\/[^\s"'<>)]+/gi;
+    let match: RegExpExecArray | null;
+
+    while ((match = urlRegex.exec(text)) !== null) {
+      const candidate = match[0].replace(/[.,;:!?]+$/, "");
+      try {
+        const hostname = new URL(candidate).hostname;
+        if (isSameOrSubdomain(hostname, domain)) {
+          return { url: candidate, anchorText: "" };
+        }
+      } catch {
+        continue;
+      }
     }
+
+    // Protocol-relative or bare mentions like "//immaculate.tr" or "www.immaculate.tr"
+    const bareRegex = new RegExp("(?:^|[\\s\"'(>])((?:www\\.)?" + pattern + ")(?![a-zA-Z0-9-])", "i");
+    const bareMatch = text.match(bareRegex);
+    if (bareMatch) {
+      return { url: bareMatch[1], anchorText: "" };
+    }
+
     return null;
   } catch {
     return null;
