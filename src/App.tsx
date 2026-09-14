@@ -8,6 +8,8 @@ import {
   runVerification,
   loadResults,
   saveResults,
+  buildErrorReportCSV,
+  downloadCSV,
   type VerificationResult,
   type ResultsData,
 } from "@/lib/verify";
@@ -21,6 +23,7 @@ import {
   Clock,
   Code,
   Database,
+  Download,
   ExternalLink,
   GitBranch,
   Github,
@@ -112,6 +115,14 @@ export default function App() {
     }
   }, [sources, loadData]);
 
+  const handleDownloadErrorReport = useCallback(() => {
+    if (!resultsData) return;
+    const csv = buildErrorReportCSV(resultsData.results, resultsData.sources, TARGET_DOMAIN);
+    if (!csv) return;
+    const ts = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
+    downloadCSV(csv, `hata-raporu-${ts}.csv`);
+  }, [resultsData]);
+
   const stats = useMemo(() => {
     if (!resultsData || resultsData.results.length === 0)
       return { total: 0, verified: 0, notFound: 0, errors: 0 };
@@ -191,6 +202,16 @@ export default function App() {
               )}
               {isScanning ? "Taranıyor..." : "Tarama Başlat"}
             </button>
+            {stats.errors > 0 && (
+              <button
+                onClick={handleDownloadErrorReport}
+                title="Hangi platformun hangi hatayı verdiğini gösteren CSV raporu indir"
+                className="inline-flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm font-medium text-red-300 transition-all hover:bg-red-500/20"
+              >
+                <Download className="h-4 w-4" />
+                <span className="hidden sm:inline">Hata Raporu ({stats.errors})</span>
+              </button>
+            )}
           </div>
         </div>
       </header>
