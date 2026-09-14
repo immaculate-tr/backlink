@@ -101,6 +101,20 @@ function getBaseDomain(url: string): string {
   }
 }
 
+// Every language edition of Wikipedia shares the same Wikimedia backend and
+// rate limiter, so they're throttled as one group ("wikimedia") rather than
+// as independent base domains — see the matching comment in
+// scripts/verify-backlinks.cjs for the full explanation.
+const WIKIMEDIA_HOST_SUFFIXES = new Set([
+  "wikipedia.org", "wiktionary.org", "wikiquote.org", "wikibooks.org",
+  "wikisource.org", "wikinews.org", "wikiversity.org", "wikivoyage.org",
+  "wikidata.org", "wikimedia.org", "mediawiki.org", "wikispecies.org",
+]);
+function getThrottleKey(url: string): string {
+  const base = getBaseDomain(url);
+  return WIKIMEDIA_HOST_SUFFIXES.has(base) ? "wikimedia" : base;
+}
+
 const MIN_GAP_MS = 200;
 
 /**
@@ -169,7 +183,7 @@ async function verifySource(
   const startTime = Date.now();
   const query = encodeURIComponent(domain);
   const searchUrl = source.search_url_template.replace("{query}", query);
-  const baseDomain = getBaseDomain(searchUrl);
+  const baseDomain = getThrottleKey(searchUrl);
   const maxAttempts = 3;
 
   await waitForDomainSlot(baseDomain, throttle);
