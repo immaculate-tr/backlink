@@ -481,6 +481,53 @@ add("dart-docs","Dart Docs","docs","https://dart.dev","https://dart.dev/search?q
 add("angular-docs","Angular Docs","docs","https://angular.io","https://angular.io/search?q={query}","BookOpen","#DD0031");
 add("django-docs","Django Docs","docs","https://docs.djangoproject.com","https://docs.djangoproject.com/search/?q={query}","BookOpen","#0C4B33");
 
+// === NEWLY RESEARCHED GLOBAL PLATFORMS (added on request) ===
+// All added as server-only (cors_ok=false) on purpose: Bluesky, Wayback
+// Machine and Semantic Scholar all looked CORS-safe on paper and still
+// failed in live browser testing (see verify.ts commit history / error
+// reports). Rather than repeat that trial-and-error, every new source here
+// is checked exclusively by the weekly Node run (scripts/verify-backlinks.cjs),
+// which has no CORS exposure at all — zero risk of a new browser regression.
+
+// --- Developer / package ecosystems ---
+add("terraform-registry","Terraform Registry","directory","https://registry.terraform.io","https://registry.terraform.io/v1/modules/search?q={query}","Package","#7B42BC");
+add("artifacthub","Artifact Hub (Helm/K8s)","directory","https://artifacthub.io","https://artifacthub.io/api/v1/packages/search?ts_query_web={query}","Package","#417598");
+add("firefox-addons","Firefox Add-ons (AMO)","directory","https://addons.mozilla.org","https://addons.mozilla.org/api/v5/addons/search/?q={query}","Package","#FF7139");
+add("vscode-marketplace","VS Code Marketplace","directory","https://marketplace.visualstudio.com","https://marketplace.visualstudio.com/search?term={query}&target=VSCode","Package","#007ACC");
+add("jetbrains-marketplace","JetBrains Marketplace","directory","https://plugins.jetbrains.com","https://plugins.jetbrains.com/search?search={query}","Package","#000000");
+add("deno-land-x","deno.land/x","directory","https://deno.land","https://deno.land/x?query={query}","Package","#000000");
+
+// --- Research / academic infrastructure ---
+add("openaire","OpenAIRE","academic","https://explore.openaire.eu","https://api.openaire.eu/search/publications?keywords={query}","BookOpen","#2C51A3");
+add("ror","ROR (Research Organization Registry)","academic","https://ror.org","https://api.ror.org/organizations?query={query}","Database","#5AA7A7");
+add("datacite","DataCite","academic","https://datacite.org","https://api.datacite.org/dois?query={query}","Database","#00A0DC");
+add("orcid","ORCID","academic","https://orcid.org","https://pub.orcid.org/v3.0/search/?q={query}","Database","#A6CE39");
+add("data-gov","Data.gov (US Open Data / CKAN)","academic","https://catalog.data.gov","https://catalog.data.gov/api/3/action/package_search?q={query}","Database","#2E77B5");
+add("data-europa","data.europa.eu (EU Open Data)","academic","https://data.europa.eu","https://data.europa.eu/api/hub/search/search?q={query}","Database","#003399");
+
+// --- Podcasts / media ---
+add("apple-podcasts","Apple Podcasts","media","https://podcasts.apple.com","https://itunes.apple.com/search?term={query}&media=podcast","Globe","#9933CC");
+
+// --- Business / product / review platforms ---
+add("saashub","SaaSHub","directory","https://www.saashub.com","https://www.saashub.com/search?q={query}","Package","#4A90D9");
+add("g2","G2","directory","https://www.g2.com","https://www.g2.com/search?query={query}","Package","#FF492C");
+add("capterra","Capterra","directory","https://www.capterra.com","https://www.capterra.com/search/?query={query}","Package","#FF4954");
+add("trustpilot","Trustpilot","directory","https://www.trustpilot.com","https://www.trustpilot.com/search?query={query}","Package","#00B67A");
+add("bbb","Better Business Bureau (BBB)","directory","https://www.bbb.org","https://www.bbb.org/search?find_text={query}","Package","#00549F");
+
+// --- Search engines (beyond the ones already checked) ---
+add("yandex-search","Yandex","directory","https://yandex.com","https://yandex.com/search/?text={query}","Search","#FF0000");
+add("mojeek","Mojeek","directory","https://www.mojeek.com","https://www.mojeek.com/search?q={query}","Search","#3B7A57");
+add("startpage","Startpage","directory","https://www.startpage.com","https://www.startpage.com/sp/search?query={query}","Search","#F17A2B");
+
+// --- Social ---
+add("pinterest","Pinterest","social","https://www.pinterest.com","https://www.pinterest.com/search/pins/?q={query}","MessageCircle","#E60023");
+
+// --- Turkey-relevant platforms (immaculate.tr is a .tr site) ---
+add("eksisozluk","Ekşi Sözlük","social","https://eksisozluk.com","https://eksisozluk.com/?q={query}","MessageCircle","#6DAB3C");
+add("webrazzi","Webrazzi","social","https://webrazzi.com","https://webrazzi.com/?s={query}","Newspaper","#0088CC");
+add("shiftdelete","ShiftDelete.Net","social","https://shiftdelete.net","https://shiftdelete.net/?s={query}","Newspaper","#E4002B");
+
 // Sort by sort_order
 sources.sort((a, b) => a.sort_order - b.sort_order);
 
