@@ -222,3 +222,68 @@ export async function loadResults(): Promise<ResultsData | null> {
 
   return stored;
 }
+
+function csvEscape(value: string): string {
+  if (value == null) return "";
+  const str = String(value);
+  return /[",\n]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str;
+}
+
+/**
+ * Builds a CSV diagnostic report of every source that ended in "error" status:
+ * which platform, what HTTP code (if any), the exact error message the browser
+ * gave, how long it took, and the precise URL that was attempted — so each
+ * failure can be looked up and fixed individually instead of guessing.
+ * Returns null if there is nothing to report.
+ */
+export function buildErrorReportCSV(
+  results: VerificationResult[],
+  sources: BacklinkSource[],
+  domain: string
+): string | null {
+  const errorResults = results.filter((r) => r.status === "error");
+  if (errorResults.length === 0) return null;
+
+  const sourceMap = new Map(sources.map((s) => [s.id, s]));
+  const header = [
+    "Platform",
+    "HTTP Kodu",
+    "Hata Mesajı",
+    "Süre (ms)",
+    "Denenen Arama URL'si",
+    "Platform Ana Adresi",
+  ];
+
+  const rows = errorResults.map((r) => {
+    const src = sourceMap.get(r.source_id);
+    const triedUrl = src
+      ? src.search_url_template.replace("{query}", encodeURIComponent(domain))
+      : "";
+    return [
+      r.source_name,
+      r.http_status != null ? String(r.http_status) : "",
+      r.error_message || "",
+      r.response_time_ms != null ? String(r.response_time_ms) : "",
+      triedUrl,
+      src ? src.base_url : "",
+    ]
+      .map(csvEscape)
+      .join(",");
+  });
+
+  // UTF-8 BOM so Excel/Sheets renders Turkish characters correctly.
+  return "\uFEFF" + [header.join(","), ...rows].join("\r\n");
+}
+
+/** Triggers a browser download of the given CSV content. */
+export function downloadCSV(csvContent: string, filename: string): void {
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
