@@ -1,3 +1,0 @@
-[functions.verify-backlinks]
-verify_jwt = false
-entrypoint = "./functions/verify-backlinks/index.ts"
