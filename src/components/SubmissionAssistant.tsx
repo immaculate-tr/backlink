@@ -27,6 +27,8 @@ import {
   Square,
 } from "lucide-react";
 
+const BULK_OPEN_WARN_THRESHOLD = 15;
+
 const STATUS_ORDER: SubmissionStatus[] = [
   "not_started",
   "submitted",
@@ -129,6 +131,21 @@ export default function SubmissionAssistant({ sources }: { sources: BacklinkSour
     const next = saveBulkSubmissionStatus(Array.from(selected), bulkStatus);
     setStatuses({ ...next });
     setSelected(new Set());
+  };
+
+  /**
+   * Opens every selected platform's homepage in its own new tab. This is
+   * deliberately just opening links — no form-filling, no CAPTCHA-solving,
+   * no auto-submission. The actual "Add your business / Submit" click on
+   * each site is still done by hand, which is what keeps this within every
+   * platform's normal terms of use.
+   */
+  const handleOpenSelected = () => {
+    if (selected.size === 0) return;
+    const targets = candidates.filter((s) => selected.has(s.id));
+    for (const source of targets) {
+      window.open(source.base_url, "_blank", "noopener,noreferrer");
+    }
   };
 
   const handleCopy = async (source: BacklinkSource) => {
@@ -331,31 +348,48 @@ export default function SubmissionAssistant({ sources }: { sources: BacklinkSour
         </button>
 
         {selected.size > 0 && (
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs text-slate-400">{selected.size} platform seçildi —</span>
-            <select
-              value={bulkStatus}
-              onChange={(e) => setBulkStatus(e.target.value as SubmissionStatus)}
-              className="rounded-lg border border-white/10 bg-transparent px-2 py-1 text-xs text-slate-200"
-            >
-              {STATUS_ORDER.map((s) => (
-                <option key={s} value={s} className="bg-[#060B1A] text-white">
-                  {STATUS_LABELS[s]}
-                </option>
-              ))}
-            </select>
-            <button
-              onClick={handleApplyBulkStatus}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-yellow-500 px-3 py-1 text-xs font-semibold text-black transition-colors hover:bg-yellow-400"
-            >
-              Seçilenlere Uygula
-            </button>
-            <button
-              onClick={() => setSelected(new Set())}
-              className="text-xs text-slate-500 underline-offset-2 hover:text-slate-300 hover:underline"
-            >
-              Seçimi Temizle
-            </button>
+          <div className="flex w-full flex-col gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs text-slate-400">{selected.size} platform seçildi —</span>
+              <button
+                onClick={handleOpenSelected}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1 text-xs font-semibold text-slate-200 transition-colors hover:bg-white/5"
+              >
+                <ExternalLink className="h-3.5 w-3.5" />
+                Seçilenleri Yeni Sekmede Aç
+              </button>
+              <select
+                value={bulkStatus}
+                onChange={(e) => setBulkStatus(e.target.value as SubmissionStatus)}
+                className="rounded-lg border border-white/10 bg-transparent px-2 py-1 text-xs text-slate-200"
+              >
+                {STATUS_ORDER.map((s) => (
+                  <option key={s} value={s} className="bg-[#060B1A] text-white">
+                    {STATUS_LABELS[s]}
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={handleApplyBulkStatus}
+                className="inline-flex items-center gap-1.5 rounded-lg bg-yellow-500 px-3 py-1 text-xs font-semibold text-black transition-colors hover:bg-yellow-400"
+              >
+                Seçilenlere Uygula
+              </button>
+              <button
+                onClick={() => setSelected(new Set())}
+                className="text-xs text-slate-500 underline-offset-2 hover:text-slate-300 hover:underline"
+              >
+                Seçimi Temizle
+              </button>
+            </div>
+            {selected.size > BULK_OPEN_WARN_THRESHOLD && (
+              <p className="flex items-center gap-1.5 text-xs text-yellow-400/80">
+                <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
+                {selected.size} sekme aynı anda açılacak — tarayıcınız açılır pencere engelleyicisi
+                nedeniyle bir kısmını durdurabilir. İzin isterse onaylayın, ya da 15-20'şerli
+                gruplar halinde açmanız daha güvenilir olur.
+              </p>
+            )}
           </div>
         )}
       </div>
