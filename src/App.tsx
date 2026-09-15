@@ -13,6 +13,7 @@ import {
   type VerificationResult,
   type ResultsData,
 } from "@/lib/verify";
+import SubmissionAssistant from "@/components/SubmissionAssistant";
 import {
   Activity,
   AlertCircle,
@@ -65,7 +66,7 @@ function getIcon(name: string) {
   return iconMap[name] || Globe;
 }
 
-type TabType = "overview" | "sources" | "results" | "setup";
+type TabType = "overview" | "sources" | "results" | "submissions" | "setup";
 
 export default function App() {
   const [sources] = useState<BacklinkSource[]>(SOURCES);
@@ -257,6 +258,7 @@ export default function App() {
             { id: "overview", label: "Genel Bakış", icon: TrendingUp },
             { id: "sources", label: "Platformlar", icon: Globe },
             { id: "results", label: "Sonuçlar", icon: Search },
+            { id: "submissions", label: "Gönderim Asistanı", icon: PenTool },
             { id: "setup", label: "Kurulum", icon: Settings },
           ] as { id: TabType; label: string; icon: React.ComponentType<IconProps> }[]).map((tab) => (
             <button
@@ -296,6 +298,8 @@ export default function App() {
             lastChecked={lastChecked}
           />
         )}
+
+        {activeTab === "submissions" && <SubmissionAssistant sources={sources} />}
 
         {activeTab === "setup" && <SetupTab sourcesCount={sources.length} />}
       </main>
