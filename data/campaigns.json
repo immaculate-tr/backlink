@@ -1,0 +1,12 @@
+[
+  {
+    "id": "campaign-001",
+    "name": "Default Campaign",
+    "description": "Automatic backlink campaign",
+    "status": "active",
+    "min_quality_score": 70,
+    "platforms": [],
+    "created_at": "",
+    "updated_at": ""
+  }
+]

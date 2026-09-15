@@ -1,0 +1,25 @@
+{
+  "total_platforms": 11,
+  "active_platforms": 11,
+  "api_platforms": 11,
+  "manual_platforms": 0,
+  "queued": 0,
+  "published": 0,
+  "verified": 0,
+  "failed": 0,
+  "retry": 0,
+  "removed": 0,
+  "manual": 0,
+  "success_rate": 0,
+  "verification_rate": 0,
+  "last_run": "",
+  "backlink_health": {
+    "verified": 0,
+    "pending": 0,
+    "removed": 0,
+    "failed": 0,
+    "noindex": 0,
+    "nofollow": 0,
+    "redirect": 0
+  }
+}
