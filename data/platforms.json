@@ -25,7 +25,7 @@
     "quality_score": 95,
     "risk_score": 5,
     "active": true,
-    "last_checked": ""
+    "last_checked": "2026-09-15T11:07:36.012017+00:00"
   },
   {
     "id": "blogger",
@@ -53,7 +53,7 @@
     "quality_score": 85,
     "risk_score": 10,
     "active": true,
-    "last_checked": ""
+    "last_checked": "2026-09-15T11:07:36.117921+00:00"
   },
   {
     "id": "wordpress",
@@ -81,7 +81,7 @@
     "quality_score": 88,
     "risk_score": 8,
     "active": true,
-    "last_checked": ""
+    "last_checked": "2026-09-15T11:07:36.297689+00:00"
   },
   {
     "id": "youtube",
@@ -109,7 +109,7 @@
     "quality_score": 92,
     "risk_score": 6,
     "active": true,
-    "last_checked": ""
+    "last_checked": "2026-09-15T11:07:36.434919+00:00"
   },
   {
     "id": "devto",
@@ -137,7 +137,7 @@
     "quality_score": 90,
     "risk_score": 5,
     "active": true,
-    "last_checked": ""
+    "last_checked": "2026-09-15T11:07:37.012378+00:00"
   },
   {
     "id": "hashnode",
@@ -165,7 +165,7 @@
     "quality_score": 88,
     "risk_score": 6,
     "active": true,
-    "last_checked": ""
+    "last_checked": "2026-09-15T11:07:37.332832+00:00"
   },
   {
     "id": "tumblr",
@@ -193,7 +193,7 @@
     "quality_score": 80,
     "risk_score": 12,
     "active": true,
-    "last_checked": ""
+    "last_checked": "2026-09-15T11:07:37.399467+00:00"
   },
   {
     "id": "vimeo",
@@ -221,7 +221,7 @@
     "quality_score": 82,
     "risk_score": 8,
     "active": true,
-    "last_checked": ""
+    "last_checked": "2026-09-15T11:07:37.501284+00:00"
   },
   {
     "id": "flickr",
@@ -249,7 +249,7 @@
     "quality_score": 78,
     "risk_score": 10,
     "active": true,
-    "last_checked": ""
+    "last_checked": "2026-09-15T11:07:37.592055+00:00"
   },
   {
     "id": "mastodon",
@@ -277,7 +277,7 @@
     "quality_score": 75,
     "risk_score": 10,
     "active": true,
-    "last_checked": ""
+    "last_checked": "2026-09-15T11:07:38.389450+00:00"
   },
   {
     "id": "google_business",
@@ -305,6 +305,6 @@
     "quality_score": 98,
     "risk_score": 3,
     "active": true,
-    "last_checked": ""
+    "last_checked": "2026-09-15T11:07:38.456448+00:00"
   }
 ]

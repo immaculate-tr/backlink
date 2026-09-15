@@ -1,1 +1,79 @@
-[]
+[
+  {
+    "timestamp": "2026-09-15T11:07:36.012034+00:00",
+    "platform": "github",
+    "job_id": "",
+    "status": "success",
+    "message": "Health check passed (HTTP 200)"
+  },
+  {
+    "timestamp": "2026-09-15T11:07:36.117936+00:00",
+    "platform": "blogger",
+    "job_id": "",
+    "status": "success",
+    "message": "Health check passed (HTTP 404)"
+  },
+  {
+    "timestamp": "2026-09-15T11:07:36.297706+00:00",
+    "platform": "wordpress",
+    "job_id": "",
+    "status": "success",
+    "message": "Health check passed (HTTP 404)"
+  },
+  {
+    "timestamp": "2026-09-15T11:07:36.434931+00:00",
+    "platform": "youtube",
+    "job_id": "",
+    "status": "success",
+    "message": "Health check passed (HTTP 404)"
+  },
+  {
+    "timestamp": "2026-09-15T11:07:37.012396+00:00",
+    "platform": "devto",
+    "job_id": "",
+    "status": "success",
+    "message": "Health check passed (HTTP 200)"
+  },
+  {
+    "timestamp": "2026-09-15T11:07:37.332848+00:00",
+    "platform": "hashnode",
+    "job_id": "",
+    "status": "success",
+    "message": "Health check passed (HTTP 200)"
+  },
+  {
+    "timestamp": "2026-09-15T11:07:37.399484+00:00",
+    "platform": "tumblr",
+    "job_id": "",
+    "status": "success",
+    "message": "Health check passed (HTTP 404)"
+  },
+  {
+    "timestamp": "2026-09-15T11:07:37.501300+00:00",
+    "platform": "vimeo",
+    "job_id": "",
+    "status": "success",
+    "message": "Health check passed (HTTP 401)"
+  },
+  {
+    "timestamp": "2026-09-15T11:07:37.592066+00:00",
+    "platform": "flickr",
+    "job_id": "",
+    "status": "success",
+    "message": "Health check passed (HTTP 200)"
+  },
+  {
+    "timestamp": "2026-09-15T11:07:38.389471+00:00",
+    "platform": "mastodon",
+    "job_id": "",
+    "status": "success",
+    "message": "Health check passed (HTTP 404)"
+  },
+  {
+    "timestamp": "2026-09-15T11:07:38.456467+00:00",
+    "platform": "google_business",
+    "job_id": "",
+    "status": "success",
+    "message": "Health check passed (HTTP 404)"
+  }
+]
