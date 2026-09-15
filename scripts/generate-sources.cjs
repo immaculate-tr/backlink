@@ -528,6 +528,65 @@ add("eksisozluk","Ekşi Sözlük","social","https://eksisozluk.com","https://eks
 add("webrazzi","Webrazzi","social","https://webrazzi.com","https://webrazzi.com/?s={query}","Newspaper","#0088CC");
 add("shiftdelete","ShiftDelete.Net","social","https://shiftdelete.net","https://shiftdelete.net/?s={query}","Newspaper","#E4002B");
 
+// === GLOBAL BUSINESS DIRECTORIES (bulk, server-only) ===
+// Real, currently-active directories only — no padding with dead/fabricated
+// entries just to hit a round number. All server-only: even if a search URL
+// pattern guess turns out wrong for a given site, that only ever shows up as
+// a routine "not_found"/"error" in the weekly results.json — never as a
+// browser-visible error, and never something that can affect the live site.
+const bizDirectories = [
+  ["manta","Manta","https://www.manta.com","https://www.manta.com/search?search_terms={query}"],
+  ["hotfrog","Hotfrog","https://www.hotfrog.com","https://www.hotfrog.com/search?what={query}"],
+  ["brownbook","Brownbook","https://www.brownbook.net","https://www.brownbook.net/search/?q={query}"],
+  ["cylex","Cylex","https://www.cylex.us.com","https://www.cylex.us.com/searchword.html?q={query}"],
+  ["superpages","Superpages","https://www.superpages.com","https://www.superpages.com/search?C={query}"],
+  ["cybo","Cybo","https://www.cybo.com","https://www.cybo.com/search?q={query}"],
+  ["tupalo","Tupalo","https://www.tupalo.com","https://www.tupalo.com/en/search?q={query}"],
+  ["elocal","eLocal","https://www.elocal.com","https://www.elocal.com/search?q={query}"],
+  ["citysearch","Citysearch","https://www.citysearch.com","https://www.citysearch.com/search?term={query}"],
+  ["ibegin","iBegin","https://www.ibegin.com","https://www.ibegin.com/search?q={query}"],
+  ["showmelocal","ShowMeLocal","https://www.showmelocal.com","https://www.showmelocal.com/search-results.aspx?searchtype=1&searchterm={query}"],
+  ["merchantcircle","MerchantCircle","https://www.merchantcircle.com","https://www.merchantcircle.com/browse/search?query={query}"],
+  ["spoke","Spoke","https://www.spoke.com","https://www.spoke.com/search?q={query}"],
+  ["ezlocal","EZLocal","https://www.ezlocal.com","https://www.ezlocal.com/search?what={query}"],
+  ["fyple","Fyple","https://www.fyple.com","https://www.fyple.com/search/?q={query}"],
+  ["callupcontact","CallUpContact","https://www.callupcontact.com","https://www.callupcontact.com/search.php?q={query}"],
+  ["kudzu","Kudzu","https://www.kudzu.com","https://www.kudzu.com/search.php?k={query}"],
+  ["citysquares","CitySquares","https://www.citysquares.com","https://www.citysquares.com/search?q={query}"],
+  ["getfave","GetFave","https://www.getfave.com","https://www.getfave.com/search?q={query}"],
+  ["yasabe","Yasabe","https://www.yasabe.com","https://www.yasabe.com/en/search?q={query}"],
+  ["tuugo","Tuugo","https://www.tuugo.us","https://www.tuugo.us/Search?what={query}"],
+  ["opendi","Opendi","https://www.opendi.us","https://www.opendi.us/cgi-bin/search.cgi?q={query}"],
+  ["locanto","Locanto","https://www.locanto.com","https://www.locanto.com/search/?query={query}"],
+  ["freeindex","FreeIndex","https://www.freeindex.co.uk","https://www.freeindex.co.uk/search.htm?q={query}"],
+  ["lacartes","Lacartes","https://www.lacartes.com","https://www.lacartes.com/search?q={query}"],
+  ["goodfirms","GoodFirms","https://www.goodfirms.co","https://www.goodfirms.co/search?q={query}"],
+  ["designrush","DesignRush","https://www.designrush.com","https://www.designrush.com/search?q={query}"],
+  ["sortlist","Sortlist","https://www.sortlist.com","https://www.sortlist.com/search?q={query}"],
+  ["software-advice","Software Advice","https://www.softwareadvice.com","https://www.softwareadvice.com/search/?q={query}"],
+  ["trustradius","TrustRadius","https://www.trustradius.com","https://www.trustradius.com/search?q={query}"],
+  ["f6s","F6S","https://www.f6s.com","https://www.f6s.com/search?q={query}"],
+  ["owler","Owler","https://www.owler.com","https://www.owler.com/search?term={query}"],
+  ["n49","n49 (Canada)","https://www.n49.com","https://www.n49.com/search/?what={query}"],
+  ["chamberofcommerce","ChamberOfCommerce.com","https://www.chamberofcommerce.com","https://www.chamberofcommerce.com/search?q={query}"],
+  ["companylist","CompanyList.org","https://www.companylist.org","https://www.companylist.org/search?q={query}"],
+  ["yellowbot","YellowBot","https://www.yellowbot.com","https://www.yellowbot.com/search?find_desc={query}"],
+  ["local-com","Local.com","https://www.local.com","https://www.local.com/search/?q={query}"],
+  ["mapquest-local","MapQuest","https://www.mapquest.com","https://www.mapquest.com/search/results?query={query}"],
+  ["thumbtack","Thumbtack","https://www.thumbtack.com","https://www.thumbtack.com/search/?query={query}"],
+  ["angi","Angi","https://www.angi.com","https://www.angi.com/search.htm?keyword={query}"],
+  ["yelp","Yelp","https://www.yelp.com","https://www.yelp.com/search?find_desc={query}"],
+  ["foursquare","Foursquare","https://foursquare.com","https://foursquare.com/explore?q={query}"],
+  ["glassdoor","Glassdoor","https://www.glassdoor.com","https://www.glassdoor.com/Search/results.htm?keyword={query}"],
+  ["indeed-companies","Indeed (Company Pages)","https://www.indeed.com","https://www.indeed.com/companies/search?q={query}"],
+  ["botw","Best of the Web (BOTW)","https://botw.org","https://botw.org/search.php?q={query}"],
+  ["jasminedirectory","Jasmine Directory","https://www.jasminedirectory.com","https://www.jasminedirectory.com/search.php?q={query}"],
+  ["hubbiz","Hubbiz","https://www.hubbiz.com","https://www.hubbiz.com/search?q={query}"],
+];
+for (const [id, name, baseUrl, searchUrl] of bizDirectories) {
+  add(id, name, "directory", baseUrl, searchUrl, "Package", "#6B7280", false);
+}
+
 // Sort by sort_order
 sources.sort((a, b) => a.sort_order - b.sort_order);
 
