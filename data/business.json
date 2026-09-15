@@ -1,15 +1,34 @@
 {
-  "name": "",
-  "website": "",
-  "description": "",
-  "category": "",
-  "country": "",
-  "city": "",
-  "language": "",
-  "email": "",
-  "phone": "",
-  "logo": "",
-  "keywords": [],
-  "social_profiles": {},
-  "target_urls": []
+  "name": "İmmaculate Blog Teknik Servis Portalı",
+  "website": "https://immaculate.tr",
+  "description": "Immaculate, teknoloji dünyasındaki gelişmeleri titizlikle takip eder; güncel bilgileri özgün, anlaşılır ve güvenilir içeriklerle okuyuculara sunar.",
+  "category": "Teknoloji",
+  "country": "Türkiye",
+  "city": "Dörtyol",
+  "language": "tr",
+  "email": "hamdiuludag@gmail.com",
+  "phone": "+905441104414",
+  "logo": "https://immaculate.tr/favicon.svg",
+  "keywords": [
+    "mobile repair",
+    "technology",
+    "blog"
+  ],
+  "social_profiles": {
+    "twitter": "@hamdiuludag.tr",
+    "facebook": "https://facebook.com/hamdiuludag",
+    "instagram": "@hamdiuludag.tr",
+    "linkedin": ""
+  },
+  "target_urls": [
+    "https://immaculate.tr/tr/yazar/editor",
+    "https://immaculate.tr",
+    "https://immaculate.tr/tr/blog",
+    "https://immaculate.tr/tr/kategori/repair-guide",
+    "https://immaculate.tr/tr/kategori/sema",
+    "https://immaculate.tr/tr/kategori/video",
+    "https://immaculate.tr/tr/kategori/rom",
+    "https://immaculate.tr/tr/kategori/firmware",
+    "https://immaculate.tr/tr/kategori/unlock"
+  ]
 }
