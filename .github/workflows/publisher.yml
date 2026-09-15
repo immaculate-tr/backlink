@@ -2,10 +2,16 @@ name: Publisher
 
 on:
   workflow_dispatch:
+    inputs:
+      job_ids:
+        description: 'Comma-separated queue job IDs to publish (leave empty for normal automatic run)'
+        required: false
+        default: ''
   workflow_call:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   publish:
@@ -24,6 +30,7 @@ jobs:
 
       - name: Run publisher
         env:
+          JOB_IDS: ${{ github.event.inputs.job_ids || '' }}
           DRY_RUN: ${{ secrets.DRY_RUN || 'true' }}
           AUTOMATION: ${{ secrets.AUTOMATION || 'on' }}
           APPROVAL_REQUIRED: ${{ secrets.APPROVAL_REQUIRED || 'off' }}
