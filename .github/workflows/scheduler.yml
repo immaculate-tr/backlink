@@ -1,0 +1,49 @@
+name: Scheduler
+
+on:
+  schedule:
+    - cron: '17 2 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  schedule:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run scheduler
+        env:
+          DRY_RUN: ${{ secrets.DRY_RUN || 'true' }}
+          MIN_QUALITY_SCORE: ${{ vars.MIN_QUALITY_SCORE || '70' }}
+        run: python -m scripts.scheduler
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/queue.json data/logs.json
+          git diff --staged --quiet || git commit -m "Scheduler: queue updated"
+          git push
+
+      - name: Trigger publisher
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'publisher.yml',
+              ref: 'main'
+            })

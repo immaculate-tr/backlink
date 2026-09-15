@@ -1,0 +1,71 @@
+name: Publisher
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run publisher
+        env:
+          DRY_RUN: ${{ secrets.DRY_RUN || 'true' }}
+          AUTOMATION: ${{ secrets.AUTOMATION || 'on' }}
+          APPROVAL_REQUIRED: ${{ secrets.APPROVAL_REQUIRED || 'off' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
+          WORDPRESS_TOKEN: ${{ secrets.WORDPRESS_TOKEN }}
+          WORDPRESS_URL: ${{ secrets.WORDPRESS_URL }}
+          YOUTUBE_TOKEN: ${{ secrets.YOUTUBE_TOKEN }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          BLOGGER_TOKEN: ${{ secrets.BLOGGER_TOKEN }}
+          BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+          HASHNODE_TOKEN: ${{ secrets.HASHNODE_TOKEN }}
+          HASHNODE_PUBLICATION_ID: ${{ secrets.HASHNODE_PUBLICATION_ID }}
+          TUMBLR_CONSUMER_KEY: ${{ secrets.TUMBLR_CONSUMER_KEY }}
+          TUMBLR_CONSUMER_SECRET: ${{ secrets.TUMBLR_CONSUMER_SECRET }}
+          TUMBLR_OAUTH_TOKEN: ${{ secrets.TUMBLR_OAUTH_TOKEN }}
+          TUMBLR_OAUTH_SECRET: ${{ secrets.TUMBLR_OAUTH_SECRET }}
+          TUMBLR_BLOG_NAME: ${{ secrets.TUMBLR_BLOG_NAME }}
+          VIMEO_TOKEN: ${{ secrets.VIMEO_TOKEN }}
+          FLICKR_API_KEY: ${{ secrets.FLICKR_API_KEY }}
+          FLICKR_API_SECRET: ${{ secrets.FLICKR_API_SECRET }}
+          MASTODON_TOKEN: ${{ secrets.MASTODON_TOKEN }}
+          MASTODON_INSTANCE: ${{ secrets.MASTODON_INSTANCE }}
+        run: python -m scripts.publisher
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git diff --staged --quiet || git commit -m "Publisher: jobs processed"
+          git push
+
+      - name: Trigger verifier
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'verifier.yml',
+              ref: 'main'
+            })
