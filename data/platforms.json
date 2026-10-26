@@ -25,7 +25,7 @@
     "quality_score": 95,
     "risk_score": 5,
     "active": true,
-    "last_checked": "2026-10-19T08:24:32.073353+00:00"
+    "last_checked": "2026-10-26T08:25:35.118224+00:00"
   },
   {
     "id": "blogger",
@@ -53,7 +53,7 @@
     "quality_score": 85,
     "risk_score": 10,
     "active": true,
-    "last_checked": "2026-10-19T08:24:32.146903+00:00"
+    "last_checked": "2026-10-26T08:25:35.205701+00:00"
   },
   {
     "id": "wordpress",
@@ -81,7 +81,7 @@
     "quality_score": 88,
     "risk_score": 8,
     "active": true,
-    "last_checked": "2026-10-19T08:24:32.308444+00:00"
+    "last_checked": "2026-10-26T08:25:35.374719+00:00"
   },
   {
     "id": "youtube",
@@ -109,7 +109,7 @@
     "quality_score": 92,
     "risk_score": 6,
     "active": true,
-    "last_checked": "2026-10-19T08:24:32.449549+00:00"
+    "last_checked": "2026-10-26T08:25:35.537256+00:00"
   },
   {
     "id": "devto",
@@ -137,7 +137,7 @@
     "quality_score": 90,
     "risk_score": 5,
     "active": true,
-    "last_checked": "2026-10-19T08:24:32.801462+00:00"
+    "last_checked": "2026-10-26T08:25:36.040438+00:00"
   },
   {
     "id": "hashnode",
@@ -165,7 +165,7 @@
     "quality_score": 88,
     "risk_score": 6,
     "active": true,
-    "last_checked": "2026-10-19T08:24:33.059612+00:00"
+    "last_checked": "2026-10-26T08:25:36.389514+00:00"
   },
   {
     "id": "tumblr",
@@ -193,7 +193,7 @@
     "quality_score": 80,
     "risk_score": 12,
     "active": true,
-    "last_checked": "2026-10-19T08:24:33.165282+00:00"
+    "last_checked": "2026-10-26T08:25:36.496269+00:00"
   },
   {
     "id": "vimeo",
@@ -221,7 +221,7 @@
     "quality_score": 82,
     "risk_score": 8,
     "active": true,
-    "last_checked": "2026-10-19T08:24:33.311001+00:00"
+    "last_checked": "2026-10-26T08:25:36.666228+00:00"
   },
   {
     "id": "flickr",
@@ -249,7 +249,7 @@
     "quality_score": 78,
     "risk_score": 10,
     "active": true,
-    "last_checked": "2026-10-19T08:24:33.439262+00:00"
+    "last_checked": "2026-10-26T08:25:36.765847+00:00"
   },
   {
     "id": "mastodon",
@@ -277,7 +277,7 @@
     "quality_score": 75,
     "risk_score": 10,
     "active": true,
-    "last_checked": "2026-10-19T08:24:34.021267+00:00"
+    "last_checked": "2026-10-26T08:25:37.147215+00:00"
   },
   {
     "id": "google_business",
@@ -305,6 +305,6 @@
     "quality_score": 98,
     "risk_score": 3,
     "active": true,
-    "last_checked": "2026-10-19T08:24:34.106080+00:00"
+    "last_checked": "2026-10-26T08:25:37.247568+00:00"
   }
 ]
